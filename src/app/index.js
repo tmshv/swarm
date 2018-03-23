@@ -4,6 +4,7 @@ import Simulation from '../swarm/Simulation'
 import AgentPool from '../swarm/AgentPool'
 import Agent from '../swarm/Agent'
 import App from '../components/App/App'
+import Environment from '../swarm/Environment'
 
 const width = 500
 const height = 500
@@ -23,13 +24,15 @@ function main() {
 
 function createSimulation() {
     const pool = new AgentPool()
+    const env = new Environment()
 
     for (let i = 0; i < 100; i++) {
         pool.addAgent(createAgent(width, height))
     }
 
     const s = new Simulation()
-    s.addAgents(pool)
+    s.setAgents(pool)
+    s.setEnvironment(env)
 
     return s
 }

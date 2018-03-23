@@ -5,10 +5,12 @@ export default class Agent {
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)
         this.acceleration = new Vector(0, 0)
+
+        this.environmentSample = []
     }
 
-    run(agentsPool, environmentPool) {
-        this.interactEnvironment(environmentPool)
+    run(agentsPool, environment) {
+        this.interactEnvironment(environment)
         this.interactAgents(agentsPool)
 
         this.velocity.add(this.acceleration)
@@ -16,7 +18,18 @@ export default class Agent {
         this.acceleration.set(0, 0)
     }
 
-    interactEnvironment(pool) {
+    needToUpdateEnvironment(env) {
+        return false
+    }
+
+    interactEnvironment(env) {
+        if (this.needToUpdateEnvironment(env)) {
+            this.rememberEnvironmentSample(env)
+        }
+
+        this.environmentSample.forEach(({location, value}) => {
+
+        })
     }
 
     interactAgents(pool) {
@@ -24,5 +37,9 @@ export default class Agent {
             -5 + Math.random() * 10,
             -5 + Math.random() * 10,
         )
+    }
+
+    rememberEnvironmentSample(env) {
+
     }
 }

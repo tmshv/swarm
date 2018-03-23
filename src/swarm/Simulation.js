@@ -11,12 +11,12 @@ export default class Simulation {
         return this.agents.agents
     }
 
-    addAgents(agentPool) {
+    setAgents(agentPool) {
         this.agents = agentPool
     }
 
-    addLayer(layer) {
-
+    setEnvironment(env) {
+        this.env = env
     }
 
     run(callback) {
