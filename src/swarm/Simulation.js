@@ -35,7 +35,10 @@ export default class Simulation {
         // simulate
         this.getAgents()
             .forEach(a => {
-                a.run(this.agents, this.env)
+                a.run({
+                    agentsPool: this.agents,
+                    environment: this.env,
+                })
             })
 
         this.callback()

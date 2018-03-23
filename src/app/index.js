@@ -2,7 +2,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import Simulation from '../swarm/Simulation'
 import AgentPool from '../swarm/AgentPool'
-import Agent from '../swarm/Agent'
+import EnvironmentAgent from '../swarm/EnvironmentAgent'
 import App from '../components/App/App'
 import Environment from '../swarm/Environment'
 
@@ -41,7 +41,7 @@ function createAgent(width, height) {
     const x = Math.random() * width
     const y = Math.random() * height
 
-    const agent = new Agent()
+    const agent = new EnvironmentAgent()
     agent.location.set(x, y)
     return agent
 }
