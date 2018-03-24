@@ -6,12 +6,16 @@ import EnvironmentAgent from '../swarm/EnvironmentAgent'
 import App from '../components/App/App'
 import Environment from '../swarm/Environment'
 
+import './index.less'
+
 const width = 500
 const height = 500
 
 function main() {
     const simulation = createSimulation()
     const mountElement = document.querySelector('#app')
+
+    simulation.run()
 
     const props = {
         simulation,
@@ -26,7 +30,7 @@ function createSimulation() {
     const pool = new AgentPool()
     const env = new Environment()
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 1; i++) {
         pool.addAgent(createAgent(width, height))
     }
 

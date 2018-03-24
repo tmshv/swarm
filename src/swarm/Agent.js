@@ -16,9 +16,10 @@ export default class Agent {
     }
 
     interactAgents(pool) {
+        const v = 3
         this.velocity.set(
-            -5 + Math.random() * 10,
-            -5 + Math.random() * 10,
+            -v / 2 + Math.random() * v,
+            -v / 2 + Math.random() * v,
         )
     }
 }

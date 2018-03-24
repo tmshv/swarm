@@ -1,3 +1,5 @@
+import Signal from '../lib/Signal'
+
 export default class Simulation {
     constructor() {
         this.loop = this.loop.bind(this)
@@ -5,10 +7,20 @@ export default class Simulation {
         this.isRunning = false
         this.env = null
         this.agents = null
+
+        this.events = {
+            run: new Signal(),
+            stop: new Signal(),
+            update: new Signal(),
+        }
     }
 
     getAgents() {
         return this.agents.agents
+    }
+
+    getNearestAgent(x, y) {
+        return this.agents.agents[0]
     }
 
     setAgents(agentPool) {
@@ -19,14 +31,16 @@ export default class Simulation {
         this.env = env
     }
 
-    run(callback) {
-        this.callback = callback
+    run() {
         this.isRunning = true
         requestAnimationFrame(this.loop)
+
+        this.events.run.trigger(this)
     }
 
     stop() {
         this.isRunning = false
+        this.events.stop.trigger(this)
     }
 
     loop() {
@@ -41,6 +55,6 @@ export default class Simulation {
                 })
             })
 
-        this.callback()
+        this.events.update.trigger(this)
     }
 }

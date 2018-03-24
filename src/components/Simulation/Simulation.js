@@ -26,23 +26,26 @@ export default class Simulation extends Component {
         this.sim
             .getAgents()
             .forEach(agent => {
-                ctx.fillRect(agent.location.x, agent.location.y, 1, 1);
+                ctx.fillRect(agent.location.x, agent.location.y, 1, 1)
             })
     }
 
     componentDidMount() {
         const {simulation} = this.props
         this.sim = simulation
-        this.sim.run(this.onUpdate)
+        this.sim.events.update.on(this.onUpdate)
+    }
+
+    componentWillUnmount() {
+        this.sim.events.run.off(this.onUpdate)
+        this.sim = null
     }
 
     render() {
         const {width, height} = this.props
 
         return (
-            <div>
-                <canvas ref={this.onRef} width={width} height={height}/>
-            </div>
+            <canvas ref={this.onRef} width={width} height={height}/>
         )
     }
 }

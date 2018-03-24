@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import Simulation from '../Simulation/Simulation'
+import SimulationControl from '../SimulationControl/SimulationControl'
+
+import './App.less'
 
 export default class App extends Component {
     render() {
@@ -7,11 +10,20 @@ export default class App extends Component {
 
         return (
             <div>
-                <Simulation
-                    width={width}
-                    height={height}
-                    simulation={simulation}
-                />
+                <div className={'App-Layer'}>
+                    <Simulation
+                        width={width}
+                        height={height}
+                        simulation={simulation}
+                    />
+                </div>
+                <div className={'App-Layer'}>
+                    <SimulationControl
+                        width={width}
+                        height={height}
+                        simulation={simulation}
+                    />
+                </div>
             </div>
         )
     }
