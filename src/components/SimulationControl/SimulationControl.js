@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Render from '../../lib/Render'
 
 export default class SimulationControl extends Component {
     constructor(...args) {
@@ -10,7 +11,10 @@ export default class SimulationControl extends Component {
     }
 
     onRef(canvas) {
+        const {width, height} = this.props
         this.context = canvas.getContext('2d')
+        this.draw = new Render(this.context, width, height)
+        // this.context.scale(1, 1)
     }
 
     onClick(event) {
@@ -30,10 +34,20 @@ export default class SimulationControl extends Component {
             ctx.fillStyle = 'rgba(200, 0, 200, 1)'
 
             const s = 4
-            const s2 = s / 2
-
-            ctx.fillRect(agent.location.x - s2, agent.location.y - s2, s, s)
+            this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
         }
+
+        this.drawEnv(ctx)
+    }
+
+    drawEnv(ctx) {
+        this.sim.env.attractors.forEach(a => {
+            ctx.strokeStyle = 'rgba(200, 0, 200, 1)'
+
+            ctx.beginPath()
+            ctx.arc(a.location.x, a.location.y, a.power, 0, 2 * Math.PI)
+            ctx.stroke()
+        })
     }
 
     componentDidMount() {

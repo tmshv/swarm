@@ -13,7 +13,7 @@ export default class EnvironmentAgent extends Agent {
     }
 
     needToUpdateEnvironment(env) {
-        return false
+        return true
     }
 
     interactEnvironment(env) {
@@ -21,12 +21,12 @@ export default class EnvironmentAgent extends Agent {
             this.rememberEnvironmentSample(env)
         }
 
-        this.environmentSample.forEach(({location, value}) => {
-
+        this.environmentSample.forEach(attractor => {
+            this.seek(attractor.location)
         })
     }
 
     rememberEnvironmentSample(env) {
-
+        this.environmentSample = env.getSample(this.location.x, this.location.y, [])
     }
 }

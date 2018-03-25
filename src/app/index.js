@@ -7,6 +7,7 @@ import App from '../components/App/App'
 import Environment from '../swarm/Environment'
 
 import './index.less'
+import Attractor from '../swarm/Attractor'
 
 const width = 500
 const height = 500
@@ -28,7 +29,7 @@ function main() {
 
 function createSimulation() {
     const pool = new AgentPool()
-    const env = new Environment()
+    const env = createEnvironment()
 
     for (let i = 0; i < 1; i++) {
         pool.addAgent(createAgent(width, height))
@@ -41,13 +42,36 @@ function createSimulation() {
     return s
 }
 
+function createEnvironment() {
+    const env = new Environment()
+
+    for (let i = 0; i < 10; i++) {
+        env.addAttractor(createAttractor())
+    }
+
+    return env
+}
+
 function createAgent(width, height) {
-    const x = Math.random() * width
-    const y = Math.random() * height
+    const {x, y} = randomCoord([width, height])
 
     const agent = new EnvironmentAgent()
     agent.location.set(x, y)
     return agent
+}
+
+function createAttractor() {
+    const {x, y} = randomCoord([width, height])
+
+    const power = 10 + Math.random() * 50
+    return new Attractor({x, y, power})
+}
+
+function randomCoord([maxX, maxY]) {
+    const x = Math.random() * maxX
+    const y = Math.random() * maxY
+
+    return {x, y}
 }
 
 main()

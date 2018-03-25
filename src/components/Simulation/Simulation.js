@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Render from '../../lib/Render'
 
 export default class Simulation extends Component {
     constructor(...args) {
@@ -9,24 +10,29 @@ export default class Simulation extends Component {
     }
 
     onRef(canvas) {
+        const {width, height} = this.props
         this.context = canvas.getContext('2d')
+        this.draw = new Render(this.context, width, height)
     }
 
     onUpdate() {
         const ctx = this.context
         // ctx.fillRect(0, 0, example.width, example.height);
-        // const {width, height} = this.props
+        const {width, height} = this.props
 
         // ctx.fillStyle = '#AF5200';
         // ctx.fillStyle = 'rgba(200, 0, 0, 0.05)'
-        ctx.fillStyle = 'rgba(200, 0, 0, 1)'
+        ctx.fillStyle = 'rgba(200, 0, 0, 0.15)'
+        // ctx.fillStyle = 'rgba(200, 0, 0, 1)'
         // ctx.fillRect(20, 20, 256, 256);
         // ctx.clearRect(0, 0, width, height);
+
+        const s = 2
 
         this.sim
             .getAgents()
             .forEach(agent => {
-                ctx.fillRect(agent.location.x, agent.location.y, 1, 1)
+                this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
             })
     }
 
