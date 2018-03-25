@@ -1,17 +1,24 @@
-import Agent from './Agent'
+import Behaviour from './Behaviour'
 
-export default class EnvironmentAgent extends Agent {
-    constructor(...args) {
-        super(...args)
+export default class InteractEnvironmentBehaviour extends Behaviour {
+    constructor() {
+        super()
 
         this.environmentSample = []
         this.interest = new Map()
         this.targetAttractor = null
     }
 
-    run({agentsPool, environment}) {
-        super.run({agentsPool})
-        this.interactEnvironment(environment)
+    run({environment}) {
+        if (this.needToUpdateEnvironment(environment)) {
+            this.rememberEnvironmentSample(environment)
+        }
+
+        if (this.needToUpdateTarget()) {
+            this.selectTargetAttractor()
+        }
+
+        this.agent.seek(this.targetAttractor.location)
     }
 
     needToUpdateEnvironment(env) {
@@ -31,20 +38,10 @@ export default class EnvironmentAgent extends Agent {
         return false
     }
 
-    interactEnvironment(env) {
-        if (this.needToUpdateEnvironment(env)) {
-            this.rememberEnvironmentSample(env)
-        }
-
-        if (this.needToUpdateTarget()) {
-            this.selectTargetAttractor()
-        }
-
-        this.seek(this.targetAttractor.location)
-    }
 
     rememberEnvironmentSample(env) {
-        this.environmentSample = env.getSample(this.location.x, this.location.y, [])
+        const loc = this.agent.location
+        this.environmentSample = env.getSample(loc.x, loc.y, [])
         this.environmentSample.forEach(attractor => {
             const initialInterest = 1
             this.interest.set(attractor, initialInterest)

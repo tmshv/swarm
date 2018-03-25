@@ -2,7 +2,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import Simulation from '../swarm/Simulation'
 import AgentPool from '../swarm/AgentPool'
-import EnvironmentAgent from '../swarm/EnvironmentAgent'
+import Agent from '../swarm/Agent'
 import App from '../components/App/App'
 import Environment from '../swarm/Environment'
 
@@ -10,6 +10,10 @@ import './index.less'
 import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
 import Emitter from '../swarm/Emitter'
+import InteractAgentsBehaviour from '../swarm/behaviours/InteractAgentsBehaviour'
+import InteractEnvironmentBehaviour from '../swarm/behaviours/InteractEnvironmentBehaviour'
+import Vector from '../swarm/Vector'
+import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
 
 const width = 500
 const height = 500
@@ -76,19 +80,19 @@ function createEnvironment() {
 function createAgentInRandomCoords(width, height) {
     const {x, y} = randomCoord([width, height])
 
-    const agent = new EnvironmentAgent()
-    agent.location.set(x, y)
-    return agent
+    return createAgent(new Vector(x, y))
 }
 
 function createAgent(loc) {
-    const agent = new EnvironmentAgent()
+    const agent = new Agent()
     agent.location.set(loc.x, loc.y)
+    agent.addBehaviour(new InteractEnvironmentBehaviour())
+
     return agent
 }
 
-function createAttractor() {
-    const {x, y} = randomCoord([width, height])
+function createAttractor(x, y) {
+    // const {x, y} = randomCoord([width, height])
 
     const power = 10 + Math.random() * 50
     const id = Id.get('attractor')

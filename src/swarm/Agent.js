@@ -15,10 +15,18 @@ export default class Agent {
         }
 
         this.ttl = 1000
+        this.behaviours = []
     }
 
-    run({agentsPool}) {
-        this.interactAgents(agentsPool)
+    addBehaviour(behaviour) {
+        behaviour.setAgent(this)
+        this.behaviours.push(behaviour)
+    }
+
+    run(options) {
+        this.behaviours.forEach(b => {
+            b.run(options)
+        })
 
         this.velocity.add(this.acceleration)
         this.location.add(this.velocity)
@@ -30,17 +38,6 @@ export default class Agent {
         if (this.ttl === 0) {
             this.events.die.trigger(this)
         }
-    }
-
-    interactAgents(pool) {
-        // this.randomWalk(3)
-    }
-
-    randomWalk(v) {
-        this.velocity.set(
-            -v / 2 + Math.random() * v,
-            -v / 2 + Math.random() * v,
-        )
     }
 
     seek(target) {

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Render from '../../lib/Render'
+import InteractEnvironmentBehaviour from '../../swarm/behaviours/InteractEnvironmentBehaviour'
 
 export default class SimulationControl extends Component {
     constructor(...args) {
@@ -36,13 +37,24 @@ export default class SimulationControl extends Component {
             const s = 4
             this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
 
-            ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
-            const a = this.agent.targetAttractor
-            this.draw.circleCenter(a.location.x, a.location.y, this.agent.interest.get(a))
+            this.agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
         }
 
         this.drawEnv(ctx)
         this.drawEmitters(ctx)
+    }
+
+    drawBehaviour(ctx, behaviour) {
+        ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
+
+        if (behaviour instanceof InteractEnvironmentBehaviour) {
+            const a = behaviour.targetAttractor
+            const interest = behaviour.interest.get(a)
+
+            if (interest > 0) {
+                this.draw.circleCenter(a.location.x, a.location.y, interest)
+            }
+        }
     }
 
     drawEnv(ctx) {
