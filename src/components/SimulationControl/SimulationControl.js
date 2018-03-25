@@ -30,12 +30,13 @@ export default class SimulationControl extends Component {
         const ctx = this.context
         ctx.clearRect(0, 0, width, height);
 
-        if (this.agent) {
+        if (this.agent && this.agent.isAlive) {
             const agent = this.agent
             ctx.fillStyle = 'rgba(255, 0, 255, 1)'
 
-            const s = 4
-            this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
+            const s = 18
+            this.draw.targetArea(agent.location.x, agent.location.y, s, s, 2)
+            this.draw.plus(agent.location.x, agent.location.y, 2)
 
             this.agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
         }
@@ -70,7 +71,7 @@ export default class SimulationControl extends Component {
             ctx.strokeStyle = 'rgba(0, 200, 0, 1)'
             ctx.fillStyle = 'rgba(0, 200, 0, 1)'
 
-            this.draw.circleCenter(e.location.x, e.location.y, 3)
+            this.draw.cross(e.location.x, e.location.y, 5)
             // ctx.fill()
         })
     }
