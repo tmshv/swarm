@@ -5,6 +5,8 @@ export default class EnvironmentAgent extends Agent {
         super(...args)
 
         this.environmentSample = []
+        this.interest = new Map()
+        this.targetAttractor = null
     }
 
     run({agentsPool, environment}) {
@@ -13,7 +15,20 @@ export default class EnvironmentAgent extends Agent {
     }
 
     needToUpdateEnvironment(env) {
-        return true
+        return this.environmentSample.length === 0
+    }
+
+    needToUpdateTarget() {
+        const attractor = this.targetAttractor
+        if (!attractor) return true
+
+        let interest = this.interest.get(attractor)
+        if (interest < 0) return true
+
+        interest -= 0.25
+        this.interest.set(attractor, interest)
+
+        return false
     }
 
     interactEnvironment(env) {
@@ -21,12 +36,24 @@ export default class EnvironmentAgent extends Agent {
             this.rememberEnvironmentSample(env)
         }
 
-        this.environmentSample.forEach(attractor => {
-            this.seek(attractor.location)
-        })
+        if (this.needToUpdateTarget()) {
+            this.selectTargetAttractor()
+        }
+
+        this.seek(this.targetAttractor.location)
     }
 
     rememberEnvironmentSample(env) {
         this.environmentSample = env.getSample(this.location.x, this.location.y, [])
+        this.environmentSample.forEach(attractor => {
+            const initialInterest = 1
+            this.interest.set(attractor, initialInterest)
+        })
+    }
+
+    selectTargetAttractor() {
+        const a = this.environmentSample[Math.floor((Math.random() * this.environmentSample.length))]
+        this.interest.set(a, a.power)
+        this.targetAttractor = a
     }
 }

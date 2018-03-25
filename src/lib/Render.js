@@ -1,3 +1,5 @@
+const TWO_PI = 2 * Math.PI
+
 export default class Render {
     constructor(context, width, height) {
         this.context = context
@@ -5,8 +7,10 @@ export default class Render {
         this.height = height
     }
 
-    circle() {
-
+    circleCenter(x, y, radius) {
+        this.context.beginPath()
+        this.context.arc(x, y, radius, 0, TWO_PI)
+        this.context.stroke()
     }
 
     rectCenter(x, y, w, h) {

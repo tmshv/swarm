@@ -21,10 +21,9 @@ export default class Simulation extends Component {
         const {width, height} = this.props
 
         // ctx.fillStyle = '#AF5200';
-        // ctx.fillStyle = 'rgba(200, 0, 0, 0.05)'
-        ctx.fillStyle = 'rgba(200, 0, 0, 0.15)'
+        ctx.fillStyle = 'rgba(200, 0, 0, 0.01)'
+        // ctx.fillStyle = 'rgba(200, 0, 0, 0.15)'
         // ctx.fillStyle = 'rgba(200, 0, 0, 1)'
-        // ctx.fillRect(20, 20, 256, 256);
         // ctx.clearRect(0, 0, width, height);
 
         const s = 2

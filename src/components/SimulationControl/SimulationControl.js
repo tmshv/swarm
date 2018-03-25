@@ -31,10 +31,14 @@ export default class SimulationControl extends Component {
 
         if (this.agent) {
             const agent = this.agent
-            ctx.fillStyle = 'rgba(200, 0, 200, 1)'
+            ctx.fillStyle = 'rgba(255, 0, 255, 1)'
 
             const s = 4
             this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
+
+            ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
+            const a = this.agent.targetAttractor
+            this.draw.circleCenter(a.location.x, a.location.y, this.agent.interest.get(a))
         }
 
         this.drawEnv(ctx)
@@ -42,11 +46,9 @@ export default class SimulationControl extends Component {
 
     drawEnv(ctx) {
         this.sim.env.attractors.forEach(a => {
-            ctx.strokeStyle = 'rgba(200, 0, 200, 1)'
+            ctx.strokeStyle = 'rgba(200, 0, 200, 0.25)'
 
-            ctx.beginPath()
-            ctx.arc(a.location.x, a.location.y, a.power, 0, 2 * Math.PI)
-            ctx.stroke()
+            this.draw.circleCenter(a.location.x, a.location.y, a.power)
         })
     }
 
