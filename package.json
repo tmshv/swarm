@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Swarm App",
   "dependencies": {
+    "chance": "^1.0.13",
     "classnames": "^2.2.5",
     "core-decorators": "^0.20.0",
     "history": "^4.7.2",

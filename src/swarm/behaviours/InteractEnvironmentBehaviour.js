@@ -1,4 +1,7 @@
 import Behaviour from './Behaviour'
+import {Chance} from 'chance'
+
+const chance = new Chance()
 
 export default class InteractEnvironmentBehaviour extends Behaviour {
     constructor() {
@@ -49,7 +52,8 @@ export default class InteractEnvironmentBehaviour extends Behaviour {
     }
 
     selectTargetAttractor() {
-        const a = this.environmentSample[Math.floor((Math.random() * this.environmentSample.length))]
+        const ws = this.environmentSample.map(a => a.power)
+        const a = chance.weighted(this.environmentSample, ws)
         this.interest.set(a, a.power)
         this.targetAttractor = a
     }
