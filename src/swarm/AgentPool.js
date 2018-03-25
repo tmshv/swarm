@@ -13,6 +13,11 @@ export default class AgentPool {
 
     addAgent(agent) {
         this.agents.push(agent)
+
+        agent.events.die.on(() => {
+            this.agents = this.agents.filter(x => agent !== x)
+        })
+
         // return this.store.addItem()
     }
 }

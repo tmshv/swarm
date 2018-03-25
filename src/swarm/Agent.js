@@ -1,4 +1,5 @@
 import Vector from './Vector'
+import Signal from '../lib/Signal'
 
 export default class Agent {
     constructor() {
@@ -8,6 +9,12 @@ export default class Agent {
 
         this.damp = 1 - 0.02 // remember a very small amount of the last direction
         this.accel = .025
+
+        this.events = {
+            die: new Signal(),
+        }
+
+        this.ttl = 1000
     }
 
     run({agentsPool}) {
@@ -18,6 +25,11 @@ export default class Agent {
         this.acceleration.set(0, 0)
 
         this.velocity.mult(this.damp)
+
+        this.ttl--
+        if (this.ttl === 0) {
+            this.events.die.trigger(this)
+        }
     }
 
     interactAgents(pool) {
