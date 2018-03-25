@@ -18,6 +18,10 @@ export default class Vector {
         return Math.sqrt(this._x * this._x + this._y * this._y)
     }
 
+    get lengthQuad() {
+        return this._x * this._x + this._y * this._y
+    }
+
     constructor(x, y) {
         this._x = x
         this._y = y
@@ -31,6 +35,13 @@ export default class Vector {
     add(vector){
         this._x += vector.x
         this._y += vector.y
+
+        return this
+    }
+
+    sub(vector){
+        this._x -= vector.x
+        this._y -= vector.y
 
         return this
     }

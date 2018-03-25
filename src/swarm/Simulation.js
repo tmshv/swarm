@@ -1,4 +1,5 @@
 import Signal from '../lib/Signal'
+import Vector from './Vector'
 
 export default class Simulation {
     constructor() {
@@ -21,7 +22,18 @@ export default class Simulation {
     }
 
     getNearestAgent(x, y) {
-        return this.agents.agents[0]
+        let minDist = 10000000
+        let agent = null
+        this.agents.agents.forEach(a => {
+            const d = (new Vector(x, y))
+                .sub(a.location)
+                .lengthQuad
+            if (d < minDist) {
+                minDist = d
+                agent = a
+            }
+        })
+        return agent
     }
 
     setAgents(agentPool) {
