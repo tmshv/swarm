@@ -6,6 +6,13 @@ export default class Vector {
         )
     }
 
+    static add(a, b) {
+        return new Vector(
+            a.x + b.x,
+            a.y + b.y,
+        )
+    }
+
     get x() {
         return this._x
     }

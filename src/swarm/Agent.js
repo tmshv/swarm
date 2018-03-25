@@ -8,7 +8,7 @@ export default class Agent {
         this.acceleration = new Vector(0, 0)
 
         this.damp = 1 - 0.02 // remember a very small amount of the last direction
-        this.accel = .025
+        this.accelerate = .025
 
         this.events = {
             die: new Signal(),
@@ -40,11 +40,11 @@ export default class Agent {
         }
     }
 
-    seek(target) {
+    seek(target, accelerate = this.accelerate) {
         const desire = Vector
             .sub(target, this.location)
             .normalize()
-            .mult(this.accel)
+            .mult(accelerate)
 
         this.acceleration.add(desire)
     }

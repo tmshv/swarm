@@ -1,17 +1,20 @@
 import Behaviour from './Behaviour'
+import Vector from '../Vector'
 
 export default class RandomWalkBehaviour extends Behaviour {
-    constructor(step) {
+    constructor({accelerate}) {
         super()
 
-        this.step = step
+        this.accelerate = accelerate
     }
 
     run() {
-        const v = this.step
-        this.agent.velocity.set(
+        const v = this.accelerate
+        const target = Vector.add(this.agent.location, new Vector(
             -v / 2 + Math.random() * v,
             -v / 2 + Math.random() * v,
-        )
+        ))
+
+        this.agent.seek(target, this.accelerate)
     }
 }
