@@ -9,6 +9,7 @@ import Environment from '../swarm/Environment'
 import './index.less'
 import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
+import Emitter from '../swarm/Emitter'
 
 const width = 500
 const height = 500
@@ -29,18 +30,37 @@ function main() {
 }
 
 function createSimulation() {
-    const pool = new AgentPool()
+    const pool = createAgentPool()
     const env = createEnvironment()
-
-    for (let i = 0; i < 100; i++) {
-        pool.addAgent(createAgent(width, height))
-    }
+    const emitter = createEmitter()
 
     const s = new Simulation()
     s.setAgents(pool)
     s.setEnvironment(env)
+    s.addEmitter(emitter)
 
     return s
+}
+
+function createEmitter() {
+    const x = 250
+    const y = 250
+
+    return new Emitter({
+        x,
+        y,
+        period: 1000,
+        amount: 1,
+        factory: createAgent,
+    })
+}
+
+function createAgentPool() {
+    const pool = new AgentPool()
+    // for (let i = 0; i < 10; i++) {
+    //     pool.addAgent(createAgentInRandomCoords(width, height))
+    // }
+    return pool
 }
 
 function createEnvironment() {
@@ -53,11 +73,17 @@ function createEnvironment() {
     return env
 }
 
-function createAgent(width, height) {
+function createAgentInRandomCoords(width, height) {
     const {x, y} = randomCoord([width, height])
 
     const agent = new EnvironmentAgent()
     agent.location.set(x, y)
+    return agent
+}
+
+function createAgent(loc) {
+    const agent = new EnvironmentAgent()
+    agent.location.set(loc.x, loc.y)
     return agent
 }
 

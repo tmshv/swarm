@@ -42,6 +42,7 @@ export default class SimulationControl extends Component {
         }
 
         this.drawEnv(ctx)
+        this.drawEmitters(ctx)
     }
 
     drawEnv(ctx) {
@@ -49,6 +50,16 @@ export default class SimulationControl extends Component {
             ctx.strokeStyle = 'rgba(200, 0, 200, 0.25)'
 
             this.draw.circleCenter(a.location.x, a.location.y, a.power)
+        })
+    }
+
+    drawEmitters(ctx) {
+        this.sim.emitters.forEach(e => {
+            ctx.strokeStyle = 'rgba(0, 200, 0, 1)'
+            ctx.fillStyle = 'rgba(0, 200, 0, 1)'
+
+            this.draw.circleCenter(e.location.x, e.location.y, 3)
+            // ctx.fill()
         })
     }
 

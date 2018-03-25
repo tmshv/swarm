@@ -7,6 +7,7 @@ export default class Simulation {
         this.isRunning = false
         this.env = null
         this.agents = null
+        this.emitters = []
 
         this.events = {
             run: new Signal(),
@@ -36,11 +37,15 @@ export default class Simulation {
         requestAnimationFrame(this.loop)
 
         this.events.run.trigger(this)
+
+        this.emitters.forEach(x => x.run())
     }
 
     stop() {
         this.isRunning = false
         this.events.stop.trigger(this)
+
+        this.emitters.forEach(x => x.stop())
     }
 
     loop() {
@@ -56,5 +61,13 @@ export default class Simulation {
             })
 
         this.events.update.trigger(this)
+    }
+
+    addEmitter(emitter) {
+        this.emitters.push(emitter)
+
+        emitter.events.emit.on(agents => {
+            agents.forEach(x => this.agents.addAgent(x))
+        })
     }
 }
