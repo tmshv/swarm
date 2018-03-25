@@ -49,6 +49,6 @@ export default class Agent {
             .normalize()
             .mult(this.accel)
 
-        this.velocity.add(desire)
+        this.acceleration.add(desire)
     }
 }
