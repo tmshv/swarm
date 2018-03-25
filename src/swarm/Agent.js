@@ -2,6 +2,10 @@ import Vector from './Vector'
 import Signal from '../lib/Signal'
 
 export default class Agent {
+    get isAlive() {
+        return this.ttl > 0
+    }
+
     constructor() {
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)
