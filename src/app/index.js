@@ -28,6 +28,7 @@ function main() {
         simulation,
         width,
         height,
+        devicePixelRatio: window.devicePixelRatio
     }
 
     render(<App {...props}/>, mountElement)

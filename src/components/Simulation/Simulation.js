@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Render from '../../lib/Render'
+import Canvas from '../Canvas/Canvas'
 
 export default class Simulation extends Component {
     constructor(...args) {
@@ -11,7 +12,7 @@ export default class Simulation extends Component {
 
     onRef(canvas) {
         const {width, height} = this.props
-        this.context = canvas.getContext('2d')
+        this.context = canvas.context
         this.draw = new Render(this.context, width, height)
     }
 
@@ -47,10 +48,8 @@ export default class Simulation extends Component {
     }
 
     render() {
-        const {width, height} = this.props
-
         return (
-            <canvas ref={this.onRef} width={width} height={height}/>
+            <Canvas ref={this.onRef} {...this.props}/>
         )
     }
 }

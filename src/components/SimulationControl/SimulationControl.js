@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Render from '../../lib/Render'
 import InteractEnvironmentBehaviour from '../../swarm/behaviours/InteractEnvironmentBehaviour'
+import Canvas from '../Canvas/Canvas'
 
 export default class SimulationControl extends Component {
     constructor(...args) {
@@ -13,9 +14,8 @@ export default class SimulationControl extends Component {
 
     onRef(canvas) {
         const {width, height} = this.props
-        this.context = canvas.getContext('2d')
+        this.context = canvas.context
         this.draw = new Render(this.context, width, height)
-        // this.context.scale(1, 1)
     }
 
     onClick(event) {
@@ -89,14 +89,11 @@ export default class SimulationControl extends Component {
     }
 
     render() {
-        const {width, height} = this.props
-
         return (
-            <canvas
+            <Canvas
                 ref={this.onRef}
-                width={width}
-                height={height}
                 onClick={this.onClick}
+                {...this.props}
             />
         )
     }
