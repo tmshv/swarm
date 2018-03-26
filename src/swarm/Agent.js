@@ -61,5 +61,7 @@ export default class Agent {
         if (!desire.isNaN()) {
             this.acceleration.add(desire)
         }
+
+        return this
     }
 }
