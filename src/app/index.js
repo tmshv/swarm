@@ -15,8 +15,8 @@ import InteractEnvironmentBehaviour from '../swarm/behaviours/InteractEnvironmen
 import Vector from '../swarm/Vector'
 import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
 
-const width = 500
-const height = 500
+const width = 1400
+const height = 800
 
 function main() {
     const simulation = createSimulation()
@@ -37,42 +37,47 @@ function main() {
 function createSimulation() {
     const pool = createAgentPool()
     const env = createEnvironment()
-    const emitter = createEmitter()
 
     const s = new Simulation()
     s.setAgents(pool)
     s.setEnvironment(env)
-    s.addEmitter(emitter)
+    s.addEmitter(createEmitter({x: 250, y: 250}))
+    s.addEmitter(createEmitter({x: 450, y: 150}))
 
     return s
 }
 
-function createEmitter() {
-    const x = 250
-    const y = 250
-
+function createEmitter({x, y}) {
     return new Emitter({
         x,
         y,
-        period: 1000,
-        amount: 1,
+        period: 2000,
+        amount: 3,
         factory: createAgent,
     })
 }
 
 function createAgentPool() {
     const pool = new AgentPool()
-    // for (let i = 0; i < 10; i++) {
-    //     pool.addAgent(createAgentInRandomCoords(width, height))
-    // }
+    for (let i = 0; i < 10; i++) {
+        pool.addAgent(createAgentInRandomCoords(width, height))
+    }
     return pool
 }
 
 function createEnvironment() {
     const env = new Environment()
 
-    for (let i = 0; i < 10; i++) {
-        env.addAttractor(createAttractor())
+    const w = 50
+    const h = 50
+
+    const ws = width / w
+    const hs = width / h
+
+    for (let x = ws / 2; x < width; x += ws) {
+        for (let y = hs / 2; y < height; y += hs) {
+            env.addAttractor(createAttractor(x, y))
+        }
     }
 
     return env
