@@ -22,18 +22,7 @@ export default class Simulation {
     }
 
     getNearestAgent(x, y) {
-        let minDist = 10000000
-        let agent = null
-        this.agents.agents.forEach(a => {
-            const d = (new Vector(x, y))
-                .sub(a.location)
-                .lengthQuad
-            if (d < minDist) {
-                minDist = d
-                agent = a
-            }
-        })
-        return agent
+        return this.agents.getNearest(x, y)
     }
 
     setAgents(agentPool) {

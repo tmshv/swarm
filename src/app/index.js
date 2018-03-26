@@ -87,8 +87,15 @@ function createAgentInRandomCoords(width, height) {
 function createAgent(loc) {
     const agent = new Agent()
     agent.location.set(loc.x, loc.y)
-    agent.addBehaviour(new RandomWalkBehaviour({accelerate: 0.3}))
-    agent.addBehaviour(new InteractEnvironmentBehaviour())
+    agent.addBehaviour(new InteractAgentsBehaviour({
+        accelerate: 0.00004,
+        radius: 50,
+        initialInterest: 200,
+    }))
+    agent.addBehaviour(new RandomWalkBehaviour({accelerate: 0.0025}))
+    agent.addBehaviour(new InteractEnvironmentBehaviour({
+        accelerate: 0.0075
+    }))
 
     return agent
 }

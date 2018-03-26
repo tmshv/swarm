@@ -4,8 +4,8 @@ import {Chance} from 'chance'
 const chance = new Chance()
 
 export default class InteractEnvironmentBehaviour extends Behaviour {
-    constructor() {
-        super()
+    constructor(options) {
+        super(options)
 
         this.environmentSample = []
         this.interest = new Map()
@@ -21,7 +21,7 @@ export default class InteractEnvironmentBehaviour extends Behaviour {
             this.selectTargetAttractor()
         }
 
-        this.agent.seek(this.targetAttractor.location)
+        this.seekAccelerated(this.targetAttractor.location)
     }
 
     needToUpdateEnvironment(env) {

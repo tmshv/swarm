@@ -1,4 +1,5 @@
 import QuadTree from './QuadTree'
+import Vector from './Vector'
 
 export default class AgentPool {
     constructor() {
@@ -19,5 +20,26 @@ export default class AgentPool {
         })
 
         // return this.store.addItem()
+    }
+
+    getNearest(x, y) {
+        let minDist = 10000000
+        let agent = null
+        this.agents.forEach(a => {
+            const d = (new Vector(x, y))
+                .sub(a.location)
+                .lengthQuad
+            if (d < minDist) {
+                minDist = d
+                agent = a
+            }
+        })
+        return agent
+    }
+
+    getInRadius(coord, radius) {
+        const radiusQuad = radius ** 2
+
+        return this.agents.filter(a => coord.distQuad(a.location) < radiusQuad)
     }
 }

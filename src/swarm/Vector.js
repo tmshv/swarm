@@ -60,11 +60,50 @@ export default class Vector {
         return this
     }
 
+    divide(value) {
+        this._x = this._x / value
+        this._y = this._y / value
+
+        return this
+    }
+
     normalize() {
         const length = this.length
         this._x = this._x / length
         this._y = this._y / length
 
         return this
+    }
+
+    limit(value) {
+        if (this.lengthQuad > value ** 2) {
+            return this
+                .normalize()
+                .mult(value)
+        }
+
+        return this
+    }
+
+    dist(vector) {
+        const dx = this._x - vector.x
+        const dy = this._y - vector.y
+
+        return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    distQuad(vector) {
+        const dx = this._x - vector.x
+        const dy = this._y - vector.y
+
+        return dx * dx + dy * dy
+    }
+
+    isNaN() {
+        return isNaN(this._x) || isNaN(this._y)
+    }
+
+    toArray() {
+        return [this._x, this._y]
     }
 }

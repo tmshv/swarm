@@ -13,6 +13,7 @@ export default class Agent {
 
         this.damp = 1 - 0.02 // remember a very small amount of the last direction
         this.accelerate = .025
+        this.accelerateLimit = 0.5
 
         this.events = {
             die: new Signal(),
@@ -32,6 +33,8 @@ export default class Agent {
             b.run(options)
         })
 
+        this.acceleration.limit(this.accelerateLimit)
+
         this.velocity.add(this.acceleration)
         this.location.add(this.velocity)
         this.acceleration.set(0, 0)
@@ -49,7 +52,8 @@ export default class Agent {
             .sub(target, this.location)
             .normalize()
             .mult(accelerate)
-
-        this.acceleration.add(desire)
+        if (!desire.isNaN()) {
+            this.acceleration.add(desire)
+        }
     }
 }
