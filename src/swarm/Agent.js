@@ -47,6 +47,12 @@ export default class Agent {
         }
     }
 
+    force(vector) {
+        this.acceleration.add(vector)
+
+        return this
+    }
+
     seek(target, accelerate = this.accelerate) {
         const desire = Vector
             .sub(target, this.location)
