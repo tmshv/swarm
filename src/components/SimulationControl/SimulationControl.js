@@ -27,9 +27,8 @@ export default class SimulationControl extends Component {
     }
 
     onUpdate() {
-        const {width, height} = this.props
+        this.draw.clear()
         const ctx = this.context
-        ctx.clearRect(0, 0, width, height);
 
         if (this.agent && this.agent.isAlive) {
             const agent = this.agent
