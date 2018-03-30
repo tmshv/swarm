@@ -1,7 +1,14 @@
 import View from './View'
 
 export default class AgentsView extends View {
+    constructor({clear, ...args}) {
+        super(args)
+
+        this.clear = clear
+    }
     render() {
+        if (this.clear) this.draw.clear()
+
         const ctx = this.draw.context
 
         const s = 1

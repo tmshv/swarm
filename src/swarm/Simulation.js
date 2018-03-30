@@ -76,7 +76,10 @@ export default class Simulation {
         this.viewFactory = factory
     }
 
-    createView(...args) {
-        return this.viewFactory(...args)
+    createView(params) {
+        return this.viewFactory({
+            ...params,
+            simulation: this,
+        })
     }
 }

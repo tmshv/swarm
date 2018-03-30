@@ -15,9 +15,17 @@ import InteractEnvironmentBehaviour from '../swarm/behaviours/InteractEnvironmen
 import Vector from '../swarm/Vector'
 import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
 import AgentsView from '../swarm/views/AgentsView'
+import View from '../swarm/views/View'
 
 const width = 1400
 const height = 800
+
+const viewLayers = {
+    agents: (params) => new AgentsView({
+        clear: false,
+        ...params,
+    }),
+}
 
 function main() {
     const simulation = createSimulation()
@@ -50,11 +58,17 @@ function createSimulation() {
     return s
 }
 
-function createView({draw, layers}) {
-    return new AgentsView({
-        simulation: this,
-        draw,
-    })
+function createView({layers, ...params}) {
+    const views = layers
+        .map(layer => viewLayers.hasOwnProperty(layer)
+            ? viewLayers[layer]
+            : (params) => new View(params)
+        )
+        .map(x => x(params))
+
+    return views.length === 1
+        ? views[0]
+        : View.join(views)
 }
 
 function createEmitter({x, y}) {
