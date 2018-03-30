@@ -8,6 +8,15 @@ export default class Signal {
 		return this
 	}
 
+    once(callback) {
+        const wrapper = (...args) => {
+            this.off(wrapper)
+            callback(...args)
+        }
+
+        return this.on(wrapper)
+    }
+
 	off(callback) {
 		this.listeners = this.listeners
 			.filter(x => x !== callback)
