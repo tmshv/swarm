@@ -11,6 +11,10 @@ export default class Render {
         this.matrix = new Matrix()
     }
 
+    clear(){
+        this.context.clearRect(0, 0, this.width, this.height)
+    }
+
     getValue(value) {
         return this.matrix.applyToPoint(value, 0).x
     }
