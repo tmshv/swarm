@@ -38,7 +38,7 @@ export default class Simulation extends Component {
                 // alpha *= .1
                 ctx.fillStyle = `rgba(200, 0, 0, ${alpha})`
 
-                this.draw.rectCenter(agent.location.x, agent.location.y, s, s)
+                this.draw.rectCenter(agent.location, s, s)
             })
     }
 

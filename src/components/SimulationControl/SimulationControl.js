@@ -36,7 +36,7 @@ export default class SimulationControl extends Component {
             ctx.fillStyle = 'rgba(255, 0, 255, 1)'
 
             const s = 16
-            this.draw.targetArea(agent.location.x, agent.location.y, s, s, 3)
+            this.draw.targetArea(agent.location, s, s, 3)
 
             this.agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
         }
@@ -53,19 +53,18 @@ export default class SimulationControl extends Component {
             const interest = behaviour.interest.get(a)
 
             if (interest > 0) {
-                this.draw.circleCenter(a.location.x, a.location.y, interest)
+                this.draw.circleCenter(a.location, interest)
             }
         } else if (behaviour instanceof InteractAgentsBehaviour) {
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'
 
-            const loc = this.agent.location
-            this.draw.circleCenter(loc.x, loc.y, behaviour.radius)
+            this.draw.circleCenter(this.agent.location, behaviour.radius)
 
             ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)'
             behaviour.agentsInView.forEach(agent => {
                 const r = behaviour.interest.get(agent) / behaviour.initialInterest
                 const s = r * 5
-                this.draw.cross(agent.location.x, agent.location.y, s)
+                this.draw.cross(agent.location, s)
             })
         }
     }
@@ -79,7 +78,7 @@ export default class SimulationControl extends Component {
 
             // const s = 5
             const s = 1 + (a.power / 60) * 4
-            this.draw.plus(a.location.x, a.location.y, s, s)
+            this.draw.plus(a.location, s, s)
             // this.draw.rectCenter(a.location.x, a.location.y, s, s)
             // this.draw.circleCenter(a.location.x, a.location.y, a.power)
         })
@@ -90,7 +89,7 @@ export default class SimulationControl extends Component {
             ctx.strokeStyle = 'rgba(0, 200, 0, 1)'
             ctx.fillStyle = 'rgba(0, 200, 0, 1)'
 
-            this.draw.cross(e.location.x, e.location.y, 5)
+            this.draw.cross(e.location, 5)
             // ctx.fill()
         })
     }
