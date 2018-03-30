@@ -11,25 +11,31 @@ export default class Render {
         this.matrix = new Matrix()
     }
 
+    getValue(value) {
+        return this.matrix.applyToPoint(value, 0).x
+    }
+
     getCoord({x, y}) {
         return this.matrix.applyToPoint(x, y)
     }
 
     circleCenter(coord, radius) {
         const {x, y} = this.getCoord(coord)
+        const r = this.getValue(radius)
 
         this.context.beginPath()
-        this.context.arc(x, y, radius, 0, TWO_PI)
+        this.context.arc(x, y, r, 0, TWO_PI)
         this.context.stroke()
     }
 
     rectCenter(coord, w, h) {
         const {x, y} = this.getCoord(coord)
+        const {x: width, y: height} = this.getCoord({x: w, y: h})
 
-        const w2 = w / 2
-        const h2 = h / 2
+        const w2 = width / 2
+        const h2 = height / 2
 
-        this.context.fillRect(x - w2, y - h2, w, h)
+        this.context.fillRect(x - w2, y - h2, width, height)
     }
 
     targetArea(coord, w, h, s) {
