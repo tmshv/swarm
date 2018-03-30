@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Render from '../../lib/Render'
 import Canvas from '../Canvas/Canvas'
-import AgentsView from '../../swarm/views/AgentsView'
 
 export default class Simulation extends Component {
     constructor(...args) {
@@ -20,19 +19,20 @@ export default class Simulation extends Component {
     }
 
     componentDidMount() {
-        const {width, height, simulation} = this.props
+        const {width, height, simulation, layers} = this.props
         this.sim = simulation
         this.sim.events.update.on(this.onUpdate)
 
-        this.view = new AgentsView({
+        this.view = this.sim.createView({
             draw: new Render(this.context, width, height),
-            simulation: this.sim,
+            layers,
         })
     }
 
     componentWillUnmount() {
         this.sim.events.run.off(this.onUpdate)
         this.sim = null
+        this.view = null
     }
 
     render() {

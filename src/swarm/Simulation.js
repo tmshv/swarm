@@ -1,5 +1,6 @@
 import Signal from '../lib/Signal'
 import Vector from './Vector'
+import AgentsView from './views/AgentsView'
 
 export default class Simulation {
     constructor() {
@@ -69,6 +70,13 @@ export default class Simulation {
 
         emitter.events.emit.on(agents => {
             agents.forEach(x => this.agents.addAgent(x))
+        })
+    }
+
+    createView({draw, layers}) {
+        return new AgentsView({
+            simulation: this,
+            draw,
         })
     }
 }
