@@ -1,6 +1,5 @@
 import Signal from '../lib/Signal'
 import Vector from './Vector'
-import AgentsView from './views/AgentsView'
 
 export default class Simulation {
     constructor() {
@@ -73,10 +72,11 @@ export default class Simulation {
         })
     }
 
-    createView({draw, layers}) {
-        return new AgentsView({
-            simulation: this,
-            draw,
-        })
+    setViewFactory(factory) {
+        this.viewFactory = factory
+    }
+
+    createView(...args) {
+        return this.viewFactory(...args)
     }
 }

@@ -14,6 +14,7 @@ import InteractAgentsBehaviour from '../swarm/behaviours/InteractAgentsBehaviour
 import InteractEnvironmentBehaviour from '../swarm/behaviours/InteractEnvironmentBehaviour'
 import Vector from '../swarm/Vector'
 import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
+import AgentsView from '../swarm/views/AgentsView'
 
 const width = 1400
 const height = 800
@@ -44,7 +45,16 @@ function createSimulation() {
     s.addEmitter(createEmitter({x: 250, y: 250}))
     s.addEmitter(createEmitter({x: 450, y: 150}))
 
+    s.setViewFactory(createView)
+
     return s
+}
+
+function createView({draw, layers}) {
+    return new AgentsView({
+        simulation: this,
+        draw,
+    })
 }
 
 function createEmitter({x, y}) {
