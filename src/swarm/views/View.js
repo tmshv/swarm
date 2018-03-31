@@ -16,7 +16,7 @@ export default class View {
         this.simulation = simulation
     }
 
-    run() {
+    run(options) {
         this.beforeRender()
         this.render()
         this.afterRender()

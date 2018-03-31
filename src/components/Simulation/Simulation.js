@@ -15,7 +15,7 @@ export default class Simulation extends Component {
     }
 
     onUpdate() {
-        this.view.run()
+        this.view.run({})
     }
 
     componentDidMount() {
