@@ -18,6 +18,7 @@ import AgentsView from '../swarm/views/AgentsView'
 import View from '../swarm/views/View'
 import AttractorsView from '../swarm/views/AttractorsView'
 import EmittersView from '../swarm/views/EmittersView'
+import SelectedAgentView from '../swarm/views/SelectedAgentView'
 
 const width = 1400
 const height = 800
@@ -33,6 +34,9 @@ const viewLayers = {
     }),
     emitters: (params) => new EmittersView({
         clear: false,
+        ...params,
+    }),
+    selectedAgent: (params) => new SelectedAgentView({
         ...params,
     }),
 }

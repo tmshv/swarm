@@ -32,6 +32,7 @@ export default class App extends Component {
                 <div className={'App-Layer'}>
                     <SimulationControl
                         {...simulationProps}
+                        layers={['selectedAgent']}
                     />
                 </div>
             </div>
