@@ -125,6 +125,7 @@ function createAgentInRandomCoords(width, height) {
 
 function createAgent(loc) {
     const agent = new Agent()
+    agent.dump = 0
     agent.location.set(loc.x, loc.y)
     agent.addBehaviour(new InteractAgentsBehaviour({
         accelerate: 0.00004,
