@@ -15,13 +15,17 @@ export default class Simulation extends Component {
     }
 
     onUpdate() {
-        this.view.render()
+        this.view.run()
     }
 
     componentDidMount() {
-        const {width, height, simulation, layers} = this.props
+        const {width, height, simulation, layers, once = false} = this.props
         this.sim = simulation
-        this.sim.events.update.on(this.onUpdate)
+        if (once) {
+            this.sim.events.update.once(this.onUpdate)
+        } else {
+            this.sim.events.update.on(this.onUpdate)
+        }
 
         this.view = this.sim.createView({
             draw: new Render(this.context, width, height),

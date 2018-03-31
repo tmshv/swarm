@@ -39,9 +39,6 @@ export default class SimulationControl extends Component {
 
             this.agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
         }
-
-        this.drawEnv(ctx)
-        this.drawEmitters(ctx)
     }
 
     drawBehaviour(ctx, behaviour) {
@@ -66,31 +63,6 @@ export default class SimulationControl extends Component {
                 this.draw.cross(agent.location, s)
             })
         }
-    }
-
-    drawEnv(ctx) {
-        this.sim.env.attractors.forEach(a => {
-            const alpha = a.power / 200
-
-            ctx.strokeStyle = `rgba(200, 0, 200, ${alpha})`
-            ctx.fillStyle = `rgba(200, 0, 200, ${alpha})`
-
-            // const s = 5
-            const s = 1 + (a.power / 60) * 4
-            this.draw.plus(a.location, s, s)
-            // this.draw.rectCenter(a.location.x, a.location.y, s, s)
-            // this.draw.circleCenter(a.location.x, a.location.y, a.power)
-        })
-    }
-
-    drawEmitters(ctx) {
-        this.sim.emitters.forEach(e => {
-            ctx.strokeStyle = 'rgba(0, 200, 0, 1)'
-            ctx.fillStyle = 'rgba(0, 200, 0, 1)'
-
-            this.draw.cross(e.location, 5)
-            // ctx.fill()
-        })
     }
 
     componentDidMount() {

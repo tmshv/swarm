@@ -16,12 +16,22 @@ import Vector from '../swarm/Vector'
 import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
 import AgentsView from '../swarm/views/AgentsView'
 import View from '../swarm/views/View'
+import AttractorsView from '../swarm/views/AttractorsView'
+import EmittersView from '../swarm/views/EmittersView'
 
 const width = 1400
 const height = 800
 
 const viewLayers = {
     agents: (params) => new AgentsView({
+        clear: false,
+        ...params,
+    }),
+    environmentAttractors: (params) => new AttractorsView({
+        clear: false,
+        ...params,
+    }),
+    emitters: (params) => new EmittersView({
         clear: false,
         ...params,
     }),

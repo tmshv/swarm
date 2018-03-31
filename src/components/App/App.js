@@ -19,6 +19,13 @@ export default class App extends Component {
                 <div className={'App-Layer'}>
                     <Simulation
                         {...simulationProps}
+                        once={true}
+                        layers={['environmentAttractors', 'emitters']}
+                    />
+                </div>
+                <div className={'App-Layer'}>
+                    <Simulation
+                        {...simulationProps}
                         layers={['agents']}
                     />
                 </div>
