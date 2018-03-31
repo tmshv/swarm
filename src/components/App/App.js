@@ -6,36 +6,38 @@ import './App.less'
 
 export default class App extends Component {
     render() {
-        const {width, height, devicePixelRatio, simulation} = this.props
-        const simulationProps = {
-            width,
-            height,
-            devicePixelRatio,
-            simulation,
-        }
+        const {layers, width, height, devicePixelRatio, simulation} = this.props
 
         return (
             <div>
-                <div className={'App-Layer'}>
-                    <Simulation
-                        {...simulationProps}
-                        once={true}
-                        layers={['pathAttractors', 'emitters']}
+                {layers.map(({controlable, ...x}, i) => (
+                    <Layer
+                        key={i}
+                        controlable={controlable}
+                        simulationProps={{
+                            width,
+                            height,
+                            devicePixelRatio,
+                            simulation,
+                            ...x,
+                        }}
                     />
-                </div>
-                <div className={'App-Layer'}>
-                    <Simulation
-                        {...simulationProps}
-                        layers={['agents']}
-                    />
-                </div>
-                <div className={'App-Layer'}>
-                    <SimulationControl
-                        {...simulationProps}
-                        layers={['selectedAgent']}
-                    />
-                </div>
+                ))}
             </div>
         )
     }
 }
+
+const Layer = ({controlable, simulationProps}) => (
+    <div className={'App-Layer'}>
+        {controlable ? (
+            <SimulationControl
+                {...simulationProps}
+            />
+        ) : (
+            <Simulation
+                {...simulationProps}
+            />
+        )}
+    </div>
+)

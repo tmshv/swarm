@@ -53,7 +53,26 @@ function main() {
 
     simulation.run()
 
+    const layers = [
+        {
+            layers: ['pathAttractors', 'emitters'],
+            once: true,
+            controlable: false,
+        },
+        {
+            layers: ['agents'],
+            once: false,
+            controlable: false,
+        },
+        {
+            layers: ['selectedAgent'],
+            once: false,
+            controlable: true,
+        },
+    ]
+
     const props = {
+        layers,
         simulation,
         width,
         height,
