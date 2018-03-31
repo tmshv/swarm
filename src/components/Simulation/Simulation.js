@@ -19,9 +19,9 @@ export default class Simulation extends Component {
     }
 
     componentDidMount() {
-        const {width, height, simulation, layers, once = false} = this.props
+        const {width, height, simulation, layers, runOnce = false} = this.props
         this.sim = simulation
-        if (once) {
+        if (runOnce) {
             this.sim.events.update.once(this.onUpdate)
         } else {
             this.sim.events.update.on(this.onUpdate)
@@ -40,8 +40,15 @@ export default class Simulation extends Component {
     }
 
     render() {
+        const {width, height, devicePixelRatio} = this.props
+
         return (
-            <Canvas ref={this.onRef} {...this.props}/>
+            <Canvas
+                ref={this.onRef}
+                width={width}
+                height={height}
+                devicePixelRatio={devicePixelRatio}
+            />
         )
     }
 }

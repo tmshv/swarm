@@ -56,17 +56,17 @@ function main() {
     const layers = [
         {
             layers: ['pathAttractors', 'emitters'],
-            once: true,
+            runOnce: true,
             controlable: false,
         },
         {
             layers: ['agents'],
-            once: false,
+            runOnce: false,
             controlable: false,
         },
         {
             layers: ['selectedAgent'],
-            once: false,
+            runOnce: false,
             controlable: true,
         },
     ]
