@@ -18,6 +18,8 @@ import AgentsView from '../swarm/views/AgentsView'
 import View from '../swarm/views/View'
 import AttractorsView from '../swarm/views/AttractorsView'
 import EmittersView from '../swarm/views/EmittersView'
+import SeekNearestAttractorBehaviour from '../swarm/behaviours/SeekNearestAttractorBehaviour'
+import AttractorsPathView from '../swarm/views/AttractorsPathView'
 import SelectedAgentView from '../swarm/views/SelectedAgentView'
 
 const width = 1400
@@ -29,6 +31,10 @@ const viewLayers = {
         ...params,
     }),
     environmentAttractors: (params) => new AttractorsView({
+        clear: false,
+        ...params,
+    }),
+    pathAttractors: (params) => new AttractorsPathView({
         clear: false,
         ...params,
     }),

@@ -100,4 +100,19 @@ export default class Render {
         this.context.lineTo(x + s, y - s)
         this.context.stroke()
     }
+
+    path(coords) {
+        const length = coords.length
+        if (length < 2) return
+
+        this.context.beginPath()
+        const {x, y} = this.getCoord(coords[0])
+        this.context.moveTo(x, y)
+
+        for (let i = 1; i < length; i++) {
+            const {x, y} = this.getCoord(coords[i])
+            this.context.lineTo(x, y)
+        }
+        this.context.stroke()
+    }
 }

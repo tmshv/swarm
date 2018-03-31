@@ -20,7 +20,7 @@ export default class App extends Component {
                     <Simulation
                         {...simulationProps}
                         once={true}
-                        layers={['environmentAttractors', 'emitters']}
+                        layers={['pathAttractors', 'emitters']}
                     />
                 </div>
                 <div className={'App-Layer'}>
