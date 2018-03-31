@@ -140,10 +140,7 @@ function createAgent(loc) {
     return agent
 }
 
-function createAttractor(x, y) {
-    // const {x, y} = randomCoord([width, height])
-
-    const power = 10 + Math.random() * 50
+function createAttractor({x, y, power}) {
     const id = Id.get('attractor')
     return new Attractor({id, x, y, power})
 }
