@@ -12,10 +12,26 @@ function roundVector(vector, v) {
 }
 
 export default class Pheromones {
-    constructor({cellSize, increaseValue = 1}) {
+    constructor({cellSize, increaseValue = 1, decreaseValue = 1}) {
         this.values = new Map()
         this.cellSize = cellSize
         this.increaseValue = increaseValue
+        this.decreaseValue = decreaseValue
+    }
+
+    run() {
+        for (let [key, x] of this.values.entries()) {
+            const value = x.value - this.decreaseValue
+
+            if (value > 0) {
+                this.values.set(key, {
+                    ...x,
+                    value,
+                })
+            } else {
+                this.values.delete(key)
+            }
+        }
     }
 
     increaseInLocation(location, value = this.increaseValue) {
@@ -31,5 +47,16 @@ export default class Pheromones {
 
     getValuesIterator(){
         return this.values.values()
+    }
+
+    getMaxValue() {
+        let max = 0
+
+        for (let {value} of this.getValuesIterator()) {
+            if (value > max) {
+                max = value
+            }
+        }
+        return max
     }
 }

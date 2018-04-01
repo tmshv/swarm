@@ -30,6 +30,8 @@ const height = 800
 
 const pheromones = new Pheromones({
     cellSize: 3,
+    increaseValue: 1,
+    decreaseValue: .025,
 })
 
 const viewLayers = {
@@ -53,6 +55,7 @@ const viewLayers = {
         ...params,
     }),
     pheromones: (params) => new PheromonesView({
+        clear: true,
         ...params,
     }),
 }

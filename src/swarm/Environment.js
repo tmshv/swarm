@@ -6,6 +6,10 @@ export default class Environment {
         this.pheromones = pheromones
     }
 
+    run() {
+        this.pheromones.run()
+    }
+
     getSample(center, matrix) {
         return [...this.attractors]
     }

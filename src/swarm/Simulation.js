@@ -53,6 +53,7 @@ export default class Simulation {
         if (this.isRunning) requestAnimationFrame(this.loop)
 
         // simulate
+        this.env.run()
         this.getAgents()
             .forEach(a => {
                 a.run({
