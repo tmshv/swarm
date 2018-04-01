@@ -50,19 +50,23 @@ export default class Simulation {
     }
 
     loop() {
-        if (this.isRunning) requestAnimationFrame(this.loop)
-
-        // simulate
-        this.env.run()
-        this.getAgents()
-            .forEach(a => {
-                a.run({
-                    agentsPool: this.agents,
-                    environment: this.env,
+        try {
+            this.env.run()
+            this.getAgents()
+                .forEach(a => {
+                    a.run({
+                        agentsPool: this.agents,
+                        environment: this.env,
+                    })
                 })
-            })
+            this.events.update.trigger(this)
+        } catch (e) {
+            console.error(e)
+            console.warn('Stopping simulation cause error')
+            this.stop()
+        }
 
-        this.events.update.trigger(this)
+        if (this.isRunning) requestAnimationFrame(this.loop)
     }
 
     addEmitter(emitter) {
