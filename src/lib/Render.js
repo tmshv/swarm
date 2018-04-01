@@ -32,6 +32,13 @@ export default class Render {
         this.context.stroke()
     }
 
+    rect(coord, w, h) {
+        const {x, y} = this.getCoord(coord)
+        const {x: width, y: height} = this.getCoord({x: w, y: h})
+
+        this.context.fillRect(x, y, width, height)
+    }
+
     rectCenter(coord, w, h) {
         const {x, y} = this.getCoord(coord)
         const {x: width, y: height} = this.getCoord({x: w, y: h})

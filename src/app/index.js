@@ -21,9 +21,16 @@ import EmittersView from '../swarm/views/EmittersView'
 import SeekNearestAttractorBehaviour from '../swarm/behaviours/SeekNearestAttractorBehaviour'
 import AttractorsPathView from '../swarm/views/AttractorsPathView'
 import SelectedAgentView from '../swarm/views/SelectedAgentView'
+import SpreadPheromonesBehaviour from '../swarm/behaviours/SpreadPheromonesBehaviour'
+import Pheromones from '../swarm/Pheromones'
+import PheromonesView from '../swarm/views/PheromonesView'
 
 const width = 1400
 const height = 800
+
+const pheromones = new Pheromones({
+    cellSize: 3,
+})
 
 const viewLayers = {
     agents: (params) => new AgentsView({
@@ -45,6 +52,9 @@ const viewLayers = {
     selectedAgent: (params) => new SelectedAgentView({
         ...params,
     }),
+    pheromones: (params) => new PheromonesView({
+        ...params,
+    }),
 }
 
 function main() {
@@ -57,6 +67,11 @@ function main() {
         {
             layers: ['pathAttractors', 'emitters'],
             runOnce: true,
+            controlable: false,
+        },
+        {
+            layers: ['pheromones'],
+            runOnce: false,
             controlable: false,
         },
         {
@@ -129,7 +144,9 @@ function createAgentPool() {
 }
 
 function createEnvironment() {
-    const env = new Environment()
+    const env = new Environment({
+        pheromones,
+    })
 
     const w = 50
     const h = 50
@@ -156,6 +173,9 @@ function createAgent(loc) {
     const agent = new Agent()
     agent.dump = 0
     agent.location.set(loc.x, loc.y)
+    agent.addBehaviour(new SpreadPheromonesBehaviour({
+        pheromones,
+    }))
     agent.addBehaviour(new InteractAgentsBehaviour({
         accelerate: 0.00004,
         radius: 50,

@@ -1,8 +1,9 @@
 import Vector from './Vector'
 
 export default class Environment {
-    constructor() {
+    constructor({pheromones}) {
         this.attractors = []
+        this.pheromones = pheromones
     }
 
     getSample(center, matrix) {
