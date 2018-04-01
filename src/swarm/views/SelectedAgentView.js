@@ -22,14 +22,14 @@ export default class SelectedAgentView extends ClearableView {
     render() {
         const ctx = this.draw.context
 
-        if (this.agent && this.agent.isAlive) {
-            const agent = this.agent
+        const agent = this.agent
+        if (agent && agent.isAlive) {
             ctx.fillStyle = 'rgba(255, 0, 255, 1)'
 
             const s = 16
             this.draw.targetArea(agent.location, s, s, 3)
 
-            this.agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
+            agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
         }
     }
 
