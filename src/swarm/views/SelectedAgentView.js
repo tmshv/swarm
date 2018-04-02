@@ -3,6 +3,7 @@ import SeekNearestAttractorBehaviour from '../behaviours/SeekNearestAttractorBeh
 import InteractEnvironmentBehaviour from '../behaviours/InteractEnvironmentBehaviour'
 import InteractAgentsBehaviour from '../behaviours/InteractAgentsBehaviour'
 import AvoidObstaclesBehavior from '../behaviours/AvoidObstaclesBehavior'
+import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehaviour'
 
 export default class SelectedAgentView extends ClearableView {
     constructor({...args}) {
@@ -90,6 +91,14 @@ export default class SelectedAgentView extends ClearableView {
                 ctx.strokeStyle = 'rgba(250, 0, 0, 1)'
                 this.draw.vector(this.agent.location, r)
             }
+        } else if (behaviour instanceof InteractPheromonesBehaviour) {
+            const s = 2
+            ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
+            ctx.fillStyle = null
+
+            behaviour.target.forEach(({location}) => {
+                this.draw.cross(location, s, s)
+            })
         }
     }
 }

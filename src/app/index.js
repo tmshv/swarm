@@ -28,14 +28,15 @@ import Obstacle from '../swarm/Obstacle'
 import ObstacleView from '../swarm/views/ObstacleView'
 import AvoidObstaclesBehavior from '../swarm/behaviours/AvoidObstaclesBehavior'
 import Line from '../swarm/Line'
+import InteractPheromonesBehaviour from '../swarm/behaviours/InteractPheromonesBehaviour'
 
 const width = 1400
 const height = 800
 
 const pheromones = new Pheromones({
-    cellSize: 3,
+    cellSize: 2,
     increaseValue: 1,
-    decreaseValue: .025,
+    decreaseValue: .05,
 })
 
 let agent = null
@@ -66,6 +67,7 @@ const viewLayers = {
     }),
     pheromones: (params) => new PheromonesView({
         clear: true,
+        maxValue: 100,
         ...params,
     }),
 }

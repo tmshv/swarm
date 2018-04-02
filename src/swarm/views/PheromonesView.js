@@ -23,7 +23,7 @@ export default class PheromonesView extends ClearableView {
             ctx.fillStyle = style
 
             const s = ph.cellSize
-            this.draw.rect(location, s, s)
+            this.draw.rectCenter(location, s, s)
         }
     }
 }
