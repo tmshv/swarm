@@ -15,7 +15,7 @@ export default class SeekNearestAttractorBehaviour extends Behaviour {
             this.selectTargetAttractor(environment)
         }
 
-        this.seekAccelerated(this.targetAttractor.location)
+        if (this.targetAttractor) this.seekAccelerated(this.targetAttractor.location)
     }
 
     needToUpdateTarget() {

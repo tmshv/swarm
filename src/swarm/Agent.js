@@ -53,13 +53,32 @@ export default class Agent {
         return this
     }
 
+    predictLocation(distance = null) {
+        if (this.velocity.lengthQuad === 0) {
+            return this.location.clone()
+        }
+
+        const predict = this.velocity.clone()
+        if (distance) {
+            predict
+                .normalize()
+                .mult(distance)
+        }
+
+        return predict
+    }
+
     seek(target, accelerate = this.accelerate) {
-        const desire = Vector
-            .sub(target, this.location)
+        const desire = Vector.sub(target, this.location)
+        const distanceToTargetSquared = desire.lengthSquared
+        const a = distanceToTargetSquared < accelerate
+            ? Math.sqrt(distanceToTargetSquared)
+            : accelerate
+        desire
             .normalize()
-            .mult(accelerate)
+            .mult(a)
         if (!desire.isNaN()) {
-            this.acceleration.add(desire)
+            return this.force(desire)
         }
 
         return this

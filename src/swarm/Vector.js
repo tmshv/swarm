@@ -29,14 +29,28 @@ export default class Vector {
         return this._x * this._x + this._y * this._y
     }
 
+    get lengthSquared() {
+        return this._x * this._x + this._y * this._y
+    }
+
     constructor(x, y) {
         this._x = x
         this._y = y
     }
 
+    clone() {
+        return new Vector(this._x, this._y)
+    }
+
     set(x, y){
         this._x = x
         this._y = y
+
+        return this
+    }
+
+    dot(vector) {
+        return this._x * vector.x + this._y * vector.y
     }
 
     add(vector){
@@ -75,6 +89,10 @@ export default class Vector {
         return this
     }
 
+    reverse() {
+        return this.mult(-1)
+    }
+
     limit(value) {
         if (this.lengthQuad > value ** 2) {
             return this
@@ -85,11 +103,26 @@ export default class Vector {
         return this
     }
 
+    right() {
+        return new Vector(-this.y, this.x)
+    }
+
+    left() {
+        return new Vector(this.y, -this.x)
+    }
+
     dist(vector) {
         const dx = this._x - vector.x
         const dy = this._y - vector.y
 
         return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    distSquared(vector) {
+        const dx = this._x - vector.x
+        const dy = this._y - vector.y
+
+        return dx * dx + dy * dy
     }
 
     distQuad(vector) {
@@ -101,6 +134,10 @@ export default class Vector {
 
     isNaN() {
         return isNaN(this._x) || isNaN(this._y)
+    }
+
+    equals(vector) {
+        return this._x === vector.x && this._y === vector.y
     }
 
     toArray() {

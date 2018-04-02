@@ -5,24 +5,43 @@ import SimulationControl from '../SimulationControl/SimulationControl'
 import './App.less'
 
 export default class App extends Component {
+    constructor(...args) {
+        super(...args)
+
+        this.onClick = this.onClick.bind(this)
+    }
+
+    onClick() {
+        const {simulation} = this.props
+        if (simulation.isRunning) {
+            simulation.stop()
+        } else {
+            simulation.run()
+        }
+    }
+
     render() {
         const {layers, width, height, devicePixelRatio, simulation} = this.props
 
         return (
-            <div>
-                {layers.map(({controlable, ...x}, i) => (
-                    <Layer
-                        key={i}
-                        controlable={controlable}
-                        simulationProps={{
-                            width,
-                            height,
-                            devicePixelRatio,
-                            simulation,
-                            ...x,
-                        }}
-                    />
-                ))}
+            <div className={'App'}>
+                <button onClick={this.onClick}>Click</button>
+
+                <div className={'App-Simulation'}>
+                    {layers.map(({controlable, ...x}, i) => (
+                        <Layer
+                            key={i}
+                            controlable={controlable}
+                            simulationProps={{
+                                width,
+                                height,
+                                devicePixelRatio,
+                                simulation,
+                                ...x,
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
         )
     }

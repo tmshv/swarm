@@ -15,8 +15,8 @@ export default class AgentsView extends View {
         this.simulation
             .getAgents()
             .forEach(agent => {
-                let alpha = agent.ttl / 1000
-                ctx.fillStyle = 'rgba(200, 0, 0, 0.05)'
+                let alpha = agent.ttl / 10000
+                ctx.fillStyle = `rgba(200, 0, 0, ${alpha})`
 
                 this.draw.rectCenter(agent.location, s, s)
             })

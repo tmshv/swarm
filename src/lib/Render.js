@@ -1,4 +1,5 @@
 import {Matrix} from 'transformation-matrix-js'
+import Vector from '../swarm/Vector'
 
 const TWO_PI = 2 * Math.PI
 
@@ -121,5 +122,15 @@ export default class Render {
             this.context.lineTo(x, y)
         }
         this.context.stroke()
+    }
+
+    line(line) {
+        this.path([line.a, line.b])
+    }
+
+    vector(coord, vector) {
+        const end = Vector.add(coord, vector)
+        this.path([coord, end])
+        // this.cross(end, 2)
     }
 }

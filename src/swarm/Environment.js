@@ -4,6 +4,7 @@ export default class Environment {
     constructor({pheromones}) {
         this.attractors = []
         this.pheromones = pheromones
+        this.obstacles = []
     }
 
     run() {
@@ -31,6 +32,27 @@ export default class Environment {
                 result = a
             }
         })
+
+        return result
+    }
+
+    addObstacle(obstacle) {
+        this.obstacles.push(obstacle)
+        return this
+    }
+
+    findObstacle(location, radius) {
+        const radiusSquared = radius ** 2
+        let minDistanceSquared = radiusSquared
+        let result = null
+
+        for (let o of this.obstacles) {
+            const distSquared = location.distQuad(o.centroid)
+            if (distSquared < radiusSquared && distSquared < minDistanceSquared) {
+                minDistanceSquared = distSquared
+                result = o
+            }
+        }
 
         return result
     }

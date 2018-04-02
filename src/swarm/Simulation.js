@@ -50,6 +50,11 @@ export default class Simulation {
     }
 
     loop() {
+        this.frame()
+        if (this.isRunning) requestAnimationFrame(this.loop)
+    }
+
+    frame() {
         try {
             this.env.run()
             this.getAgents()
@@ -65,8 +70,6 @@ export default class Simulation {
             console.warn('Stopping simulation cause error')
             this.stop()
         }
-
-        if (this.isRunning) requestAnimationFrame(this.loop)
     }
 
     addEmitter(emitter) {

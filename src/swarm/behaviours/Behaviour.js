@@ -15,6 +15,14 @@ export default class Behaviour {
         this.agent.seek(target, this.accelerate)
     }
 
+    forceAccelerated(force) {
+        this.agent.force(force
+            .normalize()
+            .mult(this.accelerate)
+        )
+        return force
+    }
+
     run(options) {
         throw new Error('Behavior::run is not overrided')
     }

@@ -36,6 +36,7 @@ export default class Emitter {
         if (this.isRunning) return
 
         this.intervalId = setInterval(this.emit, this.period)
+        this.emit()
     }
 
     stop() {
