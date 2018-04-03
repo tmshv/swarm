@@ -1,8 +1,7 @@
 import Behaviour from './Behaviour'
 
 export default class AvoidObstaclesBehavior extends Behaviour {
-    constructor({radius, predictionDistance, ...options}) {
-        super(options)
+    init({radius, predictionDistance}) {
         this.radius = radius
         this.predictionDistance = predictionDistance
         this.predictionDistanceSquared = predictionDistance ** 2

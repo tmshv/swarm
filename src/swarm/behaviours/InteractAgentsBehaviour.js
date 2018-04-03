@@ -6,9 +6,7 @@ import {Chance} from 'chance'
 const chance = new Chance()
 
 export default class InteractAgentsBehaviour extends Behaviour {
-    constructor({radius, initialInterest, ...options}) {
-        super(options)
-
+    init({radius, initialInterest}) {
         this.initialInterest = initialInterest
         this.radius = radius
         this.radiusQuad = radius ** 2

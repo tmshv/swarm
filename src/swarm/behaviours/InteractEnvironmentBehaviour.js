@@ -4,9 +4,7 @@ import {Chance} from 'chance'
 const chance = new Chance()
 
 export default class InteractEnvironmentBehaviour extends Behaviour {
-    constructor(options) {
-        super(options)
-
+    init({}) {
         this.environmentSample = []
         this.interest = new Map()
         this.targetAttractor = null

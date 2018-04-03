@@ -2,9 +2,7 @@ import Behaviour from './Behaviour'
 import Vector from '../Vector'
 
 export default class InteractPheromonesBehaviour extends Behaviour {
-    constructor(options) {
-        super(options)
-
+    init({}) {
         this.target = []
     }
 

@@ -6,9 +6,7 @@ import {Chance} from 'chance'
 const chance = new Chance()
 
 export default class SpreadPheromonesBehaviour extends Behaviour {
-    constructor({pheromones, ...options}) {
-        super(options)
-
+    init({pheromones}) {
         this.pheromones = pheromones
     }
 

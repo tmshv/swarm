@@ -1,9 +1,7 @@
 import Behaviour from './Behaviour'
 
 export default class SeekNearestAttractorBehaviour extends Behaviour {
-    constructor({thresholdDistQuad, ...options}) {
-        super(options)
-
+    init({thresholdDistQuad}) {
         this.thresholdDistQuad = thresholdDistQuad
         this.targetAttractor = null
 
