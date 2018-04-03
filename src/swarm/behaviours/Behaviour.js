@@ -1,5 +1,9 @@
 export default class Behaviour {
-    constructor({accelerate}) {
+    constructor(options) {
+        this.init(options)
+    }
+
+    init({accelerate}) {
         this.accelerate = accelerate
     }
 
