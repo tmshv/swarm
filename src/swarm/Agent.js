@@ -16,7 +16,6 @@ export default class Agent {
 
         this.damp = 1 - 0.02 // remember a very small amount of the last direction
         this.accelerate = .025
-        this.accelerateLimit = 0.5
 
         this.events = new Event()
         this.behaviours = []
@@ -36,8 +35,6 @@ export default class Agent {
         this.behaviours.forEach(b => {
             b.run(options)
         })
-
-        this.acceleration.limit(this.accelerateLimit)
 
         this.velocity.add(this.acceleration)
         this.location.add(this.velocity)
