@@ -16,16 +16,16 @@ export default class SimulationControl extends Component {
     }
 
     onUpdate() {
-        this.view.run({
-            point: this.point
-        })
+        this.view.run({})
     }
 
     onClick(event) {
         const x = event.clientX
         const y = event.clientY
 
-        this.point = {x, y}
+        this.view.select({
+            point: {x, y}
+        })
     }
 
     componentDidMount() {

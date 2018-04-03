@@ -1,10 +1,10 @@
 export default class Behaviour {
     constructor(options) {
+        this.accelerate = options.accelerate
         this.init(options)
     }
 
-    init({accelerate}) {
-        this.accelerate = accelerate
+    init(options) {
     }
 
     setAgent(agent) {

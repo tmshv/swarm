@@ -4,6 +4,7 @@ import InteractEnvironmentBehaviour from '../behaviours/InteractEnvironmentBehav
 import InteractAgentsBehaviour from '../behaviours/InteractAgentsBehaviour'
 import AvoidObstaclesBehavior from '../behaviours/AvoidObstaclesBehavior'
 import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehaviour'
+import ComposableBehavior from '../behaviours/ComposableBehavior'
 
 export default class SelectedAgentView extends ClearableView {
     constructor({...args}) {
@@ -13,10 +14,9 @@ export default class SelectedAgentView extends ClearableView {
         })
     }
 
-    run(options) {
-        super.run(options)
-        if (options.point) {
-            const {x, y} = options.point
+    select({point}) {
+        if (point) {
+            const {x, y} = point
             this.agent = this.simulation.getNearestAgent(x, y)
         }
     }
@@ -26,7 +26,7 @@ export default class SelectedAgentView extends ClearableView {
 
         const agent = this.agent
         if (agent && agent.isAlive) {
-            agent.behaviours.forEach(x => this.drawBehaviour(ctx, x))
+            this.drawBehaviour(ctx, agent.behaviour)
 
             const s = 16
             ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
@@ -37,7 +37,11 @@ export default class SelectedAgentView extends ClearableView {
     drawBehaviour(ctx, behaviour) {
         ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
 
-        if (behaviour instanceof InteractEnvironmentBehaviour) {
+        if (behaviour instanceof ComposableBehavior) {
+            behaviour.behaviours.forEach(b => {
+                this.drawBehaviour(ctx, b)
+            })
+        } else if (behaviour instanceof InteractEnvironmentBehaviour) {
             const a = behaviour.targetAttractor
             const interest = behaviour.interest.get(a)
 

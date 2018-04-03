@@ -24,7 +24,7 @@ export default class InteractAgentsBehaviour extends Behaviour {
         // this.seek(v)
 
         for (let a of this.agentsInView) {
-            this.seek(a.location)
+            this.seekAccelerated(a.location)
 
             let interest = this.interest.get(a)
             if (interest > 0) interest--

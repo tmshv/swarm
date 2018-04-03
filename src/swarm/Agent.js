@@ -7,12 +7,14 @@ export default class Agent extends MovableObject {
         return this._alive
     }
 
-    constructor() {
+    constructor({behaviour}) {
         super()
+        behaviour.setAgent(this)
 
         this._alive = true
         this.events = new Event()
-        this.behaviour = null
+        this.behaviour = behaviour
+        this.namedBehaviours = new Map()
     }
 
     die() {
@@ -20,9 +22,13 @@ export default class Agent extends MovableObject {
         this.events.get(AgentEvent.DIE).trigger(this)
     }
 
-    setBehaviour(behaviour) {
+    addBehaviour(name, behaviour) {
         behaviour.setAgent(this)
-        this.behaviour = behaviour
+        this.namedBehaviours.set(name, behaviour)
+    }
+
+    getBehaviour(name) {
+        return this.namedBehaviours.get(name)
     }
 
     run(options) {
