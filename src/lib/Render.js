@@ -25,11 +25,15 @@ export default class Render {
     }
 
     circleCenter(coord, radius) {
+        this.arcCenter(coord, radius, 0, TWO_PI)
+    }
+
+    arcCenter(coord, radius, startAngle, endAngle) {
         const {x, y} = this.getCoord(coord)
         const r = this.getValue(radius)
 
         this.context.beginPath()
-        this.context.arc(x, y, r, 0, TWO_PI)
+        this.context.arc(x, y, r, startAngle, endAngle)
         this.context.stroke()
     }
 

@@ -69,7 +69,7 @@ const viewLayers = {
     }),
     selected: (params) => new SelectedView({
         ...params,
-        radius: 10,
+        radius: 50,
     }),
     pheromones: (params) => new PheromonesView({
         clear: true,

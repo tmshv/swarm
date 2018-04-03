@@ -17,17 +17,13 @@ export default class SelectedAgentView extends ClearableView {
         this.radius = radius
     }
 
-    select({point}) {
-        if (point) {
-            const coord = new Vector(point.x, point.y)
-            const agent = this.simulation.agents.getNearest(coord, this.radius)
-            if (!agent) return false
+    select(coord) {
+        const agent = this.simulation.agents.getNearest(coord, this.radius)
+        if (!agent) return false
 
-            this.agent = agent
-            return true
-        }
+        this.agent = agent
 
-        return false
+        return true
     }
 
     render() {

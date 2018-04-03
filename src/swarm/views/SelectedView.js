@@ -1,5 +1,7 @@
 import ClearableView from './ClearableView'
 import SelectedAgentView from './SelectedAgentView'
+import Vector from '../Vector'
+import SelectedEmitterView from './SelectedEmitterView'
 
 export default class SelectedView extends ClearableView {
     constructor({...args}) {
@@ -8,14 +10,24 @@ export default class SelectedView extends ClearableView {
             clear: true,
         })
 
-        this.agentsView = new SelectedAgentView(args)
+        this.views = [
+            new SelectedAgentView(args),
+            new SelectedEmitterView(args),
+        ]
+
         this.currentView = null
     }
 
-    select(options) {
-        if (this.agentsView.select(options)) {
-            this.currentView = this.agentsView
-            return
+    select({point}) {
+        if (point) {
+            const coord = new Vector(point.x, point.y)
+
+            for (let view of this.views) {
+                if (view.select(coord)) {
+                    this.currentView = view
+                    return
+                }
+            }
         }
 
         this.currentView = null

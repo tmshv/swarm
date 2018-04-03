@@ -2,6 +2,10 @@ import Vector from './Vector'
 import Signal from '../lib/Signal'
 
 export default class Emitter {
+    get counter() {
+        return this._counter
+    }
+
     constructor({x, y, period, amount, factory}) {
         this._counter = 0
 
