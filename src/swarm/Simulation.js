@@ -38,15 +38,11 @@ export default class Simulation {
         requestAnimationFrame(this.loop)
 
         this.events.run.trigger(this)
-
-        this.emitters.forEach(x => x.run())
     }
 
     stop() {
         this.isRunning = false
         this.events.stop.trigger(this)
-
-        this.emitters.forEach(x => x.stop())
     }
 
     loop() {
@@ -56,6 +52,7 @@ export default class Simulation {
 
     frame() {
         try {
+            this.emitters.forEach(x => x.run())
             this.env.run()
             this.getAgents()
                 .forEach(a => {

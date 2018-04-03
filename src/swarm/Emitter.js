@@ -3,17 +3,15 @@ import Signal from '../lib/Signal'
 
 export default class Emitter {
     constructor({x, y, period, amount, factory}) {
+        this._counter = 0
+
         this.location = new Vector(x, y)
         this.period = period
         this.amount = amount
         this.factory = factory
 
-        this.isRunning = false
-        this.intervalId = null
-
         this.events = {
             run: new Signal(),
-            stop: new Signal(),
             emit: new Signal(),
         }
 
@@ -33,13 +31,10 @@ export default class Emitter {
     }
 
     run() {
-        if (this.isRunning) return
-
-        this.intervalId = setInterval(this.emit, this.period)
-        this.emit()
-    }
-
-    stop() {
-        clearInterval(this.intervalId)
+        this._counter--
+        if (this._counter <= 0) {
+            this.emit()
+            this._counter = this.period
+        }
     }
 }
