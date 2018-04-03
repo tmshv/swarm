@@ -13,6 +13,13 @@ export default class Vector {
         )
     }
 
+    static fromAngle(angle) {
+        return new Vector(
+            Math.cos(angle),
+            Math.sin(angle),
+        )
+    }
+
     get x() {
         return this._x
     }
