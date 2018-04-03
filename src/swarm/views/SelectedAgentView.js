@@ -5,20 +5,29 @@ import InteractAgentsBehaviour from '../behaviours/InteractAgentsBehaviour'
 import AvoidObstaclesBehavior from '../behaviours/AvoidObstaclesBehavior'
 import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehaviour'
 import ComposableBehavior from '../behaviours/ComposableBehavior'
+import Vector from '../Vector'
 
 export default class SelectedAgentView extends ClearableView {
-    constructor({...args}) {
+    constructor({radius, ...args}) {
         super({
             ...args,
             clear: true,
         })
+
+        this.radius = radius
     }
 
     select({point}) {
         if (point) {
-            const {x, y} = point
-            this.agent = this.simulation.getNearestAgent(x, y)
+            const coord = new Vector(point.x, point.y)
+            const agent = this.simulation.agents.getNearest(coord, this.radius)
+            if (!agent) return false
+
+            this.agent = agent
+            return true
         }
+
+        return false
     }
 
     render() {

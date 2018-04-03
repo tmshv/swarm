@@ -20,7 +20,7 @@ import AttractorsView from '../swarm/views/AttractorsView'
 import EmittersView from '../swarm/views/EmittersView'
 import SeekNearestAttractorBehaviour from '../swarm/behaviours/SeekNearestAttractorBehaviour'
 import AttractorsPathView from '../swarm/views/AttractorsPathView'
-import SelectedAgentView from '../swarm/views/SelectedAgentView'
+import SelectedView from '../swarm/views/SelectedView'
 import SpreadPheromonesBehaviour from '../swarm/behaviours/SpreadPheromonesBehaviour'
 import Pheromones from '../swarm/Pheromones'
 import PheromonesView from '../swarm/views/PheromonesView'
@@ -67,8 +67,9 @@ const viewLayers = {
         clear: false,
         ...params,
     }),
-    selectedAgent: (params) => new SelectedAgentView({
+    selected: (params) => new SelectedView({
         ...params,
+        radius: 10,
     }),
     pheromones: (params) => new PheromonesView({
         clear: true,
@@ -103,7 +104,7 @@ function main() {
             controlable: false,
         },
         {
-            layers: ['selectedAgent'],
+            layers: ['selected'],
             runOnce: false,
             controlable: true,
         },

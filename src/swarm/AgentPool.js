@@ -23,13 +23,11 @@ export default class AgentPool {
         // return this.store.addItem()
     }
 
-    getNearest(x, y) {
-        let minDist = 10000000
+    getNearest(coord, radius) {
+        let minDist = radius ** 2
         let agent = null
         this.agents.forEach(a => {
-            const d = (new Vector(x, y))
-                .sub(a.location)
-                .lengthQuad
+            const d = Vector.sub(a.location, coord).lengthSquared
             if (d < minDist) {
                 minDist = d
                 agent = a

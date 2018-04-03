@@ -21,10 +21,6 @@ export default class Simulation {
         return this.agents.agents
     }
 
-    getNearestAgent(x, y) {
-        return this.agents.getNearest(x, y)
-    }
-
     setAgents(agentPool) {
         this.agents = agentPool
     }
