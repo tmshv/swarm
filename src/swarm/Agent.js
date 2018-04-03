@@ -12,7 +12,7 @@ export default class Agent extends MovableObject {
 
         this._alive = true
         this.events = new Event()
-        this.behaviours = []
+        this.behaviour = null
     }
 
     die() {
@@ -20,16 +20,13 @@ export default class Agent extends MovableObject {
         this.events.get(AgentEvent.DIE).trigger(this)
     }
 
-    addBehaviour(behaviour) {
+    setBehaviour(behaviour) {
         behaviour.setAgent(this)
-        this.behaviours.push(behaviour)
+        this.behaviour = behaviour
     }
 
     run(options) {
-        this.behaviours.forEach(b => {
-            b.run(options)
-        })
-
+        this.behaviour.run(options)
         this.move()
     }
 }

@@ -30,6 +30,8 @@ import AvoidObstaclesBehavior from '../swarm/behaviours/AvoidObstaclesBehavior'
 import Line from '../swarm/Line'
 import InteractPheromonesBehaviour from '../swarm/behaviours/InteractPheromonesBehaviour'
 import TtlBehavior from '../swarm/behaviours/TtlBehavior'
+import ComposableBehavior from '../swarm/behaviours/ComposableBehavior'
+import LimitAccelerationBehaviour from '../swarm/behaviours/LimitAccelerationBehaviour'
 
 const width = 1400
 const height = 800
@@ -227,33 +229,40 @@ function createAgent(loc) {
     const a = new Agent()
     a.damp = 0.85
     a.location.set(loc.x, loc.y)
-    a.addBehaviour(new TtlBehavior({
-        ttl: 1000,
-    }))
-    a.addBehaviour(new SpreadPheromonesBehaviour({
-        pheromones,
-    }))
-    // a.addBehaviour(new SeekNearestAttractorBehaviour({
-    //     accelerate: 0.1,
-    //     thresholdDistQuad: 10,
-    // }))
-    a.addBehaviour(new InteractAgentsBehaviour({
-        accelerate: 0.4,
-        radius: 100,
-        initialInterest: 200,
-    }))
-    // a.addBehaviour(new RandomWalkBehaviour({
-    //     accelerate: 0.25,
-    // }))
-    a.addBehaviour(new InteractEnvironmentBehaviour({
-        accelerate: 0.1
-    }))
-
-    a.addBehaviour(new AvoidObstaclesBehavior({
-        accelerate: 1,
-        predictionDistance: 5,
-        radius: 1000,
-    }))
+    a.setBehaviour(ComposableBehavior.compose(
+        new TtlBehavior({
+            ttl: 1000,
+        }),
+        new SpreadPheromonesBehaviour({
+            pheromones,
+        }),
+        new SeekNearestAttractorBehaviour({
+            accelerate: 0.1,
+            thresholdDistQuad: 10,
+        }),
+        new InteractAgentsBehaviour({
+            accelerate: 0.4,
+            radius: 25,
+            initialInterest: 200,
+        }),
+        new RandomWalkBehaviour({
+            accelerate: 0.25,
+        }),
+        new InteractEnvironmentBehaviour({
+            accelerate: 0.1
+        }),
+        new InteractPheromonesBehaviour({
+            accelerate: .1,
+        }),
+        new AvoidObstaclesBehavior({
+            accelerate: 1,
+            predictionDistance: 25,
+            radius: 100,
+        }),
+        new LimitAccelerationBehaviour({
+            limit: 0.125,
+        })
+    ))
 
     if (!agent) {
         agent = a
