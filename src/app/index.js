@@ -29,6 +29,7 @@ import ObstacleView from '../swarm/views/ObstacleView'
 import AvoidObstaclesBehavior from '../swarm/behaviours/AvoidObstaclesBehavior'
 import Line from '../swarm/Line'
 import InteractPheromonesBehaviour from '../swarm/behaviours/InteractPheromonesBehaviour'
+import TtlBehavior from '../swarm/behaviours/TtlBehavior'
 
 const width = 1400
 const height = 800
@@ -226,6 +227,9 @@ function createAgent(loc) {
     const a = new Agent()
     a.damp = 0.85
     a.location.set(loc.x, loc.y)
+    a.addBehaviour(new TtlBehavior({
+        ttl: 1000,
+    }))
     a.addBehaviour(new SpreadPheromonesBehaviour({
         pheromones,
     }))

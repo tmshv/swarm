@@ -1,12 +1,15 @@
 import Vector from './Vector'
-import Signal from '../lib/Signal'
+import Event from '../lib/Event'
+import AgentEvent from './AgentEvent'
 
 export default class Agent {
     get isAlive() {
-        return this.ttl > 0
+        return this._alive
     }
 
     constructor() {
+        this._alive = true
+
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)
         this.acceleration = new Vector(0, 0)
@@ -15,12 +18,13 @@ export default class Agent {
         this.accelerate = .025
         this.accelerateLimit = 0.5
 
-        this.events = {
-            die: new Signal(),
-        }
-
-        this.ttl = 1000
+        this.events = new Event()
         this.behaviours = []
+    }
+
+    die() {
+        this._alive = false
+        this.events.get(AgentEvent.DIE).trigger(this)
     }
 
     addBehaviour(behaviour) {
@@ -40,11 +44,6 @@ export default class Agent {
         this.acceleration.set(0, 0)
 
         this.velocity.mult(this.damp)
-
-        this.ttl--
-        if (this.ttl === 0) {
-            this.events.die.trigger(this)
-        }
     }
 
     force(vector) {

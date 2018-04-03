@@ -1,5 +1,6 @@
 import QuadTree from './QuadTree'
 import Vector from './Vector'
+import AgentEvent from './AgentEvent'
 
 export default class AgentPool {
     constructor() {
@@ -15,7 +16,7 @@ export default class AgentPool {
     addAgent(agent) {
         this.agents.push(agent)
 
-        agent.events.die.on(() => {
+        agent.events.get(AgentEvent.DIE).on(() => {
             this.agents = this.agents.filter(x => agent !== x)
         })
 
