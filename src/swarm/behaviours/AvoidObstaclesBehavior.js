@@ -1,14 +1,11 @@
 import Behaviour from './Behaviour'
-import Line from '../Line'
 
 export default class AvoidObstaclesBehavior extends Behaviour {
     constructor({radius, predictionDistance, ...options}) {
         super(options)
         this.radius = radius
         this.predictionDistance = predictionDistance
-        this.distanceSquared = predictionDistance ** 2
-
-        this.cc = Math.random() < 0.5
+        this.predictionDistanceSquared = predictionDistance ** 2
     }
 
     run({environment}) {
@@ -17,7 +14,6 @@ export default class AvoidObstaclesBehavior extends Behaviour {
 
         const predict = this.predictLocation()
         const predictDirection = this.getPredictionVector()
-        // const location = predict
         const location = this.agent.location
         const obstacle = environment.findObstacle(location, this.radius)
         if (!obstacle) return
@@ -25,26 +21,26 @@ export default class AvoidObstaclesBehavior extends Behaviour {
         let edge = obstacle.getNearestEdge(location, predictDirection)
         if (!edge) return
 
-        if (edge.distSquared(predict) >= this.distanceSquared) {
+        if (edge.distSquared(predict) >= this.predictionDistanceSquared) {
             return
         }
 
+        let force = this.getForce(edge)
+        force = this.forceAccelerated(force)
+
         this.edge = edge
+        this.reflection = force
+    }
 
-        // const move = new Line(location, predict)
+    getForce(edge) {
+        const force = edge.getDirection()
+        const predictDirection = this.getPredictionVector()
 
-        // if (!edge.isIntersect(move)) {
-        //     return
-        // }
-
-        const reflection = edge.getDirection()
-
-        // if (reflection.dot(predictDirection) < 0) {
-            if (this.cc) {
-            reflection.reverse()
+        if (force.dot(predictDirection) < 0) {
+            force.reverse()
         }
 
-        this.reflection = this.forceAccelerated(reflection)
+        return force
     }
 
     getPredictionVector() {
