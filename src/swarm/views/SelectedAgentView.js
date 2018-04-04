@@ -26,25 +26,28 @@ export default class SelectedAgentView extends ClearableView {
         return true
     }
 
-    render() {
-        const ctx = this.draw.context
-
-        const agent = this.agent
-        if (agent && agent.isAlive) {
-            this.drawBehaviour(ctx, agent.behaviour)
-
-            const s = 16
-            ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
-            this.draw.targetArea(agent.location, s, s, 3)
-        }
+    shouldRender() {
+        return this.agent && this.agent.isAlive
     }
 
-    drawBehaviour(ctx, behaviour) {
+    render() {
+        this.renderBehaviour(this.agent.behaviour)
+        this.renderAgent()
+    }
+
+    renderAgent() {
+        const s = 16
+        this.draw.context.strokeStyle = 'rgba(0, 0, 0, 1)'
+        this.draw.targetArea(this.agent.location, s, s, 3)
+    }
+
+    renderBehaviour(behaviour) {
+        const ctx = this.draw.context
         ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
 
         if (behaviour instanceof ComposableBehavior) {
             behaviour.behaviours.forEach(b => {
-                this.drawBehaviour(ctx, b)
+                this.renderBehaviour(b)
             })
         } else if (behaviour instanceof InteractEnvironmentBehaviour) {
             const a = behaviour.targetAttractor
