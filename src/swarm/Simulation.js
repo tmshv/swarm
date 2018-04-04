@@ -55,15 +55,21 @@ export default class Simulation {
 
     step() {
         try {
+            const agents = this.getAgents()
+
             this.emitters.forEach(x => x.run())
             this.env.run()
-            this.getAgents()
-                .forEach(a => {
-                    a.run({
-                        agentsPool: this.agents,
-                        environment: this.env,
-                    })
+
+            agents.forEach(a => {
+                a.run({
+                    agentsPool: this.agents,
+                    environment: this.env,
                 })
+            })
+            agents.forEach(a => {
+                a.move()
+            })
+
             this.events.update.trigger(this)
         } catch (e) {
             console.error(e)

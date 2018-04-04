@@ -33,6 +33,5 @@ export default class Agent extends Vehicle {
 
     run(options) {
         this.behaviour.run(options)
-        this.move()
     }
 }
