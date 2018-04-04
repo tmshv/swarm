@@ -32,4 +32,11 @@ export default class MovableObject {
 
         return this.force(desire)
     }
+
+    flee(target, accelerate) {
+        const desire = Vector
+            .sub(this.location, target)
+            .setLength(accelerate)
+        return this.force(desire)
+    }
 }
