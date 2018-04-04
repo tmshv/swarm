@@ -1,8 +1,6 @@
 import Vector from './Vector'
-import Event from '../lib/Event'
-import AgentEvent from './AgentEvent'
 
-export default class MovableObject {
+export default class Vehicle {
     constructor() {
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)

@@ -1,8 +1,8 @@
 import Event from '../lib/Event'
 import AgentEvent from './AgentEvent'
-import MovableObject from './MovableObject'
+import Vehicle from './Vehicle'
 
-export default class Agent extends MovableObject {
+export default class Agent extends Vehicle {
     get isAlive() {
         return this._alive
     }
