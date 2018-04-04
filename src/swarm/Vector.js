@@ -1,3 +1,5 @@
+import {fastInverseSqrt} from './lib/math'
+
 export default class Vector {
     static sub(a, b) {
         return new Vector(
@@ -89,9 +91,10 @@ export default class Vector {
     }
 
     normalize() {
-        const length = this.length
-        this._x = this._x / length
-        this._y = this._y / length
+        const lengthSquared = this._x ** 2 + this._y ** 2
+        const inverseSqrt = fastInverseSqrt(lengthSquared)
+        this._x *= inverseSqrt
+        this._y *= inverseSqrt
 
         return this
     }
