@@ -58,6 +58,10 @@ export default class Vector {
         return this
     }
 
+    setFrom(vector) {
+        return this.set(vector.x, vector.y)
+    }
+
     dot(vector) {
         return this._x * vector.x + this._y * vector.y
     }
