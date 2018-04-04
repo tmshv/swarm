@@ -1,10 +1,15 @@
-import Behaviour from './Behaviour'
+import MovingBehavior from './MovingBehavior'
 
-export default class SeekLocationBehaviour extends Behaviour {
+export default class SeekLocationBehaviour extends MovingBehavior {
+    get threshold() {
+        return this._threshold
+    }
+
     constructor({threshold, ...options}) {
         super(options)
 
-        this.threshold = threshold ** 2
+        this._threshold = threshold
+        this._thresholdSquared = threshold ** 2
     }
 
     init({target}) {
@@ -13,13 +18,13 @@ export default class SeekLocationBehaviour extends Behaviour {
 
     run() {
         const reached = this.isReached()
-        if (!reached) this.seekAccelerated(this.target)
+        if (!reached) this.seek(this.target)
 
         return reached
     }
 
     isReached() {
         if (!this.target) return true
-        return this.agent.location.distSquared(this.target) < this.threshold
+        return this.agent.location.distSquared(this.target) < this._thresholdSquared
     }
 }
