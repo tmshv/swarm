@@ -2,8 +2,14 @@ import Signal from '../lib/Signal'
 import Vector from './Vector'
 
 export default class Simulation {
+    get frame() {
+        return this._frame
+    }
+
     constructor() {
         this.loop = this.loop.bind(this)
+
+        this._frame = 0
 
         this.isRunning = false
         this.env = null
@@ -42,11 +48,12 @@ export default class Simulation {
     }
 
     loop() {
-        this.frame()
+        this.step()
+        this._frame++
         if (this.isRunning) requestAnimationFrame(this.loop)
     }
 
-    frame() {
+    step() {
         try {
             this.emitters.forEach(x => x.run())
             this.env.run()
