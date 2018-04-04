@@ -17,9 +17,15 @@ export default class View {
     }
 
     run(options) {
+        if (!this.shouldRender()) return
+
         this.beforeRender()
         this.render()
         this.afterRender()
+    }
+
+    shouldRender() {
+        return true
     }
 
     beforeRender() {
