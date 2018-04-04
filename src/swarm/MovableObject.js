@@ -27,16 +27,9 @@ export default class MovableObject {
     seek(target, accelerate = 1) {
         const desire = Vector.sub(target, this.location)
         const distanceToTargetSquared = desire.lengthSquared
-        const a = distanceToTargetSquared < accelerate
-            ? Math.sqrt(distanceToTargetSquared)
-            : accelerate
-        desire
-            .normalize()
-            .mult(a)
-        if (!desire.isNaN()) {
-            return this.force(desire)
-        }
 
-        return this
+        if (distanceToTargetSquared < accelerate ** 2) desire.setLength(accelerate)
+
+        return this.force(desire)
     }
 }
