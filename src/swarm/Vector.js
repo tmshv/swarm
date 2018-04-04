@@ -104,13 +104,9 @@ export default class Vector {
     }
 
     limit(value) {
-        if (this.lengthQuad > value ** 2) {
-            return this
-                .normalize()
-                .mult(value)
-        }
-
-        return this
+        return this.lengthSquared > value ** 2
+            ? this.normalize().mult(value)
+            : this
     }
 
     right() {
