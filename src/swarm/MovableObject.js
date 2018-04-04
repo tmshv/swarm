@@ -24,21 +24,6 @@ export default class MovableObject {
         return this
     }
 
-    predictLocation(distance = null) {
-        if (this.velocity.lengthQuad === 0) {
-            return this.location.clone()
-        }
-
-        const predict = this.velocity.clone()
-        if (distance) {
-            predict
-                .normalize()
-                .mult(distance)
-        }
-
-        return predict
-    }
-
     seek(target, accelerate = 1) {
         const desire = Vector.sub(target, this.location)
         const distanceToTargetSquared = desire.lengthSquared
