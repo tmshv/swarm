@@ -103,6 +103,12 @@ export default class Vector {
         return this.mult(-1)
     }
 
+    setLength(value) {
+        return !(this._x === 0 && this._y === 0)
+            ? this.normalize().mult(value)
+            : this
+    }
+
     limit(value) {
         return this.lengthSquared > value ** 2
             ? this.normalize().mult(value)
