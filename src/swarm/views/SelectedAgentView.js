@@ -6,6 +6,7 @@ import AvoidObstaclesBehavior from '../behaviours/AvoidObstaclesBehavior'
 import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehaviour'
 import ComposableBehavior from '../behaviours/ComposableBehavior'
 import Vector from '../Vector'
+import SeparateAgentsBehaviour from '../behaviours/SeparateAgentsBehaviour'
 
 export default class SelectedAgentView extends ClearableView {
     constructor({radius, ...args}) {
@@ -111,6 +112,11 @@ export default class SelectedAgentView extends ClearableView {
             behaviour.target.forEach(({location}) => {
                 this.draw.cross(location, s, s)
             })
+        } else if (behaviour instanceof SeparateAgentsBehaviour) {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)'
+            ctx.fillStyle = null
+
+            this.draw.circleCenter(this.agent.location, behaviour.radius)
         }
     }
 }
