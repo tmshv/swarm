@@ -33,6 +33,12 @@ export default class Simulation extends Component {
         })
     }
 
+    componentWillReceiveProps(newProps) {
+        const {width, height} = newProps
+        this.view.draw.width = width
+        this.view.draw.height = height
+    }
+
     componentWillUnmount() {
         this.sim.events.run.off(this.onUpdate)
         this.sim = null

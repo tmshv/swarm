@@ -23,17 +23,12 @@ export default class Canvas extends Component {
 
         const w = width * devicePixelRatio
         const h = height * devicePixelRatio
-        const style = {
-            width,
-            height,
-        }
 
         return (
             <canvas
                 ref={this.onRef}
                 width={w}
                 height={h}
-                style={style}
                 {...props}
             />
         )

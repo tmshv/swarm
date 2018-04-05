@@ -102,9 +102,6 @@ function main() {
 
     screenControl.init(simulation)
 
-    const width = window.innerWidth
-    const height = window.innerHeight
-
     window.s = simulation
 
     const layers = [
@@ -160,9 +157,6 @@ function main() {
     const props = {
         layers,
         simulation,
-        width,
-        height,
-        devicePixelRatio: window.devicePixelRatio
     }
 
     render(<App {...props}/>, mountElement)

@@ -9,6 +9,19 @@ export default class App extends Component {
         super(...args)
 
         this.onClick = this.onClick.bind(this)
+        this.onResize = this.onResize.bind(this)
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onResize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize)
+    }
+
+    onResize() {
+        this.forceUpdate()
     }
 
     onClick() {
@@ -21,12 +34,14 @@ export default class App extends Component {
     }
 
     render() {
-        const {layers, width, height, devicePixelRatio, simulation} = this.props
+        const {layers, simulation} = this.props
+
+        const devicePixelRatio = window.devicePixelRatio
+        const width = window.innerWidth
+        const height = window.innerHeight
 
         return (
             <div className={'App'}>
-                <button onClick={this.onClick}>Click</button>
-
                 <div className={'App-Simulation'}>
                     {layers.map(({controlable, ...x}, i) => (
                         <Layer
@@ -41,6 +56,9 @@ export default class App extends Component {
                             }}
                         />
                     ))}
+                </div>
+                <div className={'App-Body'}>
+                    <button onClick={this.onClick}>Click</button>
                 </div>
             </div>
         )
