@@ -88,14 +88,6 @@ const viewLayers = {
     }),
 }
 
-function createEventToVector(callback) {
-    const coord = new Vector(0, 0)
-    return event => callback(coord.set(
-        event.clientX,
-        event.clientY,
-    ))
-}
-
 function main() {
     const simulation = createSimulation()
     const mountElement = document.querySelector('#app')
@@ -103,6 +95,8 @@ function main() {
     screenControl.init(simulation)
 
     window.s = simulation
+
+    const mouseCallbacks = screenControl.getMouseCallbacks()
 
     const layers = [
         {
@@ -134,23 +128,7 @@ function main() {
             layers: ['selected'],
             runOnce: false,
             controlable: true,
-            onMouseDown: createEventToVector(coord => {
-                screenControl.mouse.setFrom(coord)
-                screenControl.offset.setFrom(screenControl.center)
-                screenControl.dragOn()
-            }),
-            onMouseUp: createEventToVector(coord => {
-                screenControl.dragOff()
-            }),
-            onMouseMove: createEventToVector(coord => {
-                const vectorFromClickToMouse = Vector.sub(coord, screenControl.mouse)
-
-                if (screenControl.isDragging) {
-                    screenControl.center.setFrom(screenControl.offset)
-                    screenControl.center.add(vectorFromClickToMouse)
-                    screenControl.update()
-                }
-            }),
+            ...mouseCallbacks,
         },
     ]
 

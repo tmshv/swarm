@@ -1,4 +1,5 @@
 import Vector from '../Vector'
+import {createEventToVector} from '../lib/browser'
 
 export default class ScreenController {
     get isDragging() {
@@ -40,4 +41,27 @@ export default class ScreenController {
         this.views.push(view)
         return this
     }
+
+    getMouseCallbacks() {
+        return {
+            onMouseDown: createEventToVector(coord => {
+                this.mouse.setFrom(coord)
+                this.offset.setFrom(this.center)
+                this.dragOn()
+            }),
+            onMouseUp: createEventToVector(coord => {
+                this.dragOff()
+            }),
+            onMouseMove: createEventToVector(coord => {
+                const vectorFromClickToMouse = Vector.sub(coord, this.mouse)
+
+                if (this.isDragging) {
+                    this.center.setFrom(this.offset)
+                    this.center.add(vectorFromClickToMouse)
+                    this.update()
+                }
+            }),
+        }
+    }
 }
+
