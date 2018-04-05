@@ -16,6 +16,13 @@ export default class View {
         this.simulation = simulation
     }
 
+    translate(coord) {
+        if (!this.draw) return
+
+        this.draw.matrix.reset()
+        this.draw.matrix.translate(coord.x, coord.y)
+    }
+
     run(options) {
         if (!this.shouldRender()) return
 

@@ -51,11 +51,15 @@ export default class SimulationControl extends Component {
 
     render() {
         const {width, height, devicePixelRatio} = this.props
+        const {onMouseMove, onMouseDown, onMouseUp} = this.props
 
         return (
             <Canvas
                 ref={this.onRef}
                 onClick={this.onClick}
+                onMouseMove={onMouseMove}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
                 width={width}
                 height={height}
                 devicePixelRatio={devicePixelRatio}

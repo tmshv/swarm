@@ -34,9 +34,11 @@ import LimitAccelerationBehaviour from '../swarm/behaviours/LimitAccelerationBeh
 import SeekLocationBehaviour from '../swarm/behaviours/SeekLocationBehaviour'
 import AgentBehaviour from '../swarm/AgentBehaviour'
 import WalkToNearestAttractorBehaviour from '../swarm/behaviours/WalkToNearestAttractorBehaviour'
+import ScreenController from '../swarm/controllers/ScreenController'
 
 const width = 1400
 const height = 800
+const screenControl = new ScreenController()
 
 const pheromones = new Pheromones({
     cellSize: 2,
@@ -48,11 +50,11 @@ let agent = null
 
 const viewLayers = {
     agents: (params) => new AgentsView({
-        clear: false,
+        clear: true,
         ...params,
     }),
     environmentAttractors: (params) => new AttractorsView({
-        clear: false,
+        clear: true,
         ...params,
     }),
     pathAttractors: (params) => new AttractorsPathView({
@@ -60,11 +62,11 @@ const viewLayers = {
         ...params,
     }),
     obstacles: (params) => new ObstacleView({
-        clear: false,
+        clear: true,
         ...params,
     }),
     emitters: (params) => new EmittersView({
-        clear: false,
+        clear: true,
         ...params,
     }),
     selected: (params) => new SelectedView({
@@ -88,9 +90,18 @@ function main() {
 
     const layers = [
         {
-            // layers: ['pathAttractors', 'emitters'],
-            layers: ['environmentAttractors', 'emitters', 'obstacles'],
-            runOnce: true,
+            layers: ['emitters'],
+            runOnce: false,
+            controlable: false,
+        },
+        {
+            layers: ['obstacles'],
+            runOnce: false,
+            controlable: false,
+        },
+        {
+            layers: ['environmentAttractors'],
+            runOnce: false,
             controlable: false,
         },
         // {
@@ -107,6 +118,23 @@ function main() {
             layers: ['selected'],
             runOnce: false,
             controlable: true,
+            onMouseDown: createEventToVector(coord => {
+                screenControl.mouse.setFrom(coord)
+                screenControl.offset.setFrom(screenControl.center)
+                screenControl.dragOn()
+            }),
+            onMouseUp: createEventToVector(coord => {
+                screenControl.dragOff()
+            }),
+            onMouseMove: createEventToVector(coord => {
+                const vectorFromClickToMouse = Vector.sub(coord, screenControl.mouse)
+
+                if (screenControl.isDragging) {
+                    screenControl.center.setFrom(screenControl.offset)
+                    screenControl.center.add(vectorFromClickToMouse)
+                    screenControl.update()
+                }
+            }),
         },
     ]
 
