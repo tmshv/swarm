@@ -41,7 +41,7 @@ import AlignAgentsBehaviour from '../swarm/behaviours/AlignAgentsBehaviour'
 import CohesionAgentsBehaviour from '../swarm/behaviours/CohesionAgentsBehaviour'
 import ScreenController from '../swarm/controllers/ScreenController'
 
-const screenControl = new ScreenController()
+const screenControl = new ScreenController(window)
 
 const pheromones = new Pheromones({
     cellSize: 2,

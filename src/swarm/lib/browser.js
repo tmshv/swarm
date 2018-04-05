@@ -7,3 +7,11 @@ export function createEventToVector(callback) {
         event.clientY,
     ))
 }
+
+export function getWindowWidth(window) {
+    return window.innerWidth
+}
+
+export function getWindowHeight(window) {
+    return window.innerHeight
+}

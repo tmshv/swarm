@@ -1,12 +1,12 @@
 import Vector from '../Vector'
-import {createEventToVector} from '../lib/browser'
+import {createEventToVector, getWindowHeight, getWindowWidth} from '../lib/browser'
 
 export default class ScreenController {
     get isDragging() {
         return this._drag
     }
 
-    constructor() {
+    constructor(window) {
         this.views = []
 
         this.center = new Vector(-100, 0)
@@ -14,6 +14,18 @@ export default class ScreenController {
         this.offset = new Vector(0, 0)
 
         this._drag = false
+
+        this._window = window
+    }
+
+    setCenter(coord) {
+        const offsetX = getWindowWidth(this._window) / 2
+        const offsetY = getWindowHeight(this._window) / 2
+
+        this.center.set(
+            -coord.x + offsetX,
+            -coord.y + offsetY,
+        )
     }
 
     dragOn() {
