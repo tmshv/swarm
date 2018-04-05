@@ -65,6 +65,16 @@ export default class Line {
             .divide(2)
     }
 
+    directNormalFrom(coord) {
+        const c = this.getCentroid()
+        const d = Vector.sub(c, coord)
+        if (d.dot(this._n) > 0) {
+            this.calcLeftNormal()
+        } else {
+            this.calcRightNormal()
+        }
+    }
+
     calcLeftNormal() {
         this._n = this
             .getLeftNormal()
