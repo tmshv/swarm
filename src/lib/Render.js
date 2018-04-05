@@ -39,19 +39,17 @@ export default class Render {
 
     rect(coord, w, h) {
         const {x, y} = this.getCoord(coord)
-        const {x: width, y: height} = this.getCoord({x: w, y: h})
 
-        this.context.fillRect(x, y, width, height)
+        this.context.fillRect(x, y, w, h)
     }
 
     rectCenter(coord, w, h) {
         const {x, y} = this.getCoord(coord)
-        const {x: width, y: height} = this.getCoord({x: w, y: h})
 
-        const w2 = width / 2
-        const h2 = height / 2
+        const w2 = w / 2
+        const h2 = h / 2
 
-        this.context.fillRect(x - w2, y - h2, width, height)
+        this.context.fillRect(x - w2, y - h2, w, h)
     }
 
     targetArea(coord, w, h, s) {
