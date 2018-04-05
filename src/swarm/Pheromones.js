@@ -1,4 +1,5 @@
 import Vector from './Vector'
+import Pheromone from './Pheromone'
 
 function round(n, v) {
     return Math.floor(n / v) * v
@@ -20,15 +21,10 @@ export default class Pheromones {
     }
 
     run() {
-        for (let [key, x] of this.values.entries()) {
-            const value = x.value - this.decreaseValue
+        for (let [key, pheromone] of this.values.entries()) {
+            pheromone.decreasePower(this.decreaseValue)
 
-            if (value > 0) {
-                this.values.set(key, {
-                    ...x,
-                    value,
-                })
-            } else {
+            if (pheromone.power <= 0) {
                 this.values.delete(key)
             }
         }
@@ -38,10 +34,9 @@ export default class Pheromones {
         const rounded = roundVector(location, this.cellSize)
         const key = `${rounded.x}_${rounded.y}`
         const pheromone = this.values.has(key)
-            ? this.values.get(key).value + value
-            : value
-
-        this.values.set(key, {value: pheromone, location: rounded})
+            ? this.values.get(key)
+            : Pheromone.fromLocation(rounded)
+        this.values.set(key, pheromone.increasePower(value))
         return this
     }
 
@@ -52,9 +47,9 @@ export default class Pheromones {
     getMaxValue() {
         let max = 0
 
-        for (let {value} of this.getValuesIterator()) {
-            if (value > max) {
-                max = value
+        for (let x of this.getValuesIterator()) {
+            if (x.power > max) {
+                max = x.power
             }
         }
         return max
