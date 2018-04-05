@@ -34,16 +34,24 @@ import LimitAccelerationBehaviour from '../swarm/behaviours/LimitAccelerationBeh
 import SeekLocationBehaviour from '../swarm/behaviours/SeekLocationBehaviour'
 import AgentBehaviour from '../swarm/AgentBehaviour'
 import WalkToNearestAttractorBehaviour from '../swarm/behaviours/WalkToNearestAttractorBehaviour'
+import SeparateAgentsBehaviour from '../swarm/behaviours/SeparateAgentsBehaviour'
+import ConditionalBehavior from '../swarm/behaviours/ConditionalBehavior'
+import IfTargetReachedBehavior from '../swarm/behaviours/IfTargetReachedBehavior'
+import AlignAgentsBehaviour from '../swarm/behaviours/AlignAgentsBehaviour'
+import CohesionAgentsBehaviour from '../swarm/behaviours/CohesionAgentsBehaviour'
 import ScreenController from '../swarm/controllers/ScreenController'
 
-const width = 1400
-const height = 800
 const screenControl = new ScreenController()
 
 const pheromones = new Pheromones({
     cellSize: 2,
     increaseValue: 1,
     decreaseValue: .05,
+})
+const mouseAttractor = createAttractor({
+    x: 0,
+    y: 0,
+    power: 100,
 })
 
 let agent = null
@@ -71,7 +79,7 @@ const viewLayers = {
     }),
     selected: (params) => new SelectedView({
         ...params,
-        radius: 50,
+        radius: 10,
     }),
     pheromones: (params) => new PheromonesView({
         clear: true,
@@ -80,13 +88,24 @@ const viewLayers = {
     }),
 }
 
+function createEventToVector(callback) {
+    const coord = new Vector(0, 0)
+    return event => callback(coord.set(
+        event.clientX,
+        event.clientY,
+    ))
+}
+
 function main() {
     const simulation = createSimulation()
     const mountElement = document.querySelector('#app')
 
-    window.s = simulation
+    screenControl.init(simulation)
 
-    simulation.run()
+    const width = window.innerWidth
+    const height = window.innerHeight
+
+    window.s = simulation
 
     const layers = [
         {
@@ -147,22 +166,55 @@ function main() {
     }
 
     render(<App {...props}/>, mountElement)
+    simulation.run()
 }
 
-function createAgent(loc) {
-    const a = new Agent({
-        behaviour: ComposableBehavior.compose(
+function createAgent(loc, behaviour = null) {
+    const initialVelocity = new Vector(0, 0)
+
+    const noise = Vector.fromAngle(Math.random() * Math.PI * 2)
+    noise.mult(0.1)
+    loc.add(noise)
+
+    if (!behaviour) {
+        behaviour = ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 800,
+                ttl: 1000,
             }),
+
+            // new ConditionalBehavior({
+            //     predicate: new IfTargetReachedBehavior({
+            //         minDistance: 5,
+            //     }),
+            //     trueBranch: AgentBehaviour.SEEK_LOCATION,
+            //     falseBranch: new RandomWalkBehaviour({
+            //         accelerate: 0.25,
+            //     }),
+            // }),
+
+            new AlignAgentsBehaviour({
+                accelerate: .21,
+                radius: 25,
+            }),
+
+            new SeparateAgentsBehaviour({
+                accelerate: 1,
+                radius: 25,
+            }),
+
+            new CohesionAgentsBehaviour({
+                accelerate: .05,
+                radius: 25,
+            }),
+
             // new WalkToNearestAttractorBehaviour({}),
-            new SpreadPheromonesBehaviour({
-                pheromones,
-            }),
-            new SeekNearestAttractorBehaviour({
-                accelerate: 0.05,
-                thresholdDistQuad: 10,
-            }),
+            // new SpreadPheromonesBehaviour({
+            //     pheromones,
+            // }),
+            // new SeekNearestAttractorBehaviour({
+            //     accelerate: 0.1,
+            //     thresholdDistQuad: 50,
+            // }),
             // new InteractAgentsBehaviour({
             //     accelerate: 0.4,
             //     radius: 25,
@@ -174,23 +226,29 @@ function createAgent(loc) {
             // new InteractEnvironmentBehaviour({
             //     accelerate: 0.1
             // }),
-            new InteractPheromonesBehaviour({
-                accelerate: .05,
-            }),
+            // new InteractPheromonesBehaviour({
+            //     accelerate: .05,
+            // }),
             new AvoidObstaclesBehavior({
                 accelerate: 1,
                 predictionDistance: 15,
                 radius: 100,
             }),
             new LimitAccelerationBehaviour({
-                limit: 0.125,
+                limit: 0.05125,
             })
         )
+    }
+
+    const a = new Agent({
+        behaviour,
     })
-    a.damp = 0.85
-    a.location.set(loc.x, loc.y)
+    a.damp = 0.95
+    a.location.setFrom(loc)
+    a.velocity.setFrom(initialVelocity)
     a.addBehaviour(AgentBehaviour.SEEK_LOCATION, new SeekLocationBehaviour({
-        threshold: 5,
+        accelerate: 0.1,
+        threshold: 2,
     }))
 
     if (!agent) {
@@ -204,34 +262,24 @@ function createSimulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool())
     s.setEnvironment(createEnvironment())
-    s.addEmitter(createEmitter(new Vector(228.276186, 523.511176)))
-
+    s.addEmitter(createEmitter(new Vector(530, 500), 100, 5))
     s.setViewFactory(createView)
 
+    s.agents.addAgent(createAgent(new Vector(300, 400), ComposableBehavior.compose(
+        new SeparateAgentsBehaviour({
+            accelerate: 1,
+            radius: 100,
+        }),
+        new SeekNearestAttractorBehaviour({
+            accelerate: 0.05,
+            thresholdDistQuad: 5,
+        }),
+        new LimitAccelerationBehaviour({
+            limit: 0.125,
+        })),
+    ))
+
     return s
-}
-
-function createView({layers, ...params}) {
-    const views = layers
-        .map(layer => viewLayers.hasOwnProperty(layer)
-            ? viewLayers[layer]
-            : (params) => new View(params)
-        )
-        .map(x => x(params))
-
-    return views.length === 1
-        ? views[0]
-        : View.join(views)
-}
-
-function createEmitter(coord) {
-    return new Emitter({
-        x: coord.x,
-        y: coord.y,
-        period: 500,
-        amount: 1,
-        factory: createAgent,
-    })
 }
 
 function createEnvironment() {
@@ -239,19 +287,21 @@ function createEnvironment() {
         pheromones,
     })
 
+    // env.addAttractor(mouseAttractor)
     const attractors = [
-        new Vector(546.003183, 431.540435),
-        new Vector(823.665344, 71.17033),
-        new Vector(267.052991, 434.639438),
-        new Vector(460.718058, 712.557743),
-        new Vector(170.721102, 81.973802),
+        // new Vector(546.003183, 431.540435),
+        // new Vector(823.665344, 71.17033),
+        // new Vector(267.052991, 434.639438),
+        [new Vector(460.718058, 712.557743), 90],
+        // [new Vector(170.721102, 81.973802), 50],
+        [new Vector(300, 300), 100],
     ]
 
-    attractors.forEach(coord => {
+    attractors.forEach(([coord, power]) => {
         env.addAttractor(createAttractor({
             x: coord.x,
             y: coord.y,
-            power: 100,
+            power,
         }))
     })
 
@@ -267,7 +317,37 @@ function createEnvironment() {
         new Vector(528.021012, 447.320963),
     ]))
 
+    env.addObstacle(Obstacle.fromCoords([
+        new Vector(300, 650),
+        new Vector(800, 600),
+    ]))
+
     return env
+}
+
+function createView({layers, ...params}) {
+    const views = layers
+        .map(layer => viewLayers.hasOwnProperty(layer)
+            ? viewLayers[layer]
+            : (params) => new View(params)
+        )
+        .map(x => x(params))
+
+    const view = views.length === 1
+        ? views[0]
+        : View.join(views)
+    screenControl.addView(view)
+    return view
+}
+
+function createEmitter(coord, period, amount) {
+    return new Emitter({
+        x: coord.x,
+        y: coord.y,
+        period,
+        amount,
+        factory: createAgent,
+    })
 }
 
 function createAttractor({x, y, power}) {
