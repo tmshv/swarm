@@ -22,6 +22,10 @@ export default class Obstacle {
     constructor({lines}) {
         this.lines = lines
         this.centroid = this.calcCentroid()
+
+        this.lines.forEach(line => {
+            line.directNormalFrom(this.centroid)
+        })
     }
 
     getNearestEdge(coord, direction) {
