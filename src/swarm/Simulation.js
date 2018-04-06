@@ -6,6 +6,10 @@ export default class Simulation {
         return this._frame
     }
 
+    get environment() {
+        return this.env
+    }
+
     constructor() {
         this.loop = this.loop.bind(this)
 
