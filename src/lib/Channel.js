@@ -1,6 +1,6 @@
 import Signal from './Signal'
 
-export default class Event {
+export default class Channel {
     constructor(target) {
         this.target = target
         this.signals = new Map()
