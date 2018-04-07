@@ -58,6 +58,15 @@ export default class Vector {
         return this
     }
 
+    setAngle(angle) {
+        const length = this.length
+
+        return this.set(
+            Math.cos(angle) * length,
+            Math.sin(angle) * length,
+        )
+    }
+
     setFrom(vector) {
         return this.set(vector.x, vector.y)
     }
