@@ -58,6 +58,11 @@ export default class Vector {
         return this
     }
 
+    direct(vector) {
+        const angle = Math.atan2(vector.y, vector.x)
+        return this.setAngle(angle)
+    }
+
     setAngle(angle) {
         const length = this.length
 
