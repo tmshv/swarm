@@ -18,17 +18,32 @@ export default class Vehicle {
 
     force(vector) {
         this.acceleration.add(vector)
-
         return this
     }
+
+    // seek(target, accelerate = 1) {
+    //     const desire = Vector.sub(target, this.location)
+    //     const distanceToTargetSquared = desire.lengthSquared
+    //
+    //     if (distanceToTargetSquared < accelerate ** 2) desire.setLength(accelerate)
+    //
+    //     return this.force(desire)
+    // }
 
     seek(target, accelerate = 1) {
         const desire = Vector.sub(target, this.location)
         const distanceToTargetSquared = desire.lengthSquared
+        const a = distanceToTargetSquared < accelerate
+            ? Math.sqrt(distanceToTargetSquared)
+            : accelerate
+        desire
+            .normalize()
+            .mult(a)
+        if (!desire.isNaN()) {
+            return this.force(desire)
+        }
 
-        if (distanceToTargetSquared < accelerate ** 2) desire.setLength(accelerate)
-
-        return this.force(desire)
+        return this
     }
 
     flee(target, accelerate) {
