@@ -1,79 +1,27 @@
-import Vector from '../Vector'
-import {createEventToVector, getWindowHeight, getWindowWidth} from '../lib/browser'
+import {createEventToVectorMapper} from '../lib/browser'
+import ScreenControllerChannel from '../channels/ScreenControllerChannel'
 
 export default class ScreenController {
-    get isDragging() {
-        return this._drag
-    }
-
     constructor(window) {
-        this.views = []
+        this.channels = new ScreenControllerChannel(this)
 
-        this.center = new Vector(-100, 0)
-        this.mouse = new Vector(0, 0)
-        this.offset = new Vector(0, 0)
-
-        this._drag = false
-
-        this._window = window
-    }
-
-    setCenter(coord) {
-        const offsetX = getWindowWidth(this._window) / 2
-        const offsetY = getWindowHeight(this._window) / 2
-
-        this.center.set(
-            -coord.x + offsetX,
-            -coord.y + offsetY,
-        )
-    }
-
-    dragOn() {
-        this._drag = true
-    }
-
-    dragOff() {
-        this._drag = false
-    }
-
-    init(simulation) {
-
-    }
-
-    update() {
-        this.views.forEach(view => {
-            view.translate(this.center)
-        })
-        return this
-    }
-
-    addView(view) {
-        view.translate(this.center)
-
-        this.views.push(view)
-        return this
+        const m = window.devicePixelRatio
+        this.onMouseDown = triggerCoordEvent(this.channels.mouseDown, m)
+        this.onMouseUp = triggerCoordEvent(this.channels.mouseUp, m)
+        this.onMouseMove = triggerCoordEvent(this.channels.mouseMove, m)
+        this.onClick = triggerCoordEvent(this.channels.click, m)
     }
 
     getMouseCallbacks() {
         return {
-            onMouseDown: createEventToVector(coord => {
-                this.mouse.setFrom(coord)
-                this.offset.setFrom(this.center)
-                this.dragOn()
-            }),
-            onMouseUp: createEventToVector(coord => {
-                this.dragOff()
-            }),
-            onMouseMove: createEventToVector(coord => {
-                const vectorFromClickToMouse = Vector.sub(coord, this.mouse)
-
-                if (this.isDragging) {
-                    this.center.setFrom(this.offset)
-                    this.center.add(vectorFromClickToMouse)
-                    this.update()
-                }
-            }),
+            onMouseDown: this.onMouseDown,
+            onMouseUp: this.onMouseUp,
+            onMouseMove: this.onMouseMove,
+            onClick: this.onClick,
         }
     }
 }
 
+function triggerCoordEvent(channel, m) {
+    return createEventToVectorMapper(coord => channel.trigger(coord.mult(m)))
+}

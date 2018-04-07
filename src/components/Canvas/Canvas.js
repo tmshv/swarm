@@ -8,14 +8,11 @@ export default class Canvas extends Component {
     }
 
     onRef(canvas) {
-        const {devicePixelRatio} = this.props
-
-        this.context = canvas.getContext('2d')
-        this.context.scale(devicePixelRatio, devicePixelRatio)
+        this.canvas = canvas
     }
 
     componentWillUnmount() {
-        this.context = null
+        this.canvas = null
     }
 
     render() {

@@ -1,10 +1,6 @@
-import ClearableView from './ClearableView'
+import SimulationView from './SimulationView'
 
-export default class EmittersView extends ClearableView {
-    constructor({...args}) {
-        super(args)
-    }
-
+export default class EmittersView extends SimulationView {
     render() {
         const ctx = this.draw.context
 

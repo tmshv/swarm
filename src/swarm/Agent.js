@@ -1,4 +1,4 @@
-import Event from '../lib/Event'
+import Channel from '../lib/Channel'
 import AgentEvent from './AgentEvent'
 import Vehicle from './Vehicle'
 
@@ -12,7 +12,7 @@ export default class Agent extends Vehicle {
         behaviour.setAgent(this)
 
         this._alive = true
-        this.events = new Event()
+        this.events = new Channel()
         this.behaviour = behaviour
         this.namedBehaviours = new Map()
     }

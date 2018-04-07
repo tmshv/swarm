@@ -1,6 +1,6 @@
-import Behaviour from './Behaviour'
+import MovingBehavior from './MovingBehavior'
 
-export default class AvoidObstaclesBehavior extends Behaviour {
+export default class AvoidObstaclesBehavior extends MovingBehavior {
     init({radius, predictionDistance}) {
         this.radius = radius
         this.predictionDistance = predictionDistance
@@ -25,7 +25,7 @@ export default class AvoidObstaclesBehavior extends Behaviour {
         }
 
         let force = this.getForce(edge)
-        force = this.forceAccelerated(force)
+        force = this.force(force)
 
         this.edge = edge
         this.reflection = force

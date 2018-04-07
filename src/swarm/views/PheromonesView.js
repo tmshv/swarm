@@ -1,6 +1,6 @@
-import ClearableView from './ClearableView'
+import EnvironmentView from './EnvironmentView'
 
-export default class PheromonesView extends ClearableView {
+export default class PheromonesView extends EnvironmentView {
     constructor({maxValue, ...args}) {
         super(args)
 

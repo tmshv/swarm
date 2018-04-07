@@ -1,5 +1,4 @@
-import Signal from '../lib/Signal'
-import Vector from './Vector'
+import UpdateChannel from './channels/UpdateChannel'
 
 export default class Simulation {
     get frame() {
@@ -20,11 +19,7 @@ export default class Simulation {
         this.agents = null
         this.emitters = []
 
-        this.events = {
-            run: new Signal(),
-            stop: new Signal(),
-            update: new Signal(),
-        }
+        this.channels = new UpdateChannel(this)
     }
 
     getAgents() {
@@ -43,12 +38,14 @@ export default class Simulation {
         this.isRunning = true
         requestAnimationFrame(this.loop)
 
-        this.events.run.trigger(this)
+        // this.events.run.trigger(this)
+
+        return this
     }
 
     stop() {
         this.isRunning = false
-        this.events.stop.trigger(this)
+        // this.events.stop.trigger(this)
     }
 
     loop() {
@@ -74,7 +71,7 @@ export default class Simulation {
                 a.move()
             })
 
-            this.events.update.trigger(this)
+            this.channels.update.trigger(this)
         } catch (e) {
             console.error(e)
             console.warn('Stopping simulation cause error')

@@ -1,7 +1,8 @@
 import Vector from '../Vector'
 
-export function createEventToVector(callback) {
+export function createEventToVectorMapper(callback) {
     const coord = new Vector(0, 0)
+
     return event => callback(coord.set(
         event.clientX,
         event.clientY,

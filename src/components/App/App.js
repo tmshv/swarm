@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import Simulation from '../Simulation/Simulation'
-import SimulationControl from '../SimulationControl/SimulationControl'
 
 import './App.less'
 
@@ -8,12 +7,14 @@ export default class App extends Component {
     constructor(...args) {
         super(...args)
 
-        this.onClick = this.onClick.bind(this)
         this.onResize = this.onResize.bind(this)
     }
 
     componentDidMount() {
         window.addEventListener('resize', this.onResize)
+        // setTimeout(() => {
+        //     this.forceUpdate()
+        // })
     }
 
     componentWillUnmount() {
@@ -24,17 +25,8 @@ export default class App extends Component {
         this.forceUpdate()
     }
 
-    onClick() {
-        const {simulation} = this.props
-        if (simulation.isRunning) {
-            simulation.stop()
-        } else {
-            simulation.run()
-        }
-    }
-
     render() {
-        const {layers, simulation} = this.props
+        const {layers, uiCallbacks} = this.props
 
         const devicePixelRatio = window.devicePixelRatio
         const width = window.innerWidth
@@ -46,35 +38,27 @@ export default class App extends Component {
                     {layers.map(({controlable, ...x}, i) => (
                         <Layer
                             key={i}
-                            controlable={controlable}
-                            simulationProps={{
+                            layerProps={{
                                 width,
                                 height,
                                 devicePixelRatio,
-                                simulation,
                                 ...x,
                             }}
                         />
                     ))}
                 </div>
                 <div className={'App-Body'}>
-                    <button onClick={this.onClick}>Click</button>
+                    <button onClick={uiCallbacks.onClick}>Click</button>
                 </div>
             </div>
         )
     }
 }
 
-const Layer = ({controlable, simulationProps}) => (
+const Layer = ({layerProps: simulationProps}) => (
     <div className={'App-Layer'}>
-        {controlable ? (
-            <SimulationControl
-                {...simulationProps}
-            />
-        ) : (
-            <Simulation
-                {...simulationProps}
-            />
-        )}
+        <Simulation
+            {...simulationProps}
+        />
     </div>
 )

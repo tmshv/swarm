@@ -1,52 +1,43 @@
-import React, {Component} from 'react'
-import Render from '../../lib/Render'
+import React, {PureComponent} from 'react'
 import Canvas from '../Canvas/Canvas'
 
-export default class Simulation extends Component {
+export default class Simulation extends PureComponent {
     constructor(...args) {
         super(...args)
 
         this.onRef = this.onRef.bind(this)
-        this.onUpdate = this.onUpdate.bind(this)
     }
 
-    onRef(canvas) {
-        this.context = canvas.context
+    onRef(ref) {
+        this.canvas = ref.canvas
     }
 
-    onUpdate() {
-        this.view.run({})
-    }
-
-    componentDidMount() {
-        const {width, height, simulation, layers, runOnce = false} = this.props
-        this.sim = simulation
-        if (runOnce) {
-            this.sim.events.update.once(this.onUpdate)
-        } else {
-            this.sim.events.update.on(this.onUpdate)
-        }
-
-        this.view = this.sim.createView({
-            draw: new Render(this.context, width, height),
-            layers,
+    initView({width, height, view}) {
+        this.view = view.init({
+            width,
+            height,
+            canvas: this.canvas,
         })
     }
 
+    componentDidMount() {
+        this.initView(this.props)
+    }
+
     componentWillReceiveProps(newProps) {
-        const {width, height} = newProps
-        this.view.draw.width = width
-        this.view.draw.height = height
+        this.initView(newProps)
     }
 
     componentWillUnmount() {
-        this.sim.events.run.off(this.onUpdate)
-        this.sim = null
+        this.view.destroy()
+
+        this.canvas = null
         this.view = null
     }
 
     render() {
         const {width, height, devicePixelRatio} = this.props
+        const {onClick, onMouseMove, onMouseDown, onMouseUp} = this.props
 
         return (
             <Canvas
@@ -54,6 +45,11 @@ export default class Simulation extends Component {
                 width={width}
                 height={height}
                 devicePixelRatio={devicePixelRatio}
+
+                onClick={onClick}
+                onMouseMove={onMouseMove}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
             />
         )
     }

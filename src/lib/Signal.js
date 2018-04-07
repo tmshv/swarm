@@ -1,5 +1,6 @@
 export default class Signal {
-	constructor() {
+    constructor(target) {
+        this.target = target
 		this.listeners = []
 	}
 

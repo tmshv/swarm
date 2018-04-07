@@ -1,8 +1,13 @@
-import ClearableView from './ClearableView'
+import SimulationView from './SimulationView'
 
-export default class ObstacleView extends ClearableView {
+export default class ObstacleView extends SimulationView {
     render() {
         const ctx = this.draw.context
+
+        // const b = Math.floor(Math.random() * 256)
+        // ctx.fillStyle = `rgba(200, 0, ${b}, 1)`
+        // this.draw.screenRect(0, 0, 50, 50)
+
         const alpha = 1
         ctx.strokeStyle = `rgba(200, 200, 200, ${alpha})`
 

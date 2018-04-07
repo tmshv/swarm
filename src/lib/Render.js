@@ -4,17 +4,40 @@ import Vector from '../swarm/Vector'
 const TWO_PI = 2 * Math.PI
 
 export default class Render {
-    constructor(context, width, height) {
+    constructor() {
+        this.matrix = new Matrix()
+
+        this.context = null
+        this.width = null
+        this.height = null
+    }
+
+    setContext(context) {
         this.context = context
+    }
+
+    setFrame(width, height) {
         this.width = width
         this.height = height
-
-        this.matrix = new Matrix()
     }
 
     clear(){
-        this.context.clearRect(0, 0, this.width, this.height)
+        this.context.clearRect(0, 0, this.width * 2, this.height * 2)
     }
+
+    screenRect(x, y, w, h) {
+        w = this.width
+        h = this.height
+        this.context.fillRect(x, y, w, h)
+    }
+
+    // style(style) {
+    //
+    // }
+
+    // render(coord, shape) {
+    //     shape.render(this.context)
+    // }
 
     getValue(value) {
         return this.matrix.applyToPoint(value, 0).x
