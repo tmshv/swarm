@@ -25,7 +25,7 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         }
 
         let force = this.getForce(edge)
-        force = this.force(force)
+        this.agent.acceleration.direct(force)
 
         this.edge = edge
         this.reflection = force
