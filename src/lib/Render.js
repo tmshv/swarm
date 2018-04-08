@@ -1,6 +1,7 @@
 import {Matrix} from 'transformation-matrix-js'
 import Vector from '../swarm/Vector'
 import Cross from '../swarm/render/Cross'
+import PathShape from '../swarm/render/PathShape'
 
 const TWO_PI = 2 * Math.PI
 
@@ -13,6 +14,7 @@ export default class Render {
         this.height = null
 
         this.crossShape = new Cross({})
+        this.pathShape = new PathShape({})
     }
 
     setContext(context) {
@@ -135,18 +137,10 @@ export default class Render {
     }
 
     path(coords) {
-        const length = coords.length
-        if (length < 2) return
-
-        this.context.beginPath()
-        const {x, y} = this.getCoord(coords[0])
-        this.context.moveTo(x, y)
-
-        for (let i = 1; i < length; i++) {
-            const {x, y} = this.getCoord(coords[i])
-            this.context.lineTo(x, y)
-        }
-        this.context.stroke()
+        this.pathShape.init({
+            coords: coords.map(c => this.getCoord(c)),
+        })
+        this.pathShape.render(this.context, {})
     }
 
     line(line) {
