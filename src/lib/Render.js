@@ -1,5 +1,6 @@
 import {Matrix} from 'transformation-matrix-js'
 import Vector from '../swarm/Vector'
+import Cross from '../swarm/render/Cross'
 
 const TWO_PI = 2 * Math.PI
 
@@ -10,6 +11,8 @@ export default class Render {
         this.context = null
         this.width = null
         this.height = null
+
+        this.crossShape = new Cross({})
     }
 
     setContext(context) {
@@ -122,16 +125,10 @@ export default class Render {
 
     cross(coord, s) {
         const {x, y} = this.getCoord(coord)
-
-        this.context.beginPath()
-        this.context.moveTo(x - s, y - s)
-        this.context.lineTo(x + s, y + s)
-        this.context.stroke()
-
-        this.context.beginPath()
-        this.context.moveTo(x - s, y + s)
-        this.context.lineTo(x + s, y - s)
-        this.context.stroke()
+        this.crossShape.init({
+            size: s,
+        })
+        this.crossShape.render(this.context, {x, y})
     }
 
     path(coords) {
