@@ -49,11 +49,46 @@ function main() {
         SELECTED: 'selected',
     }
 
+    const scale = 1
+
+    const simulation = createUnit4Simulation()
+    const viewController = new ViewController(simulation)
+
+    const camera = new Camera(window)
+    // camera.setCenter(getDemoCameraCenter())
+    camera.location.setFrom(getUnit4CameraCenter())
+
+    const screenController = new ScreenController(window, viewController)
+    const mouseCallbacks = screenController.getMouseCallbacks()
+
+    const mouseWorldCoordChannels = viewController.createScreenToWorldChannel(screenController.channels)
+
+    mouseWorldCoordChannels.click.on(coord => {
+        console.log('WClick', coord)
+    })
+
     const selectTool = new SelectTool({
         channel: mouseWorldCoordChannels,
         simulation,
     })
     selectTool.run()
+
+    // const navigateTool = new NavigateTool({
+    //     camera,
+    //     channel: screenController.channels
+    // })
+    // navigateTool.mouseDirectionMultiplyX = 1 / scale
+    // navigateTool.mouseDirectionMultiplyY = 1 / scale
+    // navigateTool.run()
+    //
+    // let A
+    // navigateTool.channels.update.on(() => {
+    //     console.log('Camera', camera.location)
+    //
+    //     cancelAnimationFrame(A)
+    //     A = requestAnimationFrame(updateCamera)
+    // })
+
     const layerRegistry = {
         [Layer.AGENTS]: (params) => new AgentsView({
             clear: true,
@@ -86,29 +121,6 @@ function main() {
             ...params,
         }),
     }
-
-    const scale = 1
-
-    const simulation = createUnit4Simulation()
-    const viewController = new ViewController(simulation)
-
-    const camera = new Camera(window)
-    // camera.setCenter(getDemoCameraCenter())
-    camera.location.setFrom(getUnit4CameraCenter())
-
-    const screenController = new ScreenController(window, viewController)
-    const mouseCallbacks = screenController.getMouseCallbacks()
-
-    const mouseWorldCoordChannels = viewController.createScreenToWorldChannel(screenController.channels)
-    const tool = new NavigateTool({
-        camera,
-        channel: screenController.channels
-    })
-    tool.mouseDirectionMultiplyX = 1 / scale
-    tool.mouseDirectionMultiplyY = 1 / scale
-    tool.run()
-
-    // const worldCoord = viewController.screenToWorld(coord)
 
     const layers = viewController
         .registerViewFactory(Layer.AGENTS, layerRegistry[Layer.AGENTS])
@@ -175,32 +187,10 @@ function main() {
         }
     }
 
-    let A
-    tool.channels.update.on(() => {
-        console.log('Camera', camera.location)
-
-        cancelAnimationFrame(A)
-        A = requestAnimationFrame(updateCamera)
-    })
-
     function updateCamera() {
         viewController.translateFromCamera(camera)
         viewController.render()
     }
-
-    screenController.channels.click.on(coord => {
-        console.log('Screen Click', coord)
-    })
-
-    mouseWorldCoordChannels.click.on(coord => {
-        console.log('World Click', coord)
-    })
-
-    mouseWorldCoordChannels
-    // screenController.channels
-        .mouseMove.on(coord => {
-        // console.log(`${coord.x} ${coord.y}`)
-    })
 
     const mountElement = document.querySelector('#app')
     const app = (

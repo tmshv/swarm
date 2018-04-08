@@ -36,7 +36,7 @@ export function createUnit4Simulation() {
 }
 
 export function getUnit4CameraCenter() {
-    return new Vector(-368.033165, -12369.982292)
+    return new Vector(212.466835, -11873.982292)
 }
 
 function createAgent(loc) {

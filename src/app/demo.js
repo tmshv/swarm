@@ -82,7 +82,7 @@ function createAgent(loc, behaviour = null) {
 
             // new WalkToNearestAttractorBehaviour({}),
             new SeekNearestAttractorBehaviour({
-                accelerate: 0.1,
+                accelerate: 1,
                 thresholdDistQuad: 50,
             }),
             // new InteractAgentsBehaviour({
@@ -103,8 +103,8 @@ function createAgent(loc, behaviour = null) {
             //     pheromones,
             // }),
             new AvoidObstaclesBehavior({
-                accelerate: .5,
-                predictionDistance: 15,
+                accelerate: .01,
+                predictionDistance: 7,
                 radius: 1000,
             }),
             new LimitAccelerationBehaviour({
@@ -116,7 +116,7 @@ function createAgent(loc, behaviour = null) {
     const a = new Agent({
         behaviour,
     })
-    a.damp = 0.5
+    a.damp = 0.75
     a.location.setFrom(loc)
     a.velocity.setFrom(initialVelocity)
     a.addBehaviour(AgentBehaviour.SEEK_LOCATION, new SeekLocationBehaviour({
@@ -129,8 +129,8 @@ function createAgent(loc, behaviour = null) {
 
 function createEmitters(s) {
     const emitters = [
-        [new Vector(750, 550), 100, 1],
-        [new Vector(829, 649), 100, 1],
+        // [new Vector(750, 550), 100, 1],
+        [new Vector(829, 749), 100, 1],
     ]
 
     emitters.forEach(e => {
@@ -161,10 +161,10 @@ function createEnvironment() {
         new Vector(929, 649),
     ]))
 
-    env.addObstacle(Obstacle.fromCoords([
-        new Vector(165, 856),
-        new Vector(929, 856),
-    ]))
+    // env.addObstacle(Obstacle.fromCoords([
+    //     new Vector(165, 856),
+    //     new Vector(929, 856),
+    // ]))
 
     return env
 }
