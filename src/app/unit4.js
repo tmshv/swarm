@@ -18,21 +18,25 @@ import AgentBehaviour from '../swarm/AgentBehaviour'
 import Emitter from '../swarm/Emitter'
 import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
+import SeparateAgentsBehaviour from '../swarm/behaviours/SeparateAgentsBehaviour'
 
 const pheromones = new Pheromones({
     cellSize: 2,
     increaseValue: 1,
-    decreaseValue: .05,
+    decreaseValue: .005,
 })
 
-export function createUnit4Simulation({createView}) {
+export function createUnit4Simulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool())
     s.setEnvironment(createEnvironment())
-    s.setViewFactory(createView)
     initEmitters(s)
 
     return s
+}
+
+export function getUnit4CameraCenter() {
+    return new Vector(-368.033165, -12369.982292)
 }
 
 function createAgent(loc) {
@@ -53,8 +57,8 @@ function createAgent(loc) {
             }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
-                predictionDistance: 15,
-                radius: 100,
+                predictionDistance: 10,
+                radius: 1000,
             }),
             new LimitAccelerationBehaviour({
                 limit: 0.3,
