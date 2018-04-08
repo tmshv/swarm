@@ -41,6 +41,7 @@ function main() {
         EMITTERS: 'emitters',
         OBSTACLES: 'obstacles',
         ATTRACTORS: 'attractors',
+        PHEROMONES: 'pheromones',
     }
 
     const layerRegistry = {
@@ -94,10 +95,12 @@ function main() {
         .registerViewFactory(Layer.EMITTERS, layerRegistry[Layer.EMITTERS])
         .registerViewFactory(Layer.OBSTACLES, layerRegistry[Layer.OBSTACLES])
         .registerViewFactory(Layer.ATTRACTORS, layerRegistry[Layer.ATTRACTORS])
+        .registerViewFactory(Layer.PHEROMONES, layerRegistry[Layer.PHEROMONES])
         .addLayout(Layer.OBSTACLES)
         .addLayout(Layer.EMITTERS)
         .addLayout(Layer.ATTRACTORS)
         .addLayout(Layer.AGENTS)
+        .addLayout(Layer.PHEROMONES)
         .translateViews(camera.location)
         .getLayers({
             ...mouseCallbacks,
