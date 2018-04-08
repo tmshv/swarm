@@ -5,8 +5,10 @@ export default class ComposedSignal extends Signal {
         super(target)
 
         this.signals = signals
-        this.signals.on((...args) => {
-            this.trigger(...args)
+        this.signals.forEach(signal => {
+            signal.on((...args) => {
+                this.trigger(...args)
+            })
         })
     }
 }
