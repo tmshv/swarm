@@ -125,10 +125,13 @@ export default class Render {
 
     cross(coord, s) {
         const {x, y} = this.getCoord(coord)
+
         this.crossShape.init({
             size: s,
         })
-        this.crossShape.render(this.context, {x, y})
+        this.crossShape.render(this.context, {
+            translate: {x, y},
+        })
     }
 
     path(coords) {

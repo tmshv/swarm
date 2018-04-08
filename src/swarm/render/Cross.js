@@ -1,24 +1,21 @@
 import Shape from './Shape'
 
 export default class Cross extends Shape {
-    init({center, size}) {
-        this.center = center
+    init({size}) {
         this.size = size
     }
 
-    render(context) {
+    draw(context) {
         const size = this.size
-        const x = this.center.x
-        const y = this.center.y
 
         context.beginPath()
-        context.moveTo(x - size, y - size)
-        context.lineTo(x + size, y + size)
+        context.moveTo(-size, -size)
+        context.lineTo(size, size)
         context.stroke()
 
         context.beginPath()
-        context.moveTo(x - size, y + size)
-        context.lineTo(x + size, y - size)
+        context.moveTo(-size, size)
+        context.lineTo(size, -size)
         context.stroke()
     }
 }
