@@ -14,6 +14,8 @@ import EmittersView from '../swarm/views/EmittersView'
 import NavigateTool from '../swarm/tools/NavigateTool'
 import PheromonesView from '../swarm/views/PheromonesView'
 import AttractorsView from '../swarm/views/AttractorsView'
+import {createUnit4Simulation, getUnit4CameraCenter} from './unit4'
+import Vector from '../swarm/Vector'
 // import SelectedView from '../swarm/views/SelectedView'
 // import EmittersView from '../swarm/views/EmittersView'
 // import AgentsView from '../swarm/views/AgentsView'
@@ -69,27 +71,36 @@ function main() {
         //     ...params,
         //     radius: 10,
         // }),
-        // pheromones: (params) => new PheromonesView({
-        //     clear: true,
-        //     maxValue: 20,
-        //     ...params,
-        // }),
+        [Layer.PHEROMONES]: (params) => new PheromonesView({
+            clear: true,
+            maxValue: 10,
+            ...params,
+        }),
     }
 
-    const camera = new Camera(window)
-    camera.setCenter(getDemoCameraCenter())
+    const scale = 1
 
-    const screenController = new ScreenController(window)
+    const simulation = createUnit4Simulation()
+    const viewController = new ViewController(simulation)
+
+    const camera = new Camera(window)
+    // camera.setCenter(getDemoCameraCenter())
+    camera.location.setFrom(getUnit4CameraCenter())
+
+    const screenController = new ScreenController(window, viewController)
     const mouseCallbacks = screenController.getMouseCallbacks()
 
+    const mouseWorldCoordChannels = viewController.createScreenToWorldChannel(screenController.channels)
     const tool = new NavigateTool({
         camera,
         channel: screenController.channels
     })
+    tool.mouseDirectionMultiplyX = 1 / scale
+    tool.mouseDirectionMultiplyY = 1 / scale
     tool.run()
 
-    const simulation = createDemoSimulation()
-    const viewController = new ViewController(simulation)
+    // const worldCoord = viewController.screenToWorld(coord)
+
     const layers = viewController
         .registerViewFactory(Layer.AGENTS, layerRegistry[Layer.AGENTS])
         .registerViewFactory(Layer.EMITTERS, layerRegistry[Layer.EMITTERS])
@@ -101,7 +112,9 @@ function main() {
         .addLayout(Layer.ATTRACTORS)
         .addLayout(Layer.AGENTS)
         .addLayout(Layer.PHEROMONES)
-        .translateViews(camera.location)
+        .scaleViews(scale, scale)
+        .translateFromCamera(camera)
+        // .rotateViews(Math.PI)
         .getLayers({
             ...mouseCallbacks,
         })
@@ -151,13 +164,31 @@ function main() {
         }
     }
 
+    let A
     tool.channels.update.on(() => {
-        viewController.translateViews(camera.location)
-        viewController.render()
+        console.log('Camera', camera.location)
+
+        cancelAnimationFrame(A)
+        A = requestAnimationFrame(updateCamera)
     })
 
+    function updateCamera() {
+        viewController.translateFromCamera(camera)
+        viewController.render()
+    }
+
     screenController.channels.click.on(coord => {
-        console.log('Click', coord)
+        console.log('Screen Click', coord)
+    })
+
+    mouseWorldCoordChannels.click.on(coord => {
+        console.log('World Click', coord)
+    })
+
+    mouseWorldCoordChannels
+    // screenController.channels
+        .mouseMove.on(coord => {
+        // console.log(`${coord.x} ${coord.y}`)
     })
 
     const mountElement = document.querySelector('#app')

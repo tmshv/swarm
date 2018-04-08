@@ -1,4 +1,6 @@
 import {Matrix} from 'transformation-matrix-js'
+import Vector from '../Vector'
+import MouseChannel from '../channels/MouseChannel'
 
 export default class ViewController {
     constructor(simulation) {
@@ -12,6 +14,54 @@ export default class ViewController {
         this.views = []
 
         this._matrix = new Matrix()
+        this._inverseMatrix = null
+        this._translation = new Vector(0, 0)
+        this._scale = new Vector(1, 1)
+        this._rotation = 0
+    }
+
+    translateFromCamera(camera) {
+        const offset = camera
+            .getScreenCenterOffset()
+            .mult(1 / this._scale.x)
+
+        const t = camera.location
+            .clone()
+            .mult(-1)
+            .add(offset)
+        return this.translateViews(t)
+    }
+
+    createScreenToWorldChannel(mouseChannel) {
+        const worldChannel = new MouseChannel(mouseChannel.target)
+
+        mouseChannel.mouseDown.on(coord => {
+            worldChannel.mouseDown.trigger(this.screenToWorld(coord))
+        })
+
+        mouseChannel.mouseUp.on(coord => {
+            worldChannel.mouseUp.trigger(this.screenToWorld(coord))
+        })
+
+        mouseChannel.mouseMove.on(coord => {
+            worldChannel.mouseMove.trigger(this.screenToWorld(coord))
+        })
+
+        mouseChannel.click.on(coord => {
+            worldChannel.click.trigger(this.screenToWorld(coord))
+        })
+
+        return worldChannel
+    }
+
+    setScreenToWorld(coord) {
+        const {x, y} = this._inverseMatrix.applyToPoint(coord.x, coord.y)
+
+        return coord.set(x, y)
+    }
+
+    screenToWorld(coord) {
+        return this.setScreenToWorld(coord.clone())
     }
 
     // subscribe(updateChannel) {
@@ -31,10 +81,19 @@ export default class ViewController {
     }
 
     setTransformation(tx, ty, sx, sy, a) {
-        // this._matrix.reset()
-        this._matrix.translate(tx, ty)
-        this._matrix.scale(sx, sy)
-        this._matrix.rotate(a)
+        this._translation.set(tx, ty)
+        this._scale.set(sx, sy)
+        this._rotation = a
+
+        return this.applyTransform()
+    }
+
+    applyTransform() {
+        this._matrix.reset()
+        this._matrix.scale(this._scale.x, this._scale.y)
+        this._matrix.translate(this._translation.x, this._translation.y)
+        this._matrix.rotate(this._rotation)
+        this._inverseMatrix = this._matrix.inverse()
 
         this.views.forEach(view => {
             view.applyMatrix(this._matrix)
@@ -44,13 +103,21 @@ export default class ViewController {
     }
 
     translateViews(coord) {
-        this._matrix.translate(coord.x, coord.y)
+        this._translation.setFrom(coord)
 
-        this.views.forEach(view => {
-            view.translate(coord)
-        })
+        return this.applyTransform()
+    }
 
-        return this
+    scaleViews(scaleX, scaleY) {
+        this._scale.set(scaleX, scaleY)
+
+        return this.applyTransform()
+    }
+
+    rotateViews(angle) {
+        this._rotation = angle
+
+        return this.applyTransform()
     }
 
     // onScreenUpdate() {

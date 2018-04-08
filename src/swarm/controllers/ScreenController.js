@@ -3,13 +3,18 @@ import ScreenControllerChannel from '../channels/ScreenControllerChannel'
 
 export default class ScreenController {
     constructor(window) {
+        this._window = window
         this.channels = new ScreenControllerChannel(this)
 
-        const m = window.devicePixelRatio
-        this.onMouseDown = triggerCoordEvent(this.channels.mouseDown, m)
-        this.onMouseUp = triggerCoordEvent(this.channels.mouseUp, m)
-        this.onMouseMove = triggerCoordEvent(this.channels.mouseMove, m)
-        this.onClick = triggerCoordEvent(this.channels.click, m)
+
+        this.onMouseDown = triggerCoordEvent(this.channels.mouseDown, this._transform.bind(this))
+        this.onMouseUp = triggerCoordEvent(this.channels.mouseUp, this._transform.bind(this))
+        this.onMouseMove = triggerCoordEvent(this.channels.mouseMove, this._transform.bind(this))
+        this.onClick = triggerCoordEvent(this.channels.click, this._transform.bind(this))
+    }
+
+    _transform(coord) {
+        return coord.mult(this._window.devicePixelRatio)
     }
 
     getMouseCallbacks() {
@@ -22,6 +27,8 @@ export default class ScreenController {
     }
 }
 
-function triggerCoordEvent(channel, m) {
-    return createEventToVectorMapper(coord => channel.trigger(coord.mult(m)))
+function triggerCoordEvent(channel, fn) {
+    return createEventToVectorMapper(coord => {
+        channel.trigger(fn(coord))
+    })
 }

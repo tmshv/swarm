@@ -9,10 +9,11 @@ export default class NavigateTool extends Tool {
 
     constructor({camera, channel}) {
         super()
+        this.mouseDirectionMultiplyX = 1
+        this.mouseDirectionMultiplyY = 1
         this.channels = new UpdateChannel(this)
 
-        this._savedCursorLocation = new Vector(0, 0)
-        this._savedCameraLocation = new Vector(0, 0)
+        this._lastCursorLocation = null
         this._drag = false
 
         this._camera = camera
@@ -48,22 +49,24 @@ export default class NavigateTool extends Tool {
     }
 
     onMouseDown(coord) {
-        this._savedCursorLocation.setFrom(coord)
-        this._savedCameraLocation.setFrom(this._camera.location)
+        this._lastCursorLocation = coord.clone()
         this.dragOn()
     }
 
     onMouseUp() {
+        this._lastCursorLocation = null
         this.dragOff()
     }
 
     onMouseMove(coord) {
         if (this.isDragging) {
-            const vectorFromClickToMouse = Vector.sub(coord, this._savedCursorLocation)
+            const mouseDirection = Vector
+                .sub(this._lastCursorLocation, coord)
+            mouseDirection.x *= this.mouseDirectionMultiplyX
+            mouseDirection.y *= this.mouseDirectionMultiplyY
+            this._lastCursorLocation.setFrom(coord)
 
-            this._camera.location.setFrom(this._savedCameraLocation)
-            this._camera.location.add(vectorFromClickToMouse)
-
+            this._camera.location.add(mouseDirection)
             this.channels.update.trigger(this)
         }
     }

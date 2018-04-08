@@ -7,17 +7,6 @@ export default class Camera {
         this.location = new Vector(0, 0)
     }
 
-    setCenter(coord) {
-        const offset = this.getScreenCenterOffset()
-
-        this.location
-            .setFrom(coord)
-            .mult(-1)
-            .add(offset)
-
-        return this
-    }
-
     getScreenCenterOffset() {
         const m = window.devicePixelRatio
 
