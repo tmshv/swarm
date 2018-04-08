@@ -16,6 +16,8 @@ import PheromonesView from '../swarm/views/PheromonesView'
 import AttractorsView from '../swarm/views/AttractorsView'
 import {createUnit4Simulation, getUnit4CameraCenter} from './unit4'
 import Vector from '../swarm/Vector'
+import SelectTool from '../swarm/tools/SelectTool'
+import SelectedView from '../swarm/views/SelectedView'
 // import SelectedView from '../swarm/views/SelectedView'
 // import EmittersView from '../swarm/views/EmittersView'
 // import AgentsView from '../swarm/views/AgentsView'
@@ -44,8 +46,14 @@ function main() {
         OBSTACLES: 'obstacles',
         ATTRACTORS: 'attractors',
         PHEROMONES: 'pheromones',
+        SELECTED: 'selected',
     }
 
+    const selectTool = new SelectTool({
+        channel: mouseWorldCoordChannels,
+        simulation,
+    })
+    selectTool.run()
     const layerRegistry = {
         [Layer.AGENTS]: (params) => new AgentsView({
             clear: true,
@@ -67,10 +75,11 @@ function main() {
             clear: true,
             ...params,
         }),
-        // selected: (params) => new SelectedView({
-        //     ...params,
-        //     radius: 10,
-        // }),
+        [Layer.SELECTED]: (params) => new SelectedView({
+            ...params,
+            radius: 10,
+            updateSignal: selectTool.channels.update,
+        }),
         [Layer.PHEROMONES]: (params) => new PheromonesView({
             clear: true,
             maxValue: 10,
@@ -107,11 +116,13 @@ function main() {
         .registerViewFactory(Layer.OBSTACLES, layerRegistry[Layer.OBSTACLES])
         .registerViewFactory(Layer.ATTRACTORS, layerRegistry[Layer.ATTRACTORS])
         .registerViewFactory(Layer.PHEROMONES, layerRegistry[Layer.PHEROMONES])
+        .registerViewFactory(Layer.SELECTED, layerRegistry[Layer.SELECTED])
         .addLayout(Layer.OBSTACLES)
         .addLayout(Layer.EMITTERS)
         .addLayout(Layer.ATTRACTORS)
         .addLayout(Layer.AGENTS)
         .addLayout(Layer.PHEROMONES)
+        .addLayout(Layer.SELECTED)
         .scaleViews(scale, scale)
         .translateFromCamera(camera)
         // .rotateViews(Math.PI)

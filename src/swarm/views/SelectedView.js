@@ -1,36 +1,50 @@
-import ClearableView from './ClearableView'
+import View from './View'
+import SelectedObstacleView from './SelectedObstacleView'
+import Obstacle from '../Obstacle'
+import Agent from '../Agent'
 import SelectedAgentView from './SelectedAgentView'
-import Vector from '../Vector'
-import SelectedEmitterView from './SelectedEmitterView'
 
-export default class SelectedView extends ClearableView {
-    constructor({...args}) {
+export default class SelectedView extends View {
+    constructor({updateSignal, ...args}) {
         super({
             ...args,
             clear: true,
         })
 
-        this.views = [
-            new SelectedAgentView(args),
-            new SelectedEmitterView(args),
-        ]
+        this.updateSignal = updateSignal
+        this.updateSignal.on(item => {
+            if (item) {
+                if (item instanceof Obstacle) {
+                    this.currentView = new SelectedObstacleView({
+                        item,
+                    })
+                } else if (item instanceof Agent) {
+                    this.currentView = new SelectedAgentView({
+                        item,
+                    })
+                }
+
+                this.currentView.init(this.initOptions)
+                this.applyMatrixToCurrentView()
+            } else {
+                this.currentView = null
+            }
+        })
 
         this.currentView = null
     }
 
-    select({point}) {
-        if (point) {
-            const coord = new Vector(point.x, point.y)
+    applyMatrix(matrix) {
+        this._matrix = matrix
+        if (this.currentView) this.applyMatrixToCurrentView()
+    }
 
-            for (let view of this.views) {
-                if (view.select(coord)) {
-                    this.currentView = view
-                    return
-                }
-            }
-        }
-
-        this.currentView = null
+    applyMatrixToCurrentView() {
+        this.currentView.draw.matrix.reset()
+        this.currentView.draw.matrix.transform(
+            this._matrix.a, this._matrix.b, this._matrix.c,
+            this._matrix.d, this._matrix.e, this._matrix.f,
+        )
     }
 
     render() {

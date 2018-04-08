@@ -14,7 +14,9 @@ export default class View {
         this.clear = clear
     }
 
-    init({width, height, canvas}) {
+    init(options) {
+        this.initOptions = options
+        const {width, height, canvas} = options
         this._initialized = true
 
         const context = canvas.getContext('2d')
