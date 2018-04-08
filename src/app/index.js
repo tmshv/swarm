@@ -18,6 +18,9 @@ import {createUnit4Simulation, getUnit4CameraCenter} from './unit4'
 import Vector from '../swarm/Vector'
 import SelectTool from '../swarm/tools/SelectTool'
 import SelectedView from '../swarm/views/SelectedView'
+import KeyboardController from '../swarm/controllers/KeyboardController'
+import ShortcutController from '../swarm/controllers/ShortcutController'
+import ToolController from '../swarm/controllers/ToolController'
 // import SelectedView from '../swarm/views/SelectedView'
 // import EmittersView from '../swarm/views/EmittersView'
 // import AgentsView from '../swarm/views/AgentsView'
@@ -49,6 +52,11 @@ function main() {
         SELECTED: 'selected',
     }
 
+    const ToolType = {
+        NAVIGATE: 'navigate',
+        SELECT: 'select',
+    }
+
     const scale = 1
 
     const simulation = createUnit4Simulation()
@@ -67,27 +75,34 @@ function main() {
         console.log('WClick', coord)
     })
 
-    const selectTool = new SelectTool({
+    const tools = new ToolController()
+    tools.register(ToolType.SELECT, new SelectTool({
         channel: mouseWorldCoordChannels,
         simulation,
-    })
-    selectTool.run()
+    }))
 
-    // const navigateTool = new NavigateTool({
-    //     camera,
-    //     channel: screenController.channels
-    // })
-    // navigateTool.mouseDirectionMultiplyX = 1 / scale
-    // navigateTool.mouseDirectionMultiplyY = 1 / scale
-    // navigateTool.run()
-    //
-    // let A
-    // navigateTool.channels.update.on(() => {
-    //     console.log('Camera', camera.location)
-    //
-    //     cancelAnimationFrame(A)
-    //     A = requestAnimationFrame(updateCamera)
-    // })
+    const navigateTool = new NavigateTool({
+        camera,
+        channel: screenController.channels
+    })
+    navigateTool.mouseDirectionMultiplyX = 1 / scale
+    navigateTool.mouseDirectionMultiplyY = 1 / scale
+    tools.register(ToolType.NAVIGATE, navigateTool)
+
+    let updateCameraRequestAnimationFrameId
+    navigateTool.channels.update.on(() => {
+        cancelAnimationFrame(updateCameraRequestAnimationFrameId)
+        updateCameraRequestAnimationFrameId = requestAnimationFrame(updateCamera)
+    })
+
+    const keyboard = new KeyboardController(document)
+    const shortcut = new ShortcutController(keyboard.channels)
+    shortcut.register('space', () => {
+        tools.activate(ToolType.NAVIGATE)
+    })
+    shortcut.register('v', () => {
+        tools.activate(ToolType.SELECT)
+    })
 
     const layerRegistry = {
         [Layer.AGENTS]: (params) => new AgentsView({
@@ -113,7 +128,7 @@ function main() {
         [Layer.SELECTED]: (params) => new SelectedView({
             ...params,
             radius: 10,
-            updateSignal: selectTool.channels.update,
+            updateSignal: tools.getToolUpdateSignal(ToolType.SELECT),
         }),
         [Layer.PHEROMONES]: (params) => new PheromonesView({
             clear: true,
