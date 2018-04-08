@@ -21,6 +21,9 @@ import SelectedView from '../swarm/views/SelectedView'
 import KeyboardController from '../swarm/controllers/KeyboardController'
 import ShortcutController from '../swarm/controllers/ShortcutController'
 import ToolController from '../swarm/controllers/ToolController'
+import Agent from '../swarm/Agent'
+import Obstacle from '../swarm/Obstacle'
+import ComposedSignal from '../lib/ComposedSignal'
 // import SelectedView from '../swarm/views/SelectedView'
 // import EmittersView from '../swarm/views/EmittersView'
 // import AgentsView from '../swarm/views/AgentsView'
@@ -54,7 +57,8 @@ function main() {
 
     const ToolType = {
         NAVIGATE: 'navigate',
-        SELECT: 'select',
+        SELECT_AGENT: 'selectAgent',
+        SELECT_OBSTACLE: 'selectObstacle',
     }
 
     const scale = 3
@@ -76,9 +80,17 @@ function main() {
     })
 
     const tools = new ToolController()
-    tools.register(ToolType.SELECT, new SelectTool({
+    tools.register(ToolType.SELECT_AGENT, new SelectTool({
         channel: mouseWorldCoordChannels,
+        radius: 100,
         simulation,
+        select: (simulation, coord, radius) => simulation.agents.getNearest(coord, radius),
+    }))
+    tools.register(ToolType.SELECT_OBSTACLE, new SelectTool({
+        channel: mouseWorldCoordChannels,
+        radius: 200,
+        simulation,
+        select: (simulation, coord, radius) => simulation.environment.findObstacle(coord, radius),
     }))
 
     const navigateTool = new NavigateTool({
@@ -100,9 +112,17 @@ function main() {
     shortcut.register('space', () => {
         tools.activate(ToolType.NAVIGATE)
     })
-    shortcut.register('v', () => {
-        tools.activate(ToolType.SELECT)
+    shortcut.register('a', () => {
+        tools.activate(ToolType.SELECT_AGENT)
     })
+    shortcut.register('o', () => {
+        tools.activate(ToolType.SELECT_OBSTACLE)
+    })
+
+    const selectUpdateSignal = new ComposedSignal(null, [
+        tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
+        tools.getToolUpdateSignal(ToolType.SELECT_OBSTACLE),
+    ])
 
     const layerRegistry = {
         [Layer.AGENTS]: (params) => new AgentsView({
@@ -128,7 +148,7 @@ function main() {
         [Layer.SELECTED]: (params) => new SelectedView({
             ...params,
             radius: 10,
-            updateSignal: tools.getToolUpdateSignal(ToolType.SELECT),
+            updateSignal: selectUpdateSignal,
         }),
         [Layer.PHEROMONES]: (params) => new PheromonesView({
             clear: true,

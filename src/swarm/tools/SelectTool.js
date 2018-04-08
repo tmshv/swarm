@@ -2,13 +2,14 @@ import Tool from './Tool'
 import UpdateChannel from '../channels/UpdateChannel'
 
 export default class SelectTool extends Tool {
-    constructor({channel, simulation}) {
+    constructor({channel, simulation, select, radius}) {
         super()
         this.channels = new UpdateChannel(this)
 
         this._cursorChannel = channel
         this.simulation = simulation
-        this.radius = 100
+        this.select = select
+        this.radius = radius
 
         this.onClick = this.onClick.bind(this)
     }
@@ -26,15 +27,7 @@ export default class SelectTool extends Tool {
     }
 
     onClick(coord) {
-        // this.channels.update.trigger(this.selectObstacle(coord))
-        this.channels.update.trigger(this.selectAgent(coord))
-    }
-
-    selectObstacle(coord) {
-        return this.simulation.environment.findObstacle(coord, this.radius)
-    }
-
-    selectAgent(coord) {
-        return this.simulation.agents.getNearest(coord, this.radius)
+        const item = this.select.call(null, this.simulation, coord, this.radius)
+        this.channels.update.trigger(item)
     }
 }
