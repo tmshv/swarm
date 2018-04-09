@@ -1,5 +1,6 @@
 import Vector from './Vector'
 import Signal from '../lib/Signal'
+import Tag from './Tag'
 
 export default class Emitter {
     get counter() {
@@ -18,12 +19,13 @@ export default class Emitter {
             run: new Signal(),
             emit: new Signal(),
         }
-
-        this.emit = this.emit.bind(this)
     }
 
     create() {
-        return this.factory(this.location)
+        const agent = this.factory(this.location)
+        agent.addTag(Tag.EMITTER, this)
+
+        return agent
     }
 
     emit() {

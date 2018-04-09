@@ -15,6 +15,18 @@ export default class Agent extends Vehicle {
         this.events = new Channel()
         this.behaviour = behaviour
         this.namedBehaviours = new Map()
+
+        this.tags = new Map()
+    }
+
+    addTag(tag, value) {
+        this.tags.set(tag, value)
+
+        return this
+    }
+
+    getTag(tag) {
+        return this.tags.get(tag)
     }
 
     die() {

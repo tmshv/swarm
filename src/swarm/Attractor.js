@@ -1,4 +1,5 @@
 import Vector from './Vector'
+import Tag from './Tag'
 
 export default class Attractor {
     get location() {
@@ -15,11 +16,17 @@ export default class Attractor {
         this.id = id
 
         this.agents = []
+        this._emitters = []
     }
 
     addAgent(agent) {
         this.agents.push(agent)
+        this._emitters.push(agent.getTag(Tag.EMITTER))
 
         return this
+    }
+
+    getAssociatedEmitters() {
+        return this._emitters
     }
 }

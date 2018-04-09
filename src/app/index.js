@@ -61,9 +61,10 @@ function main() {
         SELECT_AGENT: 'selectAgent',
         SELECT_OBSTACLE: 'selectObstacle',
         SELECT_EMITTER: 'selectEmitter',
+        SELECT_ATTRACTOR: 'selectAttractor',
     }
 
-    const scale = 3
+    const scale = 0.75
 
     const simulation = createUnit4Simulation()
     const viewController = new ViewController(simulation)
@@ -100,6 +101,12 @@ function main() {
         simulation,
         select: (simulation, coord, radius) => findNearestInLocation(simulation.emitters, coord, radius),
     }))
+    tools.register(ToolType.SELECT_ATTRACTOR, new SelectTool({
+        channel: mouseWorldCoordChannels,
+        radius: 100,
+        simulation,
+        select: (simulation, coord, radius) => findNearestInLocation(simulation.environment.attractors, coord, radius),
+    }))
 
     const navigateTool = new NavigateTool({
         camera,
@@ -129,11 +136,15 @@ function main() {
     shortcut.register('e', () => {
         tools.activate(ToolType.SELECT_EMITTER)
     })
+    shortcut.register('t', () => {
+        tools.activate(ToolType.SELECT_ATTRACTOR)
+    })
 
     const selectUpdateSignal = new ComposedSignal(null, [
         tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
         tools.getToolUpdateSignal(ToolType.SELECT_OBSTACLE),
         tools.getToolUpdateSignal(ToolType.SELECT_EMITTER),
+        tools.getToolUpdateSignal(ToolType.SELECT_ATTRACTOR),
     ])
 
     const layerRegistry = {

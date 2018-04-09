@@ -1,7 +1,7 @@
 import EnvironmentView from './EnvironmentView'
 import Vector from '../Vector'
 
-const textOffset = new Vector(20, 10)
+const textOffset = new Vector(10, 5)
 
 export default class AttractorsView extends EnvironmentView {
     render() {
@@ -9,20 +9,19 @@ export default class AttractorsView extends EnvironmentView {
 
         this.environment.attractors.forEach(a => {
             const location = a.location
-
-            const alpha = a.power / 200
-            // const alpha = 1
-
-            const style = `rgba(20, 20, 0, ${1})`
+            const agentsPoolSize = a.agents.length
+            const alpha = agentsPoolSize
+                ? 1
+                : 0.3
             ctx.lineWidth = 2
-            ctx.strokeStyle = style
-            ctx.fillStyle = style
+            ctx.strokeStyle = `rgba(20, 20, 0, ${alpha})`
 
-            // const s = 20
-            const s = 10 + (a.power / 60) * 2
+            const s = 5
             this.draw.cross(location, s, s)
 
-            this.draw.text(location, `${a.agents.length}`, textOffset)
+            if (agentsPoolSize) {
+                this.draw.text(location, `${agentsPoolSize}`, textOffset)
+            }
         })
     }
 }
