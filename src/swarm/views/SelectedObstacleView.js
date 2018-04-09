@@ -26,7 +26,8 @@ export default class SelectedObstacleView extends View {
             this.draw.vector(c, n)
         })
 
-        ctx.strokeStyle = `rgb(100, 100, 100)`
-        this.draw.plus(this.item.centroid, 15)
+        ctx.fillStyle = `rgb(100, 100, 100)`
+        this.draw.circleCenter(this.item.centroid, 1)
+        ctx.fill()
     }
 }
