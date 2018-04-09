@@ -13,6 +13,7 @@ export default class SelectedObstacleView extends View {
     render() {
         const ctx = this.draw.context
         ctx.strokeStyle = `rgb(0, 0, 0)`
+        ctx.lineWidth = 1
 
         this.item.lines.forEach(line => {
             this.draw.line(line)
@@ -24,5 +25,8 @@ export default class SelectedObstacleView extends View {
                 .mult(5)
             this.draw.vector(c, n)
         })
+
+        ctx.strokeStyle = `rgb(100, 100, 100)`
+        this.draw.plus(this.item.centroid, 15)
     }
 }
