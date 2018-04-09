@@ -13,5 +13,13 @@ export default class Attractor {
         this._location = new Vector(x, y)
         this._power = power
         this.id = id
+
+        this.agents = []
+    }
+
+    addAgent(agent) {
+        this.agents.push(agent)
+
+        return this
     }
 }

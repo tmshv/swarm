@@ -52,6 +52,14 @@ export default class Render {
         return this.matrix.applyToPoint(x, y)
     }
 
+    text(coord, text, offset) {
+        let {x, y} = this.getCoord(coord)
+        x += offset.x
+        y += offset.y
+        this.context.font = '16px Arial'
+        this.context.fillText(text, x, y)
+    }
+
     circleCenter(coord, radius) {
         this.arcCenter(coord, radius, 0, TWO_PI)
     }

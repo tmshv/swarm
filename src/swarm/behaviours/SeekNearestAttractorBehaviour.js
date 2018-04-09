@@ -1,8 +1,8 @@
 import Behaviour from './Behaviour'
 
 export default class SeekNearestAttractorBehaviour extends Behaviour {
-    init({thresholdDistQuad}) {
-        this.thresholdDistQuad = thresholdDistQuad
+    init({thresholdDistSquared}) {
+        this.thresholdDistSquared = thresholdDistSquared
         this.targetAttractor = null
 
         this.visitedAttractors = []
@@ -20,7 +20,10 @@ export default class SeekNearestAttractorBehaviour extends Behaviour {
         const attractor = this.targetAttractor
         if (!attractor) return true
 
-        if (this.agent.location.distQuad(this.targetAttractor.location) < this.thresholdDistQuad) {
+        const agent = this.agent
+        if (agent.location.distSquared(attractor.location) < this.thresholdDistSquared) {
+            attractor.addAgent(agent)
+            agent.die()
             this.visitedAttractors.push(this.targetAttractor)
             return true
         }

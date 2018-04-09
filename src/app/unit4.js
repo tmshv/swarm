@@ -50,7 +50,7 @@ function createAgent(loc) {
             }),
             new SeekNearestAttractorBehaviour({
                 accelerate: 0.5,
-                thresholdDistQuad: 10,
+                thresholdDistSquared: 10,
             }),
             new InteractPheromonesBehaviour({
                 accelerate: .05,
