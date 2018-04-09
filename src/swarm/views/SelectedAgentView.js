@@ -28,12 +28,14 @@ export default class SelectedAgentView extends View {
 
     renderAgent(agent) {
         const s = 16
+        this.draw.context.lineWidth = 1
         this.draw.context.strokeStyle = 'rgba(0, 0, 0, 1)'
         this.draw.targetArea(agent.location, s, s, 3)
     }
 
     renderBehaviour(agent, behaviour) {
         const ctx = this.draw.context
+        ctx.lineWidth = 1
         ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
 
         if (behaviour instanceof ComposableBehavior) {
