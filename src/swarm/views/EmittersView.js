@@ -5,11 +5,15 @@ export default class EmittersView extends SimulationView {
         const ctx = this.draw.context
 
         this.simulation.emitters.forEach(e => {
-            ctx.strokeStyle = 'rgba(0, 200, 0, 1)'
-            ctx.fillStyle = 'rgba(0, 200, 0, 1)'
+            const color = (e.period - e.counter) < 5
+                ? 'rgba(0, 255, 0, 1)'
+                : 'rgba(0, 200, 0, 1)'
 
-            this.draw.cross(e.location, 5)
-            // ctx.fill()
+            ctx.strokeStyle = color
+            ctx.fillStyle = color
+
+            this.draw.circleCenter(e.location, 3)
+            ctx.fill()
         })
     }
 }
