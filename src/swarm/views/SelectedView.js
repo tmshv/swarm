@@ -3,6 +3,8 @@ import SelectedObstacleView from './SelectedObstacleView'
 import Obstacle from '../Obstacle'
 import Agent from '../Agent'
 import SelectedAgentView from './SelectedAgentView'
+import Emitter from '../Emitter'
+import SelectedEmitterView from './SelectedEmitterView'
 
 export default class SelectedView extends View {
     constructor({updateSignal, ...args}) {
@@ -20,6 +22,10 @@ export default class SelectedView extends View {
                     })
                 } else if (item instanceof Agent) {
                     this.currentView = new SelectedAgentView({
+                        item,
+                    })
+                } else if (item instanceof Emitter) {
+                    this.currentView = new SelectedEmitterView({
                         item,
                     })
                 }

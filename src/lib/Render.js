@@ -58,7 +58,7 @@ export default class Render {
 
     arcCenter(coord, radius, startAngle, endAngle) {
         const {x, y} = this.getCoord(coord)
-        const r = this.getValue(radius)
+        const r = radius
 
         this.context.beginPath()
         this.context.arc(x, y, r, startAngle, endAngle)

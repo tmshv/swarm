@@ -24,6 +24,7 @@ import ToolController from '../swarm/controllers/ToolController'
 import Agent from '../swarm/Agent'
 import Obstacle from '../swarm/Obstacle'
 import ComposedSignal from '../lib/ComposedSignal'
+import {findNearestInLocation} from '../swarm/lib/utils'
 // import SelectedView from '../swarm/views/SelectedView'
 // import EmittersView from '../swarm/views/EmittersView'
 // import AgentsView from '../swarm/views/AgentsView'
@@ -59,6 +60,7 @@ function main() {
         NAVIGATE: 'navigate',
         SELECT_AGENT: 'selectAgent',
         SELECT_OBSTACLE: 'selectObstacle',
+        SELECT_EMITTER: 'selectEmitter',
     }
 
     const scale = 3
@@ -92,6 +94,12 @@ function main() {
         simulation,
         select: (simulation, coord, radius) => simulation.environment.findObstacle(coord, radius),
     }))
+    tools.register(ToolType.SELECT_EMITTER, new SelectTool({
+        channel: mouseWorldCoordChannels,
+        radius: 100,
+        simulation,
+        select: (simulation, coord, radius) => findNearestInLocation(simulation.emitters, coord, radius),
+    }))
 
     const navigateTool = new NavigateTool({
         camera,
@@ -118,10 +126,14 @@ function main() {
     shortcut.register('o', () => {
         tools.activate(ToolType.SELECT_OBSTACLE)
     })
+    shortcut.register('e', () => {
+        tools.activate(ToolType.SELECT_EMITTER)
+    })
 
     const selectUpdateSignal = new ComposedSignal(null, [
         tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
         tools.getToolUpdateSignal(ToolType.SELECT_OBSTACLE),
+        tools.getToolUpdateSignal(ToolType.SELECT_EMITTER),
     ])
 
     const layerRegistry = {

@@ -1,39 +1,28 @@
-import ClearableView from './ClearableView'
-import {findNearestInLocation} from '../lib/utils'
+import View from './View'
 
-export default class SelectedEmitterView extends ClearableView {
-    constructor({radius, ...args}) {
+export default class SelectedEmitterView extends View {
+    constructor({item, ...args}) {
         super({
             ...args,
             clear: true,
         })
 
-        this.radius = radius
-    }
-
-    select(coord) {
-        const item = findNearestInLocation(this.simulation.emitters, coord, this.radius)
-        // const item = this.simulation.emitters[0]
-
-        console.log('e', item, this.radius)
-
-        if (!item) return false
-
-        this.emitter = item
-
-        return true
+        this.item = item
     }
 
     render() {
         const ctx = this.draw.context
 
-        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
-
-        const angle = - (this.emitter.counter / this.emitter.period) * Math.PI * 2
         const radius = 25
-        const location = this.emitter.location
+        const location = this.item.location
+        const angle = -(this.item.counter / this.item.period) * Math.PI * 2
 
-        this.draw.targetArea(location, 16, 16, 2)
+        ctx.lineWidth = 1
+        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
+        this.draw.circleCenter(location, radius)
+
+        ctx.lineWidth = 3
+        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
         this.draw.arcCenter(location, radius, 0, angle)
     }
 }
