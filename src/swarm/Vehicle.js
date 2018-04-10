@@ -1,6 +1,10 @@
 import Vector from './Vector'
 
 export default class Vehicle {
+    get accelerated() {
+        return this.acceleration.lengthSquared > 0
+    }
+
     constructor() {
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)

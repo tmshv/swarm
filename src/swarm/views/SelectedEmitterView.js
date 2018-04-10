@@ -18,11 +18,11 @@ export default class SelectedEmitterView extends View {
         const angle = -(this.item.counter / this.item.period) * Math.PI * 2
 
         ctx.lineWidth = 1
-        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
+        ctx.strokeStyle = 'rgba(255, 0, 0, 1)'
         this.draw.circleCenter(location, radius)
 
         ctx.lineWidth = 3
-        ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
+        ctx.strokeStyle = 'rgba(255, 0, 0, 1)'
         this.draw.arcCenter(location, radius, 0, angle)
     }
 }

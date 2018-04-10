@@ -1,29 +1,30 @@
 import EnvironmentView from './EnvironmentView'
 
 export default class PheromonesView extends EnvironmentView {
-    constructor({maxValue, ...args}) {
+    constructor({...args}) {
         super(args)
-
-        this.maxValue = maxValue
     }
 
     render() {
         const ctx = this.draw.context
-        const ph = this.simulation.env.pheromones
-        const itemsIter = ph.getValuesIterator()
-        const m = this.maxValue
-            ? this.maxValue
-            : ph.getMaxValue()
+        const pheromones = this.simulation.environment.pheromones
+        const s = pheromones.cellSize
 
-        for (let pheromone of itemsIter) {
-            const alpha = pheromone.power / m
+        for (let pheromone of pheromones.getValuesIterator()) {
+            const location = pheromone.location
+            const predict = pheromone.velocity
+                .clone()
+                // .limit(50)
+                .add(pheromone.location)
 
-            const style = `rgba(0, 250, 50, ${alpha})`
-            ctx.strokeStyle = style
-            ctx.fillStyle = style
+            ctx.fillStyle = `rgba(0, 250, 50, ${.025})`
+            this.draw.rectCenter(location, s, s)
 
-            const s = ph.cellSize
-            this.draw.rectCenter(pheromone.location, s, s)
+            // ctx.strokeStyle = `rgba(0, 250, 50, ${0.4})`
+            // this.draw.targetArea(location, s, s, 10)
+
+            ctx.strokeStyle = `rgb(0, 250, 50)`
+            this.draw.path([location, predict])
         }
     }
 }

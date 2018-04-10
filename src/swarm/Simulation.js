@@ -50,7 +50,6 @@ export default class Simulation {
 
     loop() {
         this.step()
-        this._frame++
         if (this.isRunning) requestAnimationFrame(this.loop)
     }
 
@@ -77,6 +76,8 @@ export default class Simulation {
             console.warn('Stopping simulation cause error')
             this.stop()
         }
+
+        this._frame++
     }
 
     addEmitter(emitter) {

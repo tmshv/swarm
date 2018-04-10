@@ -17,16 +17,29 @@ export default class Attractor {
 
         this.agents = []
         this._emitters = []
+        this._emittersCount = new Map()
     }
 
     addAgent(agent) {
         this.agents.push(agent)
-        this._emitters.push(agent.getTag(Tag.EMITTER))
+        const emitter = agent.getTag(Tag.EMITTER)
+        this._emitters.push(emitter)
+
+        let value = this._emittersCount.has(emitter)
+            ? this._emittersCount.get(emitter)
+            : 0
+        value += 1
+
+        this._emittersCount.set(emitter, value)
 
         return this
     }
 
     getAssociatedEmitters() {
         return this._emitters
+    }
+
+    getAssociatedEmitterCount(emitter) {
+        return this._emittersCount.get(emitter)
     }
 }

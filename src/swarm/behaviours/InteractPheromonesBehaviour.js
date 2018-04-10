@@ -1,7 +1,7 @@
-import Behaviour from './Behaviour'
+import MovingBehavior from './MovingBehavior'
 import Vector from '../Vector'
 
-export default class InteractPheromonesBehaviour extends Behaviour {
+export default class InteractPheromonesBehaviour extends MovingBehavior {
     init({}) {
         this.target = []
     }
@@ -9,16 +9,20 @@ export default class InteractPheromonesBehaviour extends Behaviour {
     run({environment}) {
         this.target = []
         const pheromones = environment.pheromones
-        const ph = pheromones.getValuesIterator()
 
-        for (let pheromone of ph) {
-            if (this.isOnTheWay(pheromone.location)) {
-                this.target.push(pheromone)
+        const v = pheromones.getVelocityImpact(this.agent.location)
+        this.force(v)
 
-                const a = pheromone.value * 0.01
-                this.agent.seek(pheromone.location, a)
-            }
-        }
+        // const ph = pheromones.getValuesIterator()
+        //
+        // for (let pheromone of ph) {
+        //     if (this.isOnTheWay(pheromone.location)) {
+        //         this.target.push(pheromone)
+        //
+        //         const a = pheromone.value * 0.01
+        //         this.agent.seek(pheromone.location, a)
+        //     }
+        // }
     }
 
     isOnTheWay(coord) {

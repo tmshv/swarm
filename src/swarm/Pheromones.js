@@ -12,32 +12,49 @@ function roundVector(vector, v) {
     )
 }
 
+const dummyForce = new Vector(0, 0)
+
 export default class Pheromones {
-    constructor({cellSize, increaseValue = 1, decreaseValue = 1}) {
+    constructor({cellSize, damp = 1}) {
         this.values = new Map()
         this.cellSize = cellSize
-        this.increaseValue = increaseValue
-        this.decreaseValue = decreaseValue
+        this.pheromoneDamp = damp
+    }
+
+    createPheromone(coord) {
+        const rounded = roundVector(coord, this.cellSize)
+        const p = new Pheromone({
+            damp: this.pheromoneDamp,
+        })
+        p.location.setFrom(rounded)
+
+        return p
     }
 
     run() {
         for (let [key, pheromone] of this.values.entries()) {
-            pheromone.decreasePower(this.decreaseValue)
+            pheromone.waste()
 
-            if (pheromone.power <= 0) {
+            if (!pheromone.isActive()) {
                 this.values.delete(key)
             }
         }
     }
 
-    increaseInLocation(location, value = this.increaseValue) {
-        const rounded = roundVector(location, this.cellSize)
-        const key = `${rounded.x}_${rounded.y}`
+    gain(coord, velocity) {
+        const key = this.createKey(coord)
         const pheromone = this.values.has(key)
             ? this.values.get(key)
-            : Pheromone.fromLocation(rounded)
-        this.values.set(key, pheromone.increasePower(value))
+            : this.createPheromone(coord)
+        this.values.set(key, pheromone.gain(velocity))
         return this
+    }
+
+    getVelocityImpact(coord) {
+        const key = this.createKey(coord)
+        return this.values.has(key)
+            ? this.values.get(key).velocity
+            : dummyForce
     }
 
     getValuesIterator(){
@@ -53,5 +70,10 @@ export default class Pheromones {
             }
         }
         return max
+    }
+
+    createKey(coord) {
+        const rounded = roundVector(coord, this.cellSize)
+        return `${rounded.x}_${rounded.y}`
     }
 }

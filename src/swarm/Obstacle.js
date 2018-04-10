@@ -26,6 +26,17 @@ export default class Obstacle {
         this.lines.forEach(line => {
             line.directNormalFrom(this.centroid)
         })
+
+        this.tags = new Map()
+    }
+
+    addTag(name, tag) {
+        this.tags.set(name, tag)
+        return this
+    }
+
+    getTag(name) {
+        return this.tags.get(name)
     }
 
     getNearestEdge(coord, direction) {

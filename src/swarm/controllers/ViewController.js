@@ -4,11 +4,7 @@ import MouseChannel from '../channels/MouseChannel'
 
 export default class ViewController {
     constructor(simulation) {
-        // this.screen = screen
         this.simulation = simulation
-
-        this.simulation.channels.update.on(this.onSimulationUpdate.bind(this))
-        // this.screen.channels.update.on(this.onScreenUpdate.bind(this))
 
         this.viewFactory = new Map()
         this.views = []
@@ -18,6 +14,10 @@ export default class ViewController {
         this._translation = new Vector(0, 0)
         this._scale = new Vector(1, 1)
         this._rotation = 0
+    }
+
+    subscribe(signal) {
+        signal.on(this.onSimulationUpdate.bind(this))
     }
 
     translateFromCamera(camera) {
@@ -63,10 +63,6 @@ export default class ViewController {
     screenToWorld(coord) {
         return this.setScreenToWorld(coord.clone())
     }
-
-    // subscribe(updateChannel) {
-    //     updateChannel.on(this.onScreenUpdate.bind(this))
-    // }
 
     render() {
         this.views.forEach(view => {
@@ -119,14 +115,6 @@ export default class ViewController {
 
         return this.applyTransform()
     }
-
-    // onScreenUpdate() {
-    //     this.views.forEach(view => {
-    //         view.translate(this.screen.camera.location)
-    //     })
-    //
-    //     this.render()
-    // }
 
     registerViewFactory(name, factory) {
         this.viewFactory.set(name, factory)

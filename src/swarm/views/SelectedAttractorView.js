@@ -1,5 +1,4 @@
 import View from './View'
-import Line from '../Line'
 
 export default class SelectedAttractorView extends View {
     constructor({item, ...args}) {
@@ -16,10 +15,11 @@ export default class SelectedAttractorView extends View {
         const ctx = this.draw.context
 
         ctx.strokeStyle = `rgba(0, 0, 0, 0.5)`
-        ctx.lineWidth = 1
         this.item.getAssociatedEmitters()
             .forEach(e => {
-                this.draw.line(new Line(coord, e.location))
+                let count = this.item.getAssociatedEmitterCount(e)
+                ctx.lineWidth = Math.min(5, Math.ceil(count / 10))
+                this.draw.path([coord, e.location])
             })
 
         ctx.strokeStyle = `rgb(255, 0, 0)`

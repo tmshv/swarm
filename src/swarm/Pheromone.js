@@ -1,13 +1,6 @@
 import Vector from './Vector'
 
 export default class Pheromone {
-    static fromLocation(coord) {
-        const value = new Pheromone()
-        value.location.setFrom(coord)
-
-        return value
-    }
-
     get location() {
         return this._location
     }
@@ -17,23 +10,28 @@ export default class Pheromone {
     }
 
     get power() {
-        return this._power
+        return this._velocity.lengthSquared
     }
 
-    constructor() {
+    constructor({damp}) {
         this._location = new Vector(0, 0)
         this._velocity = new Vector(0, 0)
-        this._power = 0
+        this._damp = damp
     }
 
-    increasePower(value) {
-        this._power += value
+    isActive() {
+        return this._velocity.lengthSquared > .000001
+    }
+
+    waste() {
+        this._velocity.mult(this._damp)
+
         return this
     }
 
-    decreasePower(value) {
-        this._power -= value
+    gain(vector) {
+        this._velocity.add(vector)
+
         return this
     }
-
 }

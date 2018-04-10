@@ -6,6 +6,7 @@ import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehavio
 import ComposableBehavior from '../behaviours/ComposableBehavior'
 import SeparateAgentsBehaviour from '../behaviours/SeparateAgentsBehaviour'
 import View from './View'
+import Unit4AgentBehaviour from '../behaviours/Unit4AgentBehaviour'
 
 export default class SelectedAgentView extends View {
     constructor({item, ...args}) {
@@ -106,6 +107,12 @@ export default class SelectedAgentView extends View {
                 })
             } else if (behaviour instanceof SeparateAgentsBehaviour) {
                 ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)'
+                ctx.fillStyle = null
+
+                this.draw.circleCenter(agent.location, behaviour.radius)
+            } else if (behaviour instanceof Unit4AgentBehaviour) {
+                ctx.lineWidth = 1
+                ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
                 ctx.fillStyle = null
 
                 this.draw.circleCenter(agent.location, behaviour.radius)

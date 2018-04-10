@@ -6,13 +6,13 @@ export default class EmittersView extends SimulationView {
 
         this.simulation.emitters.forEach(e => {
             const color = (e.period - e.counter) < 5
-                ? 'rgba(0, 255, 0, 1)'
-                : 'rgba(0, 200, 0, 1)'
+                ? 'rgba(255, 0, 0, 1)'
+                : 'rgba(200, 0, 0, 1)'
 
             ctx.strokeStyle = color
             ctx.fillStyle = color
 
-            this.draw.circleCenter(e.location, 3)
+            this.draw.circleCenter(e.location, 2)
             ctx.fill()
         })
     }
