@@ -19,12 +19,10 @@ import Emitter from '../swarm/Emitter'
 import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
 import SeparateAgentsBehaviour from '../swarm/behaviours/SeparateAgentsBehaviour'
-
-const pheromones = new Pheromones({
-    cellSize: 2,
-    increaseValue: 1,
-    decreaseValue: .005,
-})
+import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
+import Unit4AgentBehaviour from '../swarm/behaviours/Unit4AgentBehaviour'
+import Tag from '../swarm/Tag'
+import ObstacleType from '../swarm/ObstacleType'
 
 export function createUnit4Simulation() {
     const s = new Simulation()
@@ -36,24 +34,20 @@ export function createUnit4Simulation() {
 }
 
 export function getUnit4CameraCenter() {
-    return new Vector(212.466835, -11873.982292)
+    return new Vector(-37.4301, -11163.837642)
+    // return new Vector(212.466835, -11873.982292)
 }
 
 function createAgent(loc) {
+    const radius = 200// + Math.random() * 100
+
     const a = new Agent({
         behaviour: ComposableBehavior.compose(
             new TtlBehavior({
                 ttl: 1000,
             }),
-            new SpreadPheromonesBehaviour({
-                pheromones,
-            }),
-            new SeekNearestAttractorBehaviour({
-                accelerate: 0.5,
-                thresholdDistSquared: 10,
-            }),
-            new InteractPheromonesBehaviour({
-                accelerate: .05,
+            new Unit4AgentBehaviour({
+                radius,
             }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
@@ -61,7 +55,7 @@ function createAgent(loc) {
                 radius: 1000,
             }),
             new LimitAccelerationBehaviour({
-                limit: 0.3,
+                limit: .5,
             })
         )
     })
@@ -88,6 +82,11 @@ function createEmitter(coord, period, amount) {
 }
 
 function createEnvironment() {
+    const pheromones = new Pheromones({
+        cellSize: 20,
+        damp: 0.99,
+    })
+
     const env = new Environment({
         pheromones,
     })
@@ -186,7 +185,7 @@ function initEmitters(simulation) {
         [new Vector(183.197365, -12266.089641), 641, 1],
         [new Vector(72.06894, -12338.072274), 274, 1],
         [new Vector(81.560909, -11205.528463), 463, 1],
-        [new Vector(-21.337158, -11311.960571), 571, 1],
+        [new Vector(-21.337158, -11311.960571), 100, 1],
         [new Vector(159.591144, -11323.594542), 542, 1],
         [new Vector(239.69268, -11440.871168), 168, 1],
         [new Vector(316.707394, -11562.30596), 596, 1],
@@ -223,7 +222,43 @@ function initEmitters(simulation) {
 }
 
 function initObstacles(env) {
-    const os = [
+    const roads = [
+        [
+            new Vector(147.0, -11181.50345),
+            new Vector(35.73154, -11253.170343),
+        ],
+
+        [
+            new Vector(112.081733, -11371.709991),
+            new Vector(225.0, -11298.980474),
+        ],
+
+        [
+            new Vector(32.621801, -11422.889332),
+            new Vector(89.996948, -11385.934578),
+        ],
+
+        [
+            new Vector(13.646756, -11267.39493),
+            new Vector(-91.0, -11334.796851),
+        ],
+
+        [
+            new Vector(169.916539, -11485.759525),
+            new Vector(108.151634, -11389.864677),
+        ],
+
+        [
+            new Vector(29.401687, -11267.599222),
+            new Vector(93.927047, -11367.779892),
+        ],
+
+        [
+            new Vector(-37.4301, -11163.837642),
+            new Vector(19.976609, -11252.966051),
+        ],
+    ]
+    const buildings = [
         [
             new Vector(813.620555, -12406.739325),
             new Vector(845.115555, -12406.710984),
@@ -1267,7 +1302,17 @@ function initObstacles(env) {
         ],
     ]
 
-    os.forEach(cs => {
-        env.addObstacle(Obstacle.fromCoords(cs))
+    buildings.forEach(cs => {
+        const obstacle = Obstacle.fromCoords(cs)
+        obstacle.addTag(Tag.TYPE, ObstacleType.BUILDING)
+
+        env.addObstacle(obstacle)
+    })
+
+    roads.forEach(cs => {
+        const obstacle = Obstacle.fromCoords(cs)
+        obstacle.addTag(Tag.TYPE, ObstacleType.ROAD)
+
+        env.addObstacle(obstacle)
     })
 }

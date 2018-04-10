@@ -17,6 +17,8 @@ import LimitAccelerationBehaviour from '../swarm/behaviours/LimitAccelerationBeh
 import SeekLocationBehaviour from '../swarm/behaviours/SeekLocationBehaviour'
 import AgentBehaviour from '../swarm/AgentBehaviour'
 import Line from '../swarm/Line'
+import Tag from '../swarm/Tag'
+import ObstacleType from '../swarm/ObstacleType'
 
 const pheromones = new Pheromones({
     cellSize: 5,
@@ -34,12 +36,7 @@ export function createDemoSimulation() {
 }
 
 export function getDemoCameraCenter() {
-    const l = new Line(
-        new Vector(465, 656),
-        new Vector(929, 649),
-    )
-    return l.getCentroid()
-    // return new Vector(50, 50)
+    return new Vector(-20.082967, -11148.670933)
 }
 
 function createAgent(loc, behaviour = null) {
@@ -108,7 +105,7 @@ function createAgent(loc, behaviour = null) {
                 radius: 1000,
             }),
             new LimitAccelerationBehaviour({
-                limit: 3,
+                limit: .1,
             })
         )
     }
@@ -129,8 +126,7 @@ function createAgent(loc, behaviour = null) {
 
 function createEmitters(s) {
     const emitters = [
-        // [new Vector(750, 550), 100, 1],
-        [new Vector(829, 749), 100, 1],
+        [new Vector(-50.082967, -11148.670933), 80, 1],
     ]
 
     emitters.forEach(e => {
@@ -145,7 +141,7 @@ function createEnvironment() {
 
     // env.addAttractor(mouseAttractor)
     const attractors = [
-        [new Vector(665, 556), 100],
+        [new Vector(200.082967, -11148.670933), 100],
     ]
 
     attractors.forEach(([coord, power]) => {
@@ -156,17 +152,26 @@ function createEnvironment() {
         }))
     })
 
-    env.addObstacle(Obstacle.fromCoords([
-        new Vector(465, 656),
-        new Vector(929, 649),
-    ]))
-
-    // env.addObstacle(Obstacle.fromCoords([
-    //     new Vector(165, 856),
-    //     new Vector(929, 856),
-    // ]))
+    initObstacles(env)
 
     return env
+}
+
+function initObstacles(env) {
+    const buildings = [
+        [
+            new Vector(-20.082967, -11148.670933),
+            new Vector(70.327424, -11090.062192),
+            new Vector(123.635208, -11172.295276),
+            new Vector(33.224817, -11230.904018),
+        ]
+    ]
+
+    buildings.forEach(cs => {
+        const x = Obstacle.fromCoords(cs)
+        x.addTag(Tag.TYPE, ObstacleType.BUILDING)
+        env.addObstacle(x)
+    })
 }
 
 function createEmitter(coord, period, amount) {
