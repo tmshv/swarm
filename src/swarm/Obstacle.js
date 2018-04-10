@@ -39,47 +39,6 @@ export default class Obstacle {
         return this.tags.get(name)
     }
 
-    getNearestEdge(coord, direction) {
-        let edges = []
-
-        const nextCoord = Vector.add(coord, direction)
-
-        for (let line of this.lines) {
-            if (line.normal.dot(direction) < 0) { // edge in opposite direction
-                const coordProjected = line.project(coord)
-                if (line.isBetween(coordProjected)) {
-                    // const nextCoordProjected = line.project(nextCoord)
-
-                    // if (nextCoordProjected)
-
-                    edges.push([line, line.distSquared(nextCoord)])
-                }
-            }
-        }
-
-        edges = edges.sort((a, b) => {
-            return a[1] - b[1]
-        })
-
-        // const ps = this.lines
-        //     .map(line => {
-        //         const projection = line.project(coord)
-        //
-        //         const between = line.isBetween(projection)
-        //         const distSquared = Vector
-        //             .sub(coord, projection)
-        //             .lengthSquared
-        //         return [line, distSquared, between]
-        //     })
-        //     .filter(x => x[2])
-        //     .sort((a, b) => {
-        //         return a[1] - b[1]
-        //     })
-        return edges.length
-            ? edges[0][0]
-            : null
-    }
-
     calcCentroid() {
         const centroid = this.lines
             .reduce(
