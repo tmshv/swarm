@@ -136,6 +136,13 @@ export default class Line {
         return Vector.sub(vector, n)
     }
 
+    offset(vector) {
+        return new Line(
+            this._a.clone().add(vector),
+            this._b.clone().add(vector),
+        )
+    }
+
     project(coord) {
         const a = Vector.sub(coord, this.a)
         const b = this.getDirection()
