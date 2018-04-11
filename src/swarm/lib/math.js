@@ -1,3 +1,7 @@
+export function interpolateLinear(min, max, coef) {
+    return min + (max - min) * coef
+}
+
 // // Based on the fast inverse square root function
 // // https://en.wikipedia.org/wiki/Fast_inverse_square_root
 // // Some original comments preserved for humor value
