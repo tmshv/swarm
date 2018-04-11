@@ -7,7 +7,7 @@ import Vector from '../swarm/Vector'
 import SeekNearestAttractorBehaviour from '../swarm/behaviours/SeekNearestAttractorBehaviour'
 import SpreadPheromonesBehaviour from '../swarm/behaviours/SpreadPheromonesBehaviour'
 import Pheromones from '../swarm/Pheromones'
-import Obstacle from '../swarm/Obstacle'
+import PathObstacle from '../swarm/PathObstacle'
 import AvoidObstaclesBehavior from '../swarm/behaviours/AvoidObstaclesBehavior'
 import InteractPheromonesBehaviour from '../swarm/behaviours/InteractPheromonesBehaviour'
 import TtlBehavior from '../swarm/behaviours/TtlBehavior'
@@ -39,23 +39,27 @@ export function getUnit4CameraCenter() {
 }
 
 function createAgent(loc) {
-    const radius = 200// + Math.random() * 100
+    const radius = 500// + Math.random() * 100
 
     const a = new Agent({
         behaviour: ComposableBehavior.compose(
             new TtlBehavior({
                 ttl: 1000,
             }),
-            new Unit4AgentBehaviour({
-                radius,
+            new SeekNearestAttractorBehaviour({
+                accelerate: 0.5,
+                thresholdDistSquared: 10,
             }),
+            // new Unit4AgentBehaviour({
+            //     radius,
+            // }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
-                predictionDistance: 10,
-                radius: 1000,
+                predictionDistance: 20,
+                radius: 150,
             }),
             new LimitAccelerationBehaviour({
-                limit: .5,
+                limit: .15,
             })
         )
     })
@@ -83,7 +87,7 @@ function createEmitter(coord, period, amount) {
 
 function createEnvironment() {
     const pheromones = new Pheromones({
-        cellSize: 20,
+        cellSize: 2,
         damp: 0.99,
     })
 
@@ -1302,17 +1306,42 @@ function initObstacles(env) {
         ],
     ]
 
+    let obstacles = []
+
     buildings.forEach(cs => {
-        const obstacle = Obstacle.fromCoords(cs)
+        const obstacle = PathObstacle.fromCoords(cs)
         obstacle.addTag(Tag.TYPE, ObstacleType.BUILDING)
 
+        obstacles = [
+            ...obstacles,
+            ...splitObstacle(obstacle),
+        ]
+
+        return obstacle
+    })
+
+    obstacles.forEach(obstacle => {
         env.addObstacle(obstacle)
     })
 
-    roads.forEach(cs => {
-        const obstacle = Obstacle.fromCoords(cs)
-        obstacle.addTag(Tag.TYPE, ObstacleType.ROAD)
+    // roads.forEach(cs => {
+    //     const obstacle = PathObstacle.fromCoords(cs)
+    //     obstacle.addTag(Tag.TYPE, ObstacleType.ROAD)
+    //
+    //     env.addObstacle(obstacle)
+    // })
+}
 
-        env.addObstacle(obstacle)
-    })
+function splitObstacle(obstacle) {
+    const result = []
+    for (const line of obstacle.lines) {
+        const o = new PathObstacle({
+            lines: [line],
+            fixNormals: false,
+        })
+        o.addTag(Tag.TYPE, obstacle.getTag(Tag.TYPE))
+
+        result.push(o)
+    }
+    return result
 }

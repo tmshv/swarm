@@ -19,6 +19,9 @@ import AgentBehaviour from '../swarm/AgentBehaviour'
 import Line from '../swarm/Line'
 import Tag from '../swarm/Tag'
 import ObstacleType from '../swarm/ObstacleType'
+import AvoidPointObstaclesBehavior from '../swarm/behaviours/AvoidPointObstaclesBehavior'
+import PointObstacle from '../swarm/PointObstacle'
+import PathObstacle from '../swarm/PathObstacle'
 
 const pheromones = new Pheromones({
     cellSize: 5,
@@ -36,7 +39,7 @@ export function createDemoSimulation() {
 }
 
 export function getDemoCameraCenter() {
-    return new Vector(-20.082967, -11148.670933)
+    return new Vector(250, 0)
 }
 
 function createAgent(loc, behaviour = null) {
@@ -49,7 +52,7 @@ function createAgent(loc, behaviour = null) {
     if (!behaviour) {
         behaviour = ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 500,
+                ttl: 1000,
             }),
 
             // new ConditionalBehavior({
@@ -80,7 +83,7 @@ function createAgent(loc, behaviour = null) {
             // new WalkToNearestAttractorBehaviour({}),
             new SeekNearestAttractorBehaviour({
                 accelerate: 1,
-                thresholdDistQuad: 50,
+                thresholdDistQuad: 10,
             }),
             // new InteractAgentsBehaviour({
             //     accelerate: 0.4,
@@ -99,13 +102,18 @@ function createAgent(loc, behaviour = null) {
             // new SpreadPheromonesBehaviour({
             //     pheromones,
             // }),
+            new AvoidPointObstaclesBehavior({
+                accelerate: 0.1,
+                predictionDistance: 50,
+                radius: 50,
+            }),
             new AvoidObstaclesBehavior({
-                accelerate: .01,
-                predictionDistance: 7,
-                radius: 1000,
+                accelerate: 0.1,
+                predictionDistance: 50,
+                radius: 50,
             }),
             new LimitAccelerationBehaviour({
-                limit: .1,
+                limit: .2,
             })
         )
     }
@@ -126,7 +134,7 @@ function createAgent(loc, behaviour = null) {
 
 function createEmitters(s) {
     const emitters = [
-        [new Vector(-50.082967, -11148.670933), 80, 1],
+        [new Vector(-150, 0), 10000, 1],
     ]
 
     emitters.forEach(e => {
@@ -141,7 +149,7 @@ function createEnvironment() {
 
     // env.addAttractor(mouseAttractor)
     const attractors = [
-        [new Vector(200.082967, -11148.670933), 100],
+        [new Vector(800, 40), 100],
     ]
 
     attractors.forEach(([coord, power]) => {
@@ -160,18 +168,62 @@ function createEnvironment() {
 function initObstacles(env) {
     const buildings = [
         [
-            new Vector(-20.082967, -11148.670933),
-            new Vector(70.327424, -11090.062192),
-            new Vector(123.635208, -11172.295276),
-            new Vector(33.224817, -11230.904018),
+            // new Vector(0, 0),
+            // new Vector(300, 0),
+            new Vector(200, -50),
+            new Vector(300, -50),
+            new Vector(300, 50),
+            new Vector(200, 50),
         ]
     ]
 
+    const things = [
+        [new Vector(150, 5), 50],
+        [new Vector(300, -5), 50],
+    ]
+
+    const n = 1
+    // const line = new Line(
+    //     new Vector(150, 5),
+    //     new Vector(300, -5),
+    // )
+
     buildings.forEach(cs => {
-        const x = Obstacle.fromCoords(cs)
+        const x = PathObstacle.fromCoords(cs)
+
+        // for (const line of x.lines) {
+        //     console.log(line)
+        //
+        //     const length = line.length
+        //     const step = (length / n)
+        //
+        //     for (let i = 0; i < n; i++) {
+        //         const coef = (i * step) / length
+        //
+        //         const coord = line.interpolateLinear(coef)
+        //
+        //         const point = new PointObstacle({radius: 100})
+        //         point.location.setFrom(coord)
+        //         point.addTag(Tag.TYPE, ObstacleType.THING)
+        //         env.addObstacle(point)
+        //     }
+        // }
+        //
+        // const point = new PointObstacle({radius: 100})
+        // point.location.setFrom(x.centroid)
+        // point.addTag(Tag.TYPE, ObstacleType.THING)
+        // env.addObstacle(point)
+
         x.addTag(Tag.TYPE, ObstacleType.BUILDING)
         env.addObstacle(x)
     })
+
+    // things.forEach(([coord, radius]) => {
+    //     const x = new PointObstacle({radius})
+    //     x.location.setFrom(coord)
+    //     x.addTag(Tag.TYPE, ObstacleType.THING)
+    //     env.addObstacle(x)
+    // })
 }
 
 function createEmitter(coord, period, amount) {

@@ -14,10 +14,12 @@ export default class ViewController {
         this._translation = new Vector(0, 0)
         this._scale = new Vector(1, 1)
         this._rotation = 0
+
+        this.render = this.render.bind(this)
     }
 
     subscribe(signal) {
-        signal.on(this.onSimulationUpdate.bind(this))
+        signal.on(this.render)
     }
 
     translateFromCamera(camera) {
@@ -70,10 +72,6 @@ export default class ViewController {
         })
 
         return this
-    }
-
-    onSimulationUpdate() {
-        this.render()
     }
 
     setTransformation(tx, ty, sx, sy, a) {

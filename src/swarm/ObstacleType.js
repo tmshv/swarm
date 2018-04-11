@@ -1,4 +1,5 @@
 export default class ObstacleType {
+    static THING = 'thing'
     static BUILDING = 'building'
     static ROAD = 'road'
 

@@ -16,12 +16,12 @@ export default class Unit4AgentBehaviour extends Behaviour {
             new RandomWalkBehaviour({
                 accelerate: 0.5,
             }),
-            new InteractPheromonesBehaviour({
-                accelerate: 0.5,
-            }),
+            // new InteractPheromonesBehaviour({
+            //     accelerate: 0.5,
+            // }),
         )
         this.smart = ComposableBehavior.compose(
-            new SpreadPheromonesBehaviour({}),
+            // new SpreadPheromonesBehaviour({}),
             new SeekNearestAttractorBehaviour({
                 accelerate: 0.5,
                 thresholdDistSquared: 10,

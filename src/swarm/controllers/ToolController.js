@@ -16,12 +16,12 @@ export default class ToolController {
         return this.tools.get(name).channels.update
     }
 
-    activate(name) {
+    activate(name, options) {
         this.deactivate()
         const tool = this.tools.get(name)
 
         this._currentTool = tool
-        this._currentTool.run()
+        this._currentTool.run(options)
         this.channels.update.trigger(tool)
     }
 

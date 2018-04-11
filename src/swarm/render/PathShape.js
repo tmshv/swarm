@@ -1,8 +1,9 @@
 import Shape from './Shape'
 
 export default class PathShape extends Shape {
-    init({coords}) {
+    init({coords, fill}) {
         this.coords = coords
+        this.fill = fill
     }
 
     draw(context) {
@@ -19,6 +20,10 @@ export default class PathShape extends Shape {
             context.lineTo(x, y)
         }
 
-        context.stroke()
+        if (this.fill) {
+            context.fill()
+        } else {
+            context.stroke()
+        }
     }
 }

@@ -14,6 +14,8 @@ import AgentsView from '../views/AgentsView'
 import AttractorsView from '../views/AttractorsView'
 import KeyboardController from './KeyboardController'
 import Camera from '../render/Camera'
+import SelectionController from './SelectionController'
+import MoveTool from '../tools/MoveTool'
 
 const Layer = {
     AGENTS: 'agents',
@@ -30,6 +32,7 @@ const ToolType = {
     SELECT_OBSTACLE: 'selectObstacle',
     SELECT_EMITTER: 'selectEmitter',
     SELECT_ATTRACTOR: 'selectAttractor',
+    MOVE: 'move',
 }
 
 export default class AppController {
@@ -58,10 +61,13 @@ export default class AppController {
             this.tools.getToolUpdateSignal(ToolType.SELECT_ATTRACTOR),
         ])
 
-        const update = new ComposedSignal(null, [
-            this.selectUpdateSignal,
-            simulation.channels.update,
-        ])
+        this.selectionController = new SelectionController(this.selectUpdateSignal)
+
+        const update = simulation.channels.update
+        // new ComposedSignal(null, [
+        //     simulation.channels.update,
+        //     this.selectUpdateSignal,
+        // ])
 
         this.viewController.subscribe(update)
     }
@@ -155,6 +161,10 @@ export default class AppController {
             simulation: this.simulation,
             select: (simulation, coord, radius) => findNearestInLocation(simulation.environment.attractors, coord, radius),
         }))
+        this.tools.register(ToolType.MOVE, new MoveTool({
+            channel: mouseWorldCoordChannels,
+            simulation: this.simulation,
+        }))
 
         const navigateTool = new NavigateTool({
             camera: this.camera,
@@ -209,6 +219,11 @@ export default class AppController {
             }
 
             simulation.step()
+        })
+        shortcut.register('m', () => {
+            this.tools.activate(ToolType.MOVE, {
+                selectionController: this.selectionController,
+            })
         })
     }
 }

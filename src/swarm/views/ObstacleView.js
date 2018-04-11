@@ -18,6 +18,10 @@ export default class ObstacleView extends SimulationView {
                     case ObstacleType.ROAD: {
                         return this.renderRoad(ctx, obstacle)
                     }
+
+                    case ObstacleType.THING: {
+                        return this.renderThing(ctx, obstacle)
+                    }
                 }
             })
     }
@@ -48,5 +52,11 @@ export default class ObstacleView extends SimulationView {
 
         const coords = obstacle.lines.map(x => x.a)
         this.draw.path(coords)
+    }
+
+    renderThing(ctx, obstacle) {
+        ctx.strokeStyle = `rgb(100, 100, 100)`
+        this.draw.circleCenter(obstacle.location, obstacle.radius)
+        this.draw.cross(obstacle.location, 5)
     }
 }

@@ -66,10 +66,8 @@ export default class Render {
 
     arcCenter(coord, radius, startAngle, endAngle) {
         const {x, y} = this.getCoord(coord)
-        const r = radius
-
         this.context.beginPath()
-        this.context.arc(x, y, r, startAngle, endAngle)
+        this.context.arc(x, y, radius, startAngle, endAngle)
         this.context.stroke()
     }
 
@@ -144,8 +142,9 @@ export default class Render {
         })
     }
 
-    path(coords) {
+    path(coords, fill=false) {
         this.pathShape.init({
+            fill,
             coords: coords.map(c => this.getCoord(c)),
         })
         this.pathShape.render(this.context, {})

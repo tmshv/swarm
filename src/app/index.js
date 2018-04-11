@@ -6,16 +6,19 @@ import './index.less'
 
 import {createDemoSimulation, getDemoCameraCenter} from './demo'
 import AppController from '../swarm/controllers/AppController'
+import {createUnit4Simulation, getUnit4CameraCenter} from './unit4'
 
 function main() {
-    const scale = 10
-    const simulation = createDemoSimulation()
+    const scale = 1
+    // const simulation = createDemoSimulation()
+    const simulation = createUnit4Simulation()
 
     const swarm = new AppController(window, document)
     swarm.init({
         simulation,
         scale,
-        cameraCoord: getDemoCameraCenter(),
+        // cameraCoord: getDemoCameraCenter(),
+        cameraCoord: getUnit4CameraCenter(),
     })
 
     swarm.selectUpdateSignal.on(item => {

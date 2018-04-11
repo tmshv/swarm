@@ -6,19 +6,21 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         this.radius = radius
         this.predictionDistance = predictionDistance
         this.predictionDistanceSquared = predictionDistance ** 2
+
+        this.lines = null
     }
 
     run({environment}) {
+        if (!this.lines) this.updateLines(environment)
+
         this.reflection = null
         this.edge = null
 
         const predict = this.predictLocation()
         const predictDirection = this.getPredictionVector()
         const location = this.agent.location
-        const obstacle = environment.findObstacle(location, this.radius)
-        if (!obstacle) return
 
-        let edge = this.getNearestEdge(obstacle, location, predictDirection)
+        let edge = this.getNearestEdge(location, predictDirection)
         if (!edge) return
 
         if (edge.distSquared(predict) >= this.predictionDistanceSquared) {
@@ -26,6 +28,10 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         }
 
         let force = this.getForce(edge)
+        force.add(this.getNormalForce(edge))
+
+        console.log(force)
+        this.force(force)
         this.agent.acceleration.direct(force)
 
         this.edge = edge
@@ -43,6 +49,14 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         return force
     }
 
+    getNormalForce(edge) {
+        const n = this.predictionDistance
+        return edge
+            .normal
+            .clone()
+            .setLength(n)
+    }
+
     getPredictionVector() {
         return this.agent.velocity
             .clone()
@@ -56,12 +70,12 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
             .add(this.agent.location)
     }
 
-    getNearestEdge(obstacle, coord, direction) {
+    getNearestEdge(coord, direction) {
         let edges = []
 
         const nextCoord = Vector.add(coord, direction)
 
-        for (let line of obstacle.lines) {
+        for (let line of this.lines) {
             if (line.normal.dot(direction) < 0) { // edge in opposite direction
                 const coordProjected = line.project(coord)
                 if (line.isBetween(coordProjected)) {
@@ -81,5 +95,16 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         return edges.length
             ? edges[0][0]
             : null
+    }
+
+    updateLines(environment) {
+        this.lines = []
+
+        environment.obstacles.forEach(o => {
+            this.lines = [
+                ...this.lines,
+                ...o.lines,
+            ]
+        })
     }
 }
