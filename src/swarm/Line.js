@@ -53,6 +53,10 @@ export default class Line {
         return this._n
     }
 
+    get length() {
+        return this.getDirection().length
+    }
+
     constructor(a, b) {
         this._a = a
         this._b = b
