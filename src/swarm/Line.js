@@ -1,4 +1,5 @@
 import Vector from './Vector'
+import {interpolateLinear} from './lib/math'
 
 function inRange(v, a, b) {
     return v >= a && v <= b
@@ -119,6 +120,12 @@ export default class Line {
     distSquared(coord) {
         const p = this.project(coord)
         return coord.distSquared(p)
+    }
+
+    interpolate(coef) {
+        const x = interpolateLinear(this._a.x, this._b.x, coef)
+        const y = interpolateLinear(this._a.y, this._b.y, coef)
+        return new Vector(x, y)
     }
 
     reflect(vector) {
