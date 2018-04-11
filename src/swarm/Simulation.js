@@ -20,6 +20,7 @@ export default class Simulation {
         this.emitters = []
 
         this.channels = new UpdateChannel(this)
+        this._animationFrameRequestId = null
     }
 
     getAgents() {
@@ -36,7 +37,7 @@ export default class Simulation {
 
     run() {
         this.isRunning = true
-        requestAnimationFrame(this.loop)
+        this._animationFrameRequestId = requestAnimationFrame(this.loop)
 
         // this.events.run.trigger(this)
 
@@ -45,12 +46,16 @@ export default class Simulation {
 
     stop() {
         this.isRunning = false
+        cancelAnimationFrame(this._animationFrameRequestId)
+
         // this.events.stop.trigger(this)
     }
 
     loop() {
         this.step()
-        if (this.isRunning) requestAnimationFrame(this.loop)
+        if (this.isRunning) {
+            this._animationFrameRequestId = requestAnimationFrame(this.loop)
+        }
     }
 
     step() {
