@@ -30,7 +30,6 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         let force = this.getForce(edge)
         force.add(this.getNormalForce(edge))
 
-        console.log(force)
         this.force(force)
         this.agent.acceleration.direct(force)
 
