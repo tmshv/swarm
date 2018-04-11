@@ -6,7 +6,7 @@ export default class ObstacleView extends SimulationView {
     render() {
         const ctx = this.draw.context
 
-        this.simulation.env.obstacles
+        this.simulation.environment.obstacles
             .forEach(obstacle => {
                 const type = obstacle.getTag(Tag.TYPE)
 
