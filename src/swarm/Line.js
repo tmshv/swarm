@@ -223,6 +223,29 @@ export default class Line {
         return BETWEEN
     }
 
+    getLineIntersection(line) {
+        const coef = line => {
+            const a = line.b.y - line.a.y
+            const b = line.a.x - line.b.x
+            const c = a * line.a.x + b * line.a.y
+            return {a, b, c}
+        }
+
+        const c1 = coef(this)
+        const c2 = coef(line)
+
+        const det = c1.a * c2.b - c2.a * c1.b
+        if (det === 0) {
+            //Lines are parallel
+            return null
+        } else {
+            const x = (c2.b * c1.c - c1.b * c2.c) / det
+            const y = (c1.a * c2.c - c2.a * c1.c) / det
+
+            return new Vector(x, y)
+        }
+    }
+
     isIntersect(line) {
         const sameSign = (a, b) => (a * b) > 0
 
