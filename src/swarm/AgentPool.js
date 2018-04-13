@@ -3,9 +3,14 @@ import Vector from './Vector'
 import AgentEvent from './AgentEvent'
 
 export default class AgentPool {
+    get size(){
+        return this.agents.length
+    }
+
     constructor() {
         // this.store = new QuadTree()
 
+        this._poolLimit = 200
         this.agents = []
         this.inactiveAgents = []
     }
@@ -15,6 +20,8 @@ export default class AgentPool {
     // }
 
     addAgent(agent) {
+        if (this.agents.length >= this._poolLimit) return
+
         this.agents.push(agent)
 
         agent.events.get(AgentEvent.DIE).on(() => {
