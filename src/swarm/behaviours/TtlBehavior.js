@@ -6,6 +6,8 @@ export default class TtlBehavior extends Behaviour {
     }
 
     run() {
+        if(this.agent.isLocked) return
+
         this.ttl--
 
         if (this.ttl === 0) {
