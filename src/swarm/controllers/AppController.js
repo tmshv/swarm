@@ -225,9 +225,10 @@ export default class AppController {
                 selectionController: this.selectionController,
             })
         })
-        shortcut.register('p', () => {
+        shortcut.register('ctrl+l', () => {
             console.log('Translate:', this.viewController._translation)
             console.log('Scale:', this.viewController._scale)
+            console.log('Pool:', this.simulation.agents.size)
         })
     }
 }
