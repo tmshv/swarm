@@ -7,6 +7,7 @@ export default class AgentPool {
         // this.store = new QuadTree()
 
         this.agents = []
+        this.inactiveAgents = []
     }
 
     // getAgent() {
@@ -17,6 +18,7 @@ export default class AgentPool {
         this.agents.push(agent)
 
         agent.events.get(AgentEvent.DIE).on(() => {
+            this.inactiveAgents.push(agent)
             this.agents = this.agents.filter(x => agent !== x)
         })
 

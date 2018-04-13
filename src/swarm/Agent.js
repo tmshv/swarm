@@ -12,6 +12,10 @@ export default class Agent extends Vehicle {
         return this._locked
     }
 
+    get track() {
+        return this._track
+    }
+
     constructor({behaviour}) {
         super()
         behaviour.setAgent(this)
@@ -25,7 +29,19 @@ export default class Agent extends Vehicle {
         this._stepForces = []
         this._stepAcceleration = new Vector(0, 0)
 
+        this._saveTrackPeriod = 10
+        this.__saveTrackCount = 0
+        this._track = []
         this.tags = new Map()
+    }
+
+    saveTrack() {
+        if (this.__saveTrackCount === 0) {
+            this.__saveTrackCount = this._saveTrackPeriod
+            this._track.push(this.location.clone())
+        }
+
+        this.__saveTrackCount--
     }
 
     force(vector) {
@@ -44,6 +60,7 @@ export default class Agent extends Vehicle {
     move() {
         if (this._locked) return
         super.move()
+        this.saveTrack()
     }
 
     addTag(tag, value) {
