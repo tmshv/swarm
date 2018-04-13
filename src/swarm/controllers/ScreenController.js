@@ -1,5 +1,6 @@
 import {createEventToVectorMapper} from '../lib/browser'
 import ScreenControllerChannel from '../channels/ScreenControllerChannel'
+import Vector from '../Vector'
 
 export default class ScreenController {
     constructor(window) {
@@ -11,6 +12,18 @@ export default class ScreenController {
         this.onMouseUp = triggerCoordEvent(this.channels.mouseUp, this._transform.bind(this))
         this.onMouseMove = triggerCoordEvent(this.channels.mouseMove, this._transform.bind(this))
         this.onClick = triggerCoordEvent(this.channels.click, this._transform.bind(this))
+
+        const mouseWheelDelta = new Vector(0, 0)
+        this.onMouseWheel = (event) => {
+            event.preventDefault()
+
+            mouseWheelDelta.set(
+                event.deltaX,
+                event.deltaY,
+            )
+
+            this.channels.mouseWheel.trigger(mouseWheelDelta)
+        }
     }
 
     _transform(coord) {
@@ -23,6 +36,7 @@ export default class ScreenController {
             onMouseUp: this.onMouseUp,
             onMouseMove: this.onMouseMove,
             onClick: this.onClick,
+            onMouseWheel: this.onMouseWheel,
         }
     }
 }

@@ -37,7 +37,7 @@ export default class Simulation extends PureComponent {
 
     render() {
         const {width, height, devicePixelRatio} = this.props
-        const {onClick, onMouseMove, onMouseDown, onMouseUp} = this.props
+        const {onClick, onMouseMove, onMouseDown, onMouseUp, onMouseWheel} = this.props
 
         return (
             <Canvas
@@ -50,6 +50,7 @@ export default class Simulation extends PureComponent {
                 onMouseMove={onMouseMove}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
+                onWheel={onMouseWheel}
             />
         )
     }

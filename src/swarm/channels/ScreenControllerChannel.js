@@ -13,6 +13,10 @@ export default class ScreenControllerChannel extends UpdateChannel {
         return this.get('mouseMove')
     }
 
+    get mouseWheel() {
+        return this.get('mouseWheel')
+    }
+
     get click() {
         return this.get('click')
     }
