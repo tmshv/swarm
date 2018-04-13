@@ -225,5 +225,9 @@ export default class AppController {
                 selectionController: this.selectionController,
             })
         })
+        shortcut.register('p', () => {
+            console.log('Translate:', this.viewController._translation)
+            console.log('Scale:', this.viewController._scale)
+        })
     }
 }
