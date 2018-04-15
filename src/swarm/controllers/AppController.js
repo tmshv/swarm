@@ -230,5 +230,21 @@ export default class AppController {
             console.log('Scale:', this.viewController._scale)
             console.log('Pool:', this.simulation.agents.size)
         })
+        shortcut.register('ctrl+p', () => {
+            const items = []
+            for (const pheromone of this.simulation.environment.pheromones.values.values()) {
+                items.push([
+                    pheromone.location.x,
+                    pheromone.location.y,
+                    pheromone.velocity.length,
+                ])
+            }
+            console.log('Pheromones:')
+            console.log(items.join('\n'))
+        })
+
+        shortcut.register('ctrl+a', () => {
+            this.tools.activate(ToolType.ADD_ATTRACTOR)
+        })
     }
 }
