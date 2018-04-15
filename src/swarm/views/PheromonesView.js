@@ -17,7 +17,8 @@ export default class PheromonesView extends EnvironmentView {
                 // .limit(50)
                 .add(pheromone.location)
 
-            ctx.fillStyle = `rgba(0, 250, 50, ${.025})`
+            const alpha = pheromone.velocity.length * 0.01
+            ctx.fillStyle = `rgba(0, 250, 50, ${alpha})`
             this.draw.rectCenter(location, s, s)
 
             // ctx.strokeStyle = `rgba(0, 250, 50, ${0.4})`
