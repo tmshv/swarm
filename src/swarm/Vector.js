@@ -109,6 +109,13 @@ export default class Vector {
         return this
     }
 
+    multNonUniform(xValue, yValue){
+        this._x *= xValue
+        this._y *= yValue
+
+        return this
+    }
+
     divide(value) {
         this._x = this._x / value
         this._y = this._y / value
