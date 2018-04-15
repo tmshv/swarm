@@ -14,11 +14,11 @@ export default class SelectedAttractorView extends View {
         const coord = this.item.location
         const ctx = this.draw.context
 
-        ctx.strokeStyle = `rgba(0, 0, 0, 0.5)`
+        ctx.strokeStyle = `rgba(0, 0, 0, 0.25)`
         this.item.getAssociatedEmitters()
             .forEach(e => {
                 let count = this.item.getAssociatedEmitterCount(e)
-                ctx.lineWidth = Math.min(5, Math.ceil(count / 10))
+                ctx.lineWidth = Math.min(5, Math.ceil(count / 20))
                 this.draw.path([coord, e.location])
             })
 
