@@ -108,7 +108,6 @@ export default class AppController {
     }
 
     createLayers() {
-            .applyTransform()
         return {
             [Layer.AGENTS]: (params) => new AgentsView({
                 clear: true,
