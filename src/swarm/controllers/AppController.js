@@ -238,16 +238,34 @@ export default class AppController {
             console.log('Viewport:', this.viewController.getTransform().toArray())
         })
         shortcut.register('ctrl+p', () => {
-            const items = []
-            for (const pheromone of this.simulation.environment.pheromones.values.values()) {
-                items.push([
-                    pheromone.location.x,
-                    pheromone.location.y,
-                    pheromone.velocity.length,
-                ])
+            const printPheromones = () => {
+                const items = []
+                for (const pheromone of this.simulation.environment.pheromones.values.values()) {
+                    items.push([
+                        pheromone.location.x,
+                        pheromone.location.y,
+                        pheromone.velocity.length,
+                    ])
+                }
+                console.log('Pheromones:')
+                console.log(items.join('\n'))
             }
-            console.log('Pheromones:')
-            console.log(items.join('\n'))
+
+            const printAttractors = () => {
+                const items = []
+                for (const attractor of this.simulation.environment.attractors) {
+                    items.push([
+                        attractor.location.x,
+                        attractor.location.y,
+                        attractor.agents.length,
+                    ])
+                }
+                console.log('Attractors:')
+                console.log(items.join('\n'))
+            }
+
+            printAttractors()
+            printPheromones()
         })
 
         shortcut.register('ctrl+a', () => {
