@@ -7,27 +7,30 @@ export default class NavigateTool extends Tool {
         return this._drag
     }
 
-    constructor({camera, channel}) {
+    constructor({viewController, channel}) {
         super()
         this.mouseDirectionMultiplyX = 1
         this.mouseDirectionMultiplyY = 1
         this.channels = new UpdateChannel(this)
 
-        this._lastCursorLocation = null
+        this._dragStart = null
+        this._cursor = new Vector(0, 0)
         this._drag = false
 
-        this._camera = camera
+        this._viewController = viewController
         this._cursorChannel = channel
 
         this.onMouseDown = this.onMouseDown.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
+        this.onMouseWheel = this.onMouseWheel.bind(this)
     }
 
     run() {
         this._cursorChannel.mouseDown.on(this.onMouseDown)
         this._cursorChannel.mouseUp.on(this.onMouseUp)
         this._cursorChannel.mouseMove.on(this.onMouseMove)
+        this._cursorChannel.mouseWheel.on(this.onMouseWheel)
 
         return this
     }
@@ -36,6 +39,7 @@ export default class NavigateTool extends Tool {
         this._cursorChannel.mouseDown.off(this.onMouseDown)
         this._cursorChannel.mouseUp.off(this.onMouseUp)
         this._cursorChannel.mouseMove.off(this.onMouseMove)
+        this._cursorChannel.mouseWheel.off(this.onMouseWheel)
 
         return this
     }
@@ -49,25 +53,35 @@ export default class NavigateTool extends Tool {
     }
 
     onMouseDown(coord) {
-        this._lastCursorLocation = coord.clone()
+        this._dragStart = this._viewController.inversedCoord(coord)
         this.dragOn()
     }
 
     onMouseUp() {
-        this._lastCursorLocation = null
+        this._dragStart = null
         this.dragOff()
     }
 
     onMouseMove(coord) {
-        if (this.isDragging) {
-            const mouseDirection = Vector
-                .sub(this._lastCursorLocation, coord)
-            mouseDirection.x *= this.mouseDirectionMultiplyX
-            mouseDirection.y *= this.mouseDirectionMultiplyY
-            this._lastCursorLocation.setFrom(coord)
+        this._cursor.setFrom(coord)
 
-            this._camera.location.add(mouseDirection)
+        if (this.isDragging) {
+
+            const pt = this._viewController
+                .inversedCoord(coord)
+                .sub(this._dragStart)
+            this._viewController.translate(pt)
             this.channels.update.trigger(this)
         }
+    }
+
+    onMouseWheel(delta) {
+        if (delta.y < 0) {
+            this._viewController.zoomIn(this._cursor)
+        } else {
+            this._viewController.zoomOut(this._cursor)
+        }
+
+        this.channels.update.trigger(this)
     }
 }

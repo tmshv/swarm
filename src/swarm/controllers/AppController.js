@@ -16,6 +16,7 @@ import KeyboardController from './KeyboardController'
 import Camera from '../render/Camera'
 import SelectionController from './SelectionController'
 import MoveTool from '../tools/MoveTool'
+import Viewport from '../Viewport'
 
 const Layer = {
     AGENTS: 'agents',
@@ -41,14 +42,17 @@ export default class AppController {
         this._document = document
     }
 
-    init({simulation, cameraCoord, scale}) {
-        this.__scale = scale
+    init({simulation, cameraCoord, scaleX, scaleY}) {
+        this.__scaleX = scaleX
+        this.__scaleY = scaleY
+
+        const viewport = Viewport.fromWindow(this._window)
 
         this.simulation = simulation
         this.camera = new Camera(this._window)
         this.camera.location.setFrom(cameraCoord)
 
-        this.viewController = new ViewController(simulation)
+        this.viewController = new ViewController(simulation, viewport)
         this.screenController = new ScreenController(this._window, this.viewController)
 
         this.initTools()
@@ -89,14 +93,16 @@ export default class AppController {
             .addLayout(Layer.ATTRACTORS)
             .addLayout(Layer.AGENTS)
             .addLayout(Layer.SELECTED)
-            .scaleViews(this.__scale, this.__scale)
+            .scale(this.__scaleX, this.__scaleY)
             .translateFromCamera(this.camera)
+            .applyTransform()
             .getLayers({
                 ...mouseCallbacks,
             })
     }
 
     createLayers() {
+            .applyTransform()
         return {
             [Layer.AGENTS]: (params) => new AgentsView({
                 clear: true,
@@ -167,11 +173,12 @@ export default class AppController {
         }))
 
         const navigateTool = new NavigateTool({
-            camera: this.camera,
+            viewController: this.viewController,
             channel: this.screenController.channels
         })
-        navigateTool.mouseDirectionMultiplyX = 1 / this.__scale
-        navigateTool.mouseDirectionMultiplyY = 1 / this.__scale
+        navigateTool.mouseDirectionMultiplyX = 1 / this.__scaleX
+        navigateTool.mouseDirectionMultiplyY = 1 / this.__scaleY
+        this.navigateTool = navigateTool
         this.tools.register(ToolType.NAVIGATE, navigateTool)
 
         let updateCameraRequestAnimationFrameId
@@ -182,7 +189,8 @@ export default class AppController {
     }
 
     updateCamera() {
-        this.viewController.translateFromCamera(this.camera)
+
+        this.viewController.applyTransform()
         this.viewController.render()
     }
 
@@ -226,9 +234,8 @@ export default class AppController {
             })
         })
         shortcut.register('ctrl+l', () => {
-            console.log('Translate:', this.viewController._translation)
-            console.log('Scale:', this.viewController._scale)
             console.log('Pool:', this.simulation.agents.size)
+            console.log('Viewport:', this.viewController.getTransform().toArray())
         })
         shortcut.register('ctrl+p', () => {
             const items = []

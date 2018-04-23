@@ -11,13 +11,16 @@ import {createUnit4Simulation, getUnit4CameraCenter} from './unit4'
 function main() {
     const scale = 1
     // const simulation = createDemoSimulation()
+    const scaleX = scale
+    const scaleY = scale
     const simulation = createUnit4Simulation()
 
     const swarm = new AppController(window, document)
     swarm.init({
         simulation,
-        scale,
         // cameraCoord: getDemoCameraCenter(),
+        scaleX,
+        scaleY,
         cameraCoord: getUnit4CameraCenter(),
     })
 

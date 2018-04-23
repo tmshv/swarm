@@ -3,17 +3,14 @@ import Vector from '../Vector'
 import MouseChannel from '../channels/MouseChannel'
 
 export default class ViewController {
-    constructor(simulation) {
+    constructor(simulation, viewport) {
         this.simulation = simulation
+        this.viewport = viewport
 
         this.viewFactory = new Map()
         this.views = []
 
         this._matrix = new Matrix()
-        this._inverseMatrix = null
-        this._translation = new Vector(0, 0)
-        this._scale = new Vector(1, 1)
-        this._rotation = 0
 
         this.render = this.render.bind(this)
     }
@@ -22,16 +19,120 @@ export default class ViewController {
         signal.on(this.render)
     }
 
-    translateFromCamera(camera) {
-        const offset = camera
-            .getScreenCenterOffset()
-            .mult(1 / this._scale.x)
+    invertCoord(coord) {
+        const p = this._matrix
+            .inverse()
+            .applyToPoint(coord.x, coord.y)
+        coord.x = p.x
+        coord.y = p.y
+        return coord
+    }
 
-        const t = camera.location
-            .clone()
-            .mult(-1)
-            .add(offset)
-        return this.translateViews(t)
+    inversedCoord(coord) {
+        return this.invertCoord(coord.clone())
+    }
+
+    translate(coord) {
+        this._matrix.translate(coord.x, coord.y)
+
+        return this
+    }
+
+    scaleUniform(s) {
+        this._matrix.scaleU(s)
+
+        return this
+    }
+
+    scale(sx, sy) {
+        this._matrix.scale(sx, sy)
+
+        return this
+    }
+
+    rotate(angle) {
+        this._matrix.rotate(angle)
+
+        return this
+    }
+
+    transform(matrix) {
+        this._matrix.transform(
+            matrix.a, matrix.b, matrix.c,
+            matrix.d, matrix.e, matrix.f,
+        )
+
+        return this
+    }
+
+    applyMatrix(matrix) {
+        return this.setTransform(
+            matrix.a, matrix.b, matrix.c,
+            matrix.d, matrix.e, matrix.f,
+        )
+    }
+
+    setTransform(a, b, c, d, e, f) {
+        this._matrix.setTransform(a, b, c, d, e, f)
+
+        return this
+    }
+
+    applyTransform() {
+        this.updateViewsMatrix()
+
+        return this
+    }
+
+    setCenter(coord) {
+        const center = this.viewport.getScreenCenterOffset()
+
+        const t = this
+            .invertCoord(center)
+            .sub(coord)
+
+        return this.translate(t)
+    }
+
+    zoomIn(target) {
+        return this.zoom(1, target)
+    }
+
+    zoomOut(target) {
+        return this.zoom(-1, target)
+    }
+
+    zoom(m, target) {
+        let scaleFactor = 1.05
+        const s = scaleFactor ** m
+        const pt = this.inversedCoord(target)
+
+        this.translate(pt)
+
+        this.scaleUniform(s, s)
+
+        pt.mult(-1)
+        this.translate(pt)
+
+        return this
+    }
+
+    translateFromCamera(camera) {
+        return this.setCenter(camera.location)
+        // const offset = camera
+        //     .getScreenCenterOffset()
+        // // offset.x *= 1 / this._scale.x
+        // // offset.y *= 1 / this._scale.y
+        //
+        // const t = camera.location
+        //     .clone()
+        //     .mult(-1)
+        //     .add(offset)
+        // return this.translateViews(t)
+    }
+
+    getTransform() {
+        return this._matrix.clone()
     }
 
     createScreenToWorldChannel(mouseChannel) {
@@ -57,7 +158,9 @@ export default class ViewController {
     }
 
     setScreenToWorld(coord) {
-        const {x, y} = this._inverseMatrix.applyToPoint(coord.x, coord.y)
+        const {x, y} = this._matrix
+            .inverse()
+            .applyToPoint(coord.x, coord.y)
 
         return coord.set(x, y)
     }
@@ -74,44 +177,10 @@ export default class ViewController {
         return this
     }
 
-    setTransformation(tx, ty, sx, sy, a) {
-        this._translation.set(tx, ty)
-        this._scale.set(sx, sy)
-        this._rotation = a
-
-        return this.applyTransform()
-    }
-
-    applyTransform() {
-        this._matrix.reset()
-        this._matrix.scale(this._scale.x, this._scale.y)
-        this._matrix.translate(this._translation.x, this._translation.y)
-        this._matrix.rotate(this._rotation)
-        this._inverseMatrix = this._matrix.inverse()
-
+    updateViewsMatrix() {
         this.views.forEach(view => {
             view.applyMatrix(this._matrix)
         })
-
-        return this
-    }
-
-    translateViews(coord) {
-        this._translation.setFrom(coord)
-
-        return this.applyTransform()
-    }
-
-    scaleViews(scaleX, scaleY) {
-        this._scale.set(scaleX, scaleY)
-
-        return this.applyTransform()
-    }
-
-    rotateViews(angle) {
-        this._rotation = angle
-
-        return this.applyTransform()
     }
 
     registerViewFactory(name, factory) {
@@ -141,5 +210,11 @@ export default class ViewController {
             view,
             ...props,
         }))
+    }
+
+    transformCoord(coord) {
+        const {x, y} = this._inverseMatrix.applyToPoint(coord.x, coord.y)
+
+        return new Vector(x, y)
     }
 }
