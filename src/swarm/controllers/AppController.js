@@ -16,6 +16,10 @@ import KeyboardController from './KeyboardController'
 import Camera from '../render/Camera'
 import SelectionController from './SelectionController'
 import MoveTool from '../tools/MoveTool'
+import Vector from '../Vector'
+import AddTool from '../tools/AddTool'
+import Attractor from '../Attractor'
+import Id from '../Id'
 import Viewport from '../Viewport'
 
 const Layer = {
@@ -33,6 +37,8 @@ const ToolType = {
     SELECT_OBSTACLE: 'selectObstacle',
     SELECT_EMITTER: 'selectEmitter',
     SELECT_ATTRACTOR: 'selectAttractor',
+    ADD_ATTRACTOR: 'addAttractor',
+    ADD_EMITTER: 'addEmitter',
     MOVE: 'move',
 }
 
@@ -166,6 +172,21 @@ export default class AppController {
             radius,
             simulation: this.simulation,
             select: (simulation, coord, radius) => findNearestInLocation(simulation.environment.attractors, coord, radius),
+        }))
+        this.tools.register(ToolType.ADD_ATTRACTOR, new AddTool({
+            channel: mouseWorldCoordChannels,
+            simulation: this.simulation,
+            add: (simulation, coord) => {
+                const id = Id.get('attractor')
+                const attractor = new Attractor({
+                    id,
+                    x: coord.x,
+                    y: coord.y,
+                    power: 50,
+                })
+                simulation.environment.addAttractor(attractor)
+                return attractor
+            },
         }))
         this.tools.register(ToolType.MOVE, new MoveTool({
             channel: mouseWorldCoordChannels,
