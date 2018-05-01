@@ -8,7 +8,7 @@ export default class AttractorsView extends EnvironmentView {
         const ctx = this.draw.context
 
         this.environment.attractors.forEach(a => {
-            this.renderEmitterAssociation(a)
+            // this.renderEmitterAssociation(a)
 
             const location = a.location
             const agentsPoolSize = a.agents.length
