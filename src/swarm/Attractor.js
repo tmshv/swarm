@@ -18,6 +18,17 @@ export default class Attractor {
         this.agents = []
         this._emitters = []
         this._emittersCount = new Map()
+
+        this.tags = new Map()
+    }
+
+    addTag(name, tag) {
+        this.tags.set(name, tag)
+        return this
+    }
+
+    getTag(name) {
+        return this.tags.get(name)
     }
 
     addAgent(agent) {

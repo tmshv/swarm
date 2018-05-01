@@ -23,6 +23,7 @@ import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour'
 import Unit4AgentBehaviour from '../swarm/behaviours/Unit4AgentBehaviour'
 import Tag from '../swarm/Tag'
 import ObstacleType from '../swarm/ObstacleType'
+import AttractorType from '../swarm/AttractorType'
 
 export function createUnit4Simulation() {
     const s = new Simulation()
@@ -164,11 +165,13 @@ function initAttractors(env) {
     ]
 
     attractors.forEach((coord) => {
-        env.addAttractor(createAttractor({
+        const a = createAttractor({
             x: coord.x,
             y: coord.y,
             power: 100,
-        }))
+        })
+        a.addTag(Tag.TYPE, AttractorType.BUS_STOP)
+        env.addAttractor(a)
     })
 }
 

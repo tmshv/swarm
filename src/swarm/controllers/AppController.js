@@ -21,6 +21,8 @@ import AddTool from '../tools/AddTool'
 import Attractor from '../Attractor'
 import Id from '../Id'
 import Viewport from '../Viewport'
+import AttractorType from '../AttractorType'
+import Tag from '../Tag'
 
 const Layer = {
     AGENTS: 'agents',
@@ -183,6 +185,7 @@ export default class AppController {
                     y: coord.y,
                     power: 50,
                 })
+                attractor.addTag(Tag.TYPE, AttractorType.UNKNOWN)
                 simulation.environment.addAttractor(attractor)
                 return attractor
             },
