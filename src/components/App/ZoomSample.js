@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import Canvas from '../Canvas/Canvas'
+import {Matrix} from 'transformation-matrix-js'
+import {getBoundingBox, getCentroid} from '../../swarm/lib/geometry'
 
 function eventCoord(event, element) {
     return [
-        event.offsetX || (event.pageX - element.offsetLeft),
-        event.offsetY || (event.pageY - element.offsetTop),
+        (event.offsetX || (event.pageX - element.offsetLeft)) * 2,
+        (event.offsetY || (event.pageY - element.offsetTop)) * 2,
     ]
 }
 
@@ -11,11 +14,46 @@ export default class ZoomSample extends Component {
     constructor(...args) {
         super(...args)
 
+        this._matrix = new Matrix()
+
         this.onRef = this.onRef.bind(this)
     }
 
-    onRef(e) {
-        this.canvas = e
+    translate(x, y) {
+        return this._matrix.translate(x, y)
+    }
+
+    scale(x, y) {
+        return this._matrix.scale(x, y)
+    }
+
+    setScale(x, y) {
+        const m = this._matrix
+        return this._matrix.setTransform(x, m.b, m.c, y, m.e, m.f)
+    }
+
+    inversedPoint(x, y) {
+        return this._matrix
+            .inverse()
+            .applyToPoint(x, y)
+    }
+
+    transformedPoint(x, y) {
+        const p = this._matrix.applyToPoint(x, y)
+        p.x = Math.round(p.x)
+        p.y = Math.round(p.y)
+
+        return p
+    }
+
+    scaledPoint(x, y) {
+        const m = new Matrix()
+        m.setTransform(this._matrix.a, this._matrix.b, this._matrix.c, this._matrix.d, 0, 0)
+        return m.applyToPoint(x, y)
+    }
+
+    onRef(element) {
+        this.canvas = element.canvas
     }
 
     clear(ctx, canvas) {
@@ -25,48 +63,135 @@ export default class ZoomSample extends Component {
         ctx.restore()
     }
 
-    redraw(ctx, canvas, img) {
+    redraw(ctx, canvas) {
         this.clear(ctx, canvas)
-        ctx.drawImage(img, 0, 0)
+        this.draw(ctx)
+    }
+
+    draw(ctx) {
+        let t
+        ctx.save()
+        t = this.scaledPoint(50, 50)
+        ctx.translate(t.x, t.y)
+        ctx.lineWidth = 1
+        ctx.strokeStyle = `#eeeeee`
+        this.drawRect(ctx, 0, 0, 1000, 1000)
+        ctx.stroke()
+        ctx.restore()
+
+        ctx.lineWidth = 5
+        ctx.strokeStyle = `#aa0000`
+        this.drawRect(ctx, 0, 0, 100, 100)
+        ctx.stroke()
+
+        ctx.save()
+        t = this.scaledPoint(1000, 1000)
+        ctx.translate(t.x, t.y)
+        ctx.lineWidth = 15
+        ctx.strokeStyle = `#aa00aa`
+        this.drawRect(ctx, 0, 0, 100, 100)
+        ctx.stroke()
+        ctx.restore()
+
+        ctx.save()
+        t = this.scaledPoint(1100 / 2, 1100 / 2)
+        ctx.translate(t.x, t.y)
+        ctx.lineWidth = 3
+        ctx.strokeStyle = `#0000aa`
+        this.drawRect(ctx, -5, -5, 10, 10)
+        ctx.stroke()
+        ctx.restore()
+    }
+
+    drawRect(ctx, x, y, w, h) {
+        const x2 = x + w
+        const y2 = y + h
+        const coords = [
+            this.transformedPoint(x, y),
+            this.transformedPoint(x2, y),
+            this.transformedPoint(x2, y2),
+            this.transformedPoint(x, y2),
+            this.transformedPoint(x, y),
+        ]
+        const length = coords.length
+        const {x: x1, y: y1} = coords[0]
+
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+
+        for (let i = 1; i < length; i++) {
+            const {x, y} = coords[i]
+            ctx.lineTo(x, y)
+        }
     }
 
     componentDidMount() {
-        const img = new Image()
-        img.src = 'https://cdn.shopify.com/s/files/1/0592/6389/products/MarilynGlitch_large.jpg?v=1475187005'
-        img.onload = () => {
-            this.redraw(ctx, canvas, img)
-        }
-
         const canvas = this.canvas
         const ctx = canvas.getContext('2d')
-        this.trackTransforms(ctx)
 
+        let scaleFactor = 1.05
         let lastX = canvas.width / 2
         let lastY = canvas.height / 2
         let dragStart
 
+        const worldMouse = (event) => {
+            const [x, y] = eventCoord(event, canvas)
+            return this.inversedPoint(x, y)
+        }
+
         canvas.addEventListener('mousedown', evt => {
             [lastX, lastY] = eventCoord(evt, canvas)
-            dragStart = ctx.transformedPoint(lastX, lastY);
+
+            dragStart = this.inversedPoint(lastX, lastY)
         })
 
         canvas.addEventListener('mousemove', evt => {
             [lastX, lastY] = eventCoord(evt, canvas)
 
             if (dragStart) {
-                const pt = ctx.transformedPoint(lastX, lastY);
-                ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+                const pt = this.inversedPoint(lastX, lastY)
+                this.translate(pt.x - dragStart.x, pt.y - dragStart.y)
 
-                this.redraw(ctx, canvas, img);
+                this.redraw(ctx, canvas)
             }
         })
 
         canvas.addEventListener('mouseup', () => {
-            dragStart = null;
-            zoomIn()
+            dragStart = null
         })
 
-        let scaleFactor = 1.1
+        canvas.addEventListener('click', event => {
+            const [x, y] = eventCoord(event, canvas)
+            const m = this.inversedPoint(x, y)
+
+            console.log('Mouse:', x, y)
+            console.log('WMouse:', m.x, m.y)
+
+            if (event.shiftKey) {
+                const tl = {x: 0, y: 0}
+                const br = {x: 1100, y: 1000}
+
+                fit([tl, br])
+
+                this.redraw(ctx, canvas)
+            }
+        })
+
+        canvas.addEventListener('dblclick', event => {
+            setCenter(worldMouse(event))
+            this.redraw(ctx, canvas)
+        })
+
+        canvas.addEventListener('mousewheel', event => {
+                event.preventDefault()
+
+                const delta = event.deltaY
+                if (delta > 0) zoomOut()
+                else zoomIn()
+
+                this.redraw(ctx, canvas)
+            }
+        )
 
         const zoomIn = () => {
             zoom(1)
@@ -78,101 +203,48 @@ export default class ZoomSample extends Component {
 
         const zoom = m => {
             const s = scaleFactor ** m
-            const pt = ctx.transformedPoint(lastX, lastY)
-
-            ctx.translate(pt.x, pt.y)
-            ctx.scale(s, s)
-            ctx.translate(-pt.x, -pt.y)
-
-            this.redraw(ctx, canvas, img)
+            const pt = this.inversedPoint(lastX, lastY)
+            this.translate(pt.x, pt.y)
+            this.scale(s, s)
+            this.translate(-pt.x, -pt.y)
         }
 
-        const handleScroll = event => {
-            event.preventDefault()
+        const fit = (coords) => {
+            const padding = 100
 
-            const delta = event.deltaY
-            if (delta > 0) zoomOut()
-            else zoomIn()
-        };
+            const c = getCentroid(coords)
+            const bb = getBoundingBox(coords)
 
-        canvas.addEventListener('DOMMouseScroll', handleScroll)
-        canvas.addEventListener('mousewheel', handleScroll)
-    }
+            const vw = canvas.width - (padding * 2)
+            const vh = canvas.height - (padding * 2)
 
-    trackTransforms(ctx) {
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg')
-        let xform = svg.createSVGMatrix()
-        ctx.getTransform = function () {
-            return xform;
-        };
+            const rw = vw / bb.width
+            const rh = vh / bb.height
 
-        const savedTransforms = []
-        const save = ctx.save
-        ctx.save = function () {
-            savedTransforms.push(xform.translate(0, 0));
-            return save.call(ctx);
-        };
-        const restore = ctx.restore
-        ctx.restore = function () {
-            xform = savedTransforms.pop();
-            return restore.call(ctx);
-        };
+            const scale = Math.min(rw, rh)
 
-        const scale = ctx.scale
-        ctx.scale = function (sx, sy) {
-            xform = xform.scaleNonUniform(sx, sy);
-            return scale.call(ctx, sx, sy);
-        };
-
-        const rotate = ctx.rotate
-        ctx.rotate = function (radians) {
-            xform = xform.rotate(radians * 180 / Math.PI);
-            return rotate.call(ctx, radians);
-        };
-
-        const translate = ctx.translate
-        ctx.translate = function (dx, dy) {
-            xform = xform.translate(dx, dy);
-            return translate.call(ctx, dx, dy);
-        };
-
-        const transform = ctx.transform
-        ctx.transform = function (a, b, c, d, e, f) {
-            const m2 = svg.createSVGMatrix()
-            m2.a = a;
-            m2.b = b;
-            m2.c = c;
-            m2.d = d;
-            m2.e = e;
-            m2.f = f;
-            xform = xform.multiply(m2);
-            return transform.call(ctx, a, b, c, d, e, f);
-        };
-
-        const setTransform = ctx.setTransform
-        ctx.setTransform = function (a, b, c, d, e, f) {
-            xform.a = a;
-            xform.b = b;
-            xform.c = c;
-            xform.d = d;
-            xform.e = e;
-            xform.f = f;
-            return setTransform.call(ctx, a, b, c, d, e, f);
-        };
-
-        const pt = svg.createSVGPoint()
-        ctx.transformedPoint = function (x, y) {
-            pt.x = x;
-            pt.y = y;
-            return pt.matrixTransform(xform.inverse());
+            this.setScale(scale, scale)
+            setCenter(c)
         }
+
+        const setCenter = (coord) => {
+            const center = this.inversedPoint(
+                canvas.width / 2,
+                canvas.height / 2,
+            )
+            this.translate(-coord.x, -coord.y)
+            this.translate(center.x, center.y)
+        }
+
+        this.redraw(ctx, canvas)
     }
 
     render() {
         return (
-            <canvas
-                width={800}
-                height={600}
+            <Canvas
+                width={this.props.width}
+                height={this.props.height}
+                devicePixelRatio={this.props.devicePixelRatio}
                 ref={this.onRef}
             />
         )
