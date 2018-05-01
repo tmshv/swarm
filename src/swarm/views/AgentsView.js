@@ -5,7 +5,7 @@ export default class AgentsView extends SimulationView {
         const ctx = this.draw.context
         ctx.fillStyle = `rgba(200, 0, 0, ${1})`
 
-        this.renderTrack()
+        // this.renderTrack()
         const s = 2
         this.simulation
             .getAgents()
