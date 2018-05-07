@@ -25,7 +25,7 @@ import Tag from '../swarm/Tag'
 import ObstacleType from '../swarm/ObstacleType'
 import AttractorType from '../swarm/AttractorType'
 
-export function createUnit4Simulation() {
+export function createSimulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool())
     s.setEnvironment(createEnvironment())
@@ -34,7 +34,7 @@ export function createUnit4Simulation() {
     return s
 }
 
-export function getUnit4CameraCenter() {
+export function getCameraCenter() {
     return new Vector(-37.4301, -11163.837642)
     // return new Vector(212.466835, -11873.982292)
 }
