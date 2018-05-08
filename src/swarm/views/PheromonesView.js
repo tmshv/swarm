@@ -12,20 +12,21 @@ export default class PheromonesView extends EnvironmentView {
 
         for (let pheromone of pheromones.getValuesIterator()) {
             const location = pheromone.location
-            const predict = pheromone.velocity
-                .clone()
-                // .limit(50)
-                .add(pheromone.location)
 
             const alpha = pheromone.velocity.length * 0.01
             ctx.fillStyle = `rgba(0, 250, 50, ${alpha})`
             this.draw.rectCenter(location, s, s)
-
-            // ctx.strokeStyle = `rgba(0, 250, 50, ${0.4})`
-            // this.draw.targetArea(location, s, s, 10)
-
-            ctx.strokeStyle = `rgb(0, 250, 50)`
-            this.draw.path([location, predict])
         }
+    }
+
+    renderPheromoneForce(ctx, pheromone) {
+        const location = pheromone.location
+        const predict = pheromone.velocity
+            .clone()
+            // .limit(50)
+            .add(pheromone.location)
+
+        ctx.strokeStyle = `rgb(0, 250, 50)`
+        this.draw.path([location, predict])
     }
 }
