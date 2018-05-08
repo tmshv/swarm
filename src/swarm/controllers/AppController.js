@@ -22,6 +22,7 @@ import Attractor from '../Attractor'
 import Id from '../Id'
 import Viewport from '../Viewport'
 import AttractorType from '../AttractorType'
+import ToolType from '../ToolType'
 import Tag from '../Tag'
 
 const Layer = {
@@ -31,17 +32,6 @@ const Layer = {
     ATTRACTORS: 'attractors',
     PHEROMONES: 'pheromones',
     SELECTED: 'selected',
-}
-
-const ToolType = {
-    NAVIGATE: 'navigate',
-    SELECT_AGENT: 'selectAgent',
-    SELECT_OBSTACLE: 'selectObstacle',
-    SELECT_EMITTER: 'selectEmitter',
-    SELECT_ATTRACTOR: 'selectAttractor',
-    ADD_ATTRACTOR: 'addAttractor',
-    ADD_EMITTER: 'addEmitter',
-    MOVE: 'move',
 }
 
 export default class AppController {
