@@ -7,6 +7,7 @@ import './index.less'
 import {createDemoSimulation, getDemoCameraCenter} from './demo'
 import AppController from '../swarm/controllers/AppController'
 import {createSimulation, getCameraCenter} from './unit4'
+import ToolType from '../swarm/ToolType'
 
 function main() {
     const scale = 1
@@ -22,8 +23,12 @@ function main() {
         cameraCoord: getCameraCenter(),
     })
 
-    swarm.selectUpdateSignal.on(item => {
+    swarm.selectionController.channels.update.on(item => {
         console.log('Select:', item)
+    })
+
+    swarm.tools.getToolUpdateSignal(ToolType.DELETE).on(item => {
+        console.log('Delete:', item)
     })
 
     const layers = swarm.createLayout()
