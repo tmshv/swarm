@@ -24,6 +24,12 @@ export default class Environment {
         return this
     }
 
+    removeAttractor(attractor) {
+        const i = this.attractors.indexOf(attractor)
+        this.attractors.splice(i, 1)
+        return this
+    }
+
     getNearestAttractor(coord, excluded = []) {
         let minDist = 10000000
         let result = null

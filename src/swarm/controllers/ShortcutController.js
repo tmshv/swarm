@@ -4,9 +4,7 @@ export default class ShortcutController {
     constructor(keyboardChannel) {
         this.registry = new Map()
 
-        keyboardChannel.keyPress.on(this.listenPress.bind(this))
-        // keyboardChannel.keyDown.on(this.listenDown.bind(this))
-        // keyboardChannel.keyUp.on(this.listenUp.bind(this))
+        keyboardChannel.keyUp.on(this.listenPress.bind(this))
 
         // this._lastFiredCombination = null
     }
@@ -22,10 +20,6 @@ export default class ShortcutController {
             const fn = this.registry.get(combination)
             fn.call(null)
         }
-    }
-
-    listenUp(event) {
-        // this._lastFiredCombination = null
     }
 
     register(combination, fn) {

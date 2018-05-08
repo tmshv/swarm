@@ -24,6 +24,7 @@ import Viewport from '../Viewport'
 import AttractorType from '../AttractorType'
 import ToolType from '../ToolType'
 import Tag from '../Tag'
+import DeleteTool from '../tools/DeleteTool'
 
 const Layer = {
     AGENTS: 'agents',
@@ -184,6 +185,9 @@ export default class AppController {
             channel: mouseWorldCoordChannels,
             simulation: this.simulation,
         }))
+        this.tools.register(ToolType.DELETE, new DeleteTool({
+            simulation: this.simulation,
+        }))
 
         const navigateTool = new NavigateTool({
             viewController: this.viewController,
@@ -249,6 +253,11 @@ export default class AppController {
         shortcut.register('ctrl+l', () => {
             console.log('Pool:', this.simulation.agents.size)
             console.log('Viewport:', this.viewController.getTransform().toArray())
+        })
+        shortcut.register('backspace', () => {
+            this.tools.run(ToolType.DELETE, {
+                selectionController: this.selectionController,
+            })
         })
         shortcut.register('ctrl+p', () => {
             const printPheromones = () => {

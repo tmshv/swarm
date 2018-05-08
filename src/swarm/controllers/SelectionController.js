@@ -19,6 +19,12 @@ export default class SelectionController {
                 }
             }
             this._currentItem = item
+            this.channels.update.trigger(this._currentItem)
         })
+    }
+
+    reset() {
+        this._currentItem = null
+        this.channels.update.trigger(this._currentItem)
     }
 }

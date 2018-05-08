@@ -18,11 +18,15 @@ export default class ToolController {
 
     activate(name, options) {
         this.deactivate()
-        const tool = this.tools.get(name)
+        this._currentTool = this.run(name, options)
+    }
 
-        this._currentTool = tool
-        this._currentTool.run(options)
+    run(name, options) {
+        const tool = this.tools.get(name)
+        tool.run(options)
         this.channels.update.trigger(tool)
+
+        return tool
     }
 
     deactivate() {
