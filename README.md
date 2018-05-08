@@ -4,7 +4,8 @@
 
 - [Matthijs la Roi](https://vimeo.com/user3211794)
 - [Agar](http://alumni.media.mit.edu/~mt/agar/agar.html)
-- [Quelea](http://quelea.alexjfischer.com)
+- [Quelea Grasshopper plugin](http://quelea.alexjfischer.com)
+- [PedSim Grasshopper plugin](http://www.food4rhino.com/app/pedsim)
 - [Roadrunner (Gh plugin)](http://www.grasshopper3d.com/group/roadrunner)
 - [population density. existing situation on site. processing simulation](https://www.youtube.com/watch?v=V-WJhu7kxbE)
 - [Will Geary: Open Data](http://willgeary.github.io/data/)
