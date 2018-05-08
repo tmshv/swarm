@@ -11,7 +11,7 @@ import {createSimulation, getCameraCenter} from './unit4'
 function main() {
     const scale = 1
     const scaleX = scale
-    const scaleY = scale
+    const scaleY = -scale
     const simulation = createSimulation()
 
     const swarm = new AppController(window, document)
