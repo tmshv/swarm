@@ -74,6 +74,8 @@ export default class AppController {
             this.tools.getToolUpdateSignal(ToolType.SELECT_ATTRACTOR),
         ])
 
+        this.tools.getToolUpdateSignal(ToolType.NAVIGATE).on(this.updateCamera.bind(this))
+
         this.selectionController = new SelectionController(selectUpdateSignal)
 
         const update = simulation.channels.update
@@ -226,25 +228,13 @@ export default class AppController {
         this.tools.register(ToolType.DELETE, new DeleteTool({
             simulation: this.simulation,
         }))
-
-        const navigateTool = new NavigateTool({
+        this.tools.register(ToolType.NAVIGATE, new NavigateTool({
             viewController: this.viewController,
             channel: this.screenController.channels
-        })
-        navigateTool.mouseDirectionMultiplyX = 1 / this.__scaleX
-        navigateTool.mouseDirectionMultiplyY = 1 / this.__scaleY
-        this.navigateTool = navigateTool
-        this.tools.register(ToolType.NAVIGATE, navigateTool)
-
-        let updateCameraRequestAnimationFrameId
-        navigateTool.channels.update.on(() => {
-            cancelAnimationFrame(updateCameraRequestAnimationFrameId)
-            updateCameraRequestAnimationFrameId = requestAnimationFrame(this.updateCamera.bind(this))
-        })
+        }))
     }
 
     updateCamera() {
-
         this.viewController.applyTransform()
         this.viewController.render()
     }

@@ -9,8 +9,6 @@ export default class NavigateTool extends Tool {
 
     constructor({viewController, channel}) {
         super()
-        this.mouseDirectionMultiplyX = 1
-        this.mouseDirectionMultiplyY = 1
         this.channels = new UpdateChannel(this)
 
         this._dragStart = null
