@@ -56,14 +56,14 @@ export default class AppController {
         this.initTools()
         this.initShortcuts()
 
-        this.selectUpdateSignal = new ComposedSignal(null, [
+        const selectUpdateSignal = new ComposedSignal(null, [
             this.tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
             this.tools.getToolUpdateSignal(ToolType.SELECT_OBSTACLE),
             this.tools.getToolUpdateSignal(ToolType.SELECT_EMITTER),
             this.tools.getToolUpdateSignal(ToolType.SELECT_ATTRACTOR),
         ])
 
-        this.selectionController = new SelectionController(this.selectUpdateSignal)
+        this.selectionController = new SelectionController(selectUpdateSignal)
 
         const update = simulation.channels.update
         // new ComposedSignal(null, [
@@ -124,7 +124,7 @@ export default class AppController {
             [Layer.SELECTED]: (params) => new SelectedView({
                 ...params,
                 radius: 10,
-                updateSignal: this.selectUpdateSignal,
+                updateSignal: this.selectionController.channels.update,
             }),
             [Layer.PHEROMONES]: (params) => new PheromonesView({
                 clear: true,
