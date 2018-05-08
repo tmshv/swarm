@@ -8,6 +8,7 @@ import ViewController from './ViewController'
 import SelectedView from '../views/SelectedView'
 import EmittersView from '../views/EmittersView'
 import ComposedSignal from '../../lib/ComposedSignal'
+import Storage from '../../lib/Storage'
 import ScreenController from './ScreenController'
 import ShortcutController from './ShortcutController'
 import AgentsView from '../views/AgentsView'
@@ -24,6 +25,7 @@ import Viewport from '../Viewport'
 import AttractorType from '../AttractorType'
 import ToolType from '../ToolType'
 import Tag from '../Tag'
+import SceneController from './SceneController'
 import DeleteTool from '../tools/DeleteTool'
 
 const Layer = {
@@ -56,6 +58,13 @@ export default class AppController {
 
         this.initTools()
         this.initShortcuts()
+
+        this.sceneController = (new SceneController(new Storage(localStorage)))
+            .initAttractorsSave(
+                this.tools.getToolUpdateSignal(ToolType.ADD_ATTRACTOR),
+                this.tools.getToolUpdateSignal(ToolType.DELETE),
+            )
+            .loadAttractors(this.simulation)
 
         const selectUpdateSignal = new ComposedSignal(null, [
             this.tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
