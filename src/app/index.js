@@ -31,6 +31,14 @@ function main() {
         console.log('Delete:', item)
     })
 
+    swarm.tools.getToolUpdateSignal(ToolType.CONSOLE_EXPORT).on(({attractors, pheromones}) => {
+        console.log('Attractors:')
+        console.log(attractors.join('\n'))
+
+        console.log('Pheromones:')
+        console.log(pheromones.join('\n'))
+    })
+
     const layers = swarm.createLayout()
     const ui = {
         onClick: () => {

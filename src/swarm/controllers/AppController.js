@@ -27,6 +27,7 @@ import ToolType from '../ToolType'
 import Tag from '../Tag'
 import SceneController from './SceneController'
 import DeleteTool from '../tools/DeleteTool'
+import FnTool from '../tools/FnTool'
 
 const Layer = {
     AGENTS: 'agents',
@@ -150,6 +151,34 @@ export default class AppController {
 
         const radius = 100
         this.tools = new ToolController()
+        this.tools.register(ToolType.CONSOLE_EXPORT, new FnTool(({simulation}) => {
+            const exporter = fn => iter => {
+                const items = []
+
+                for (const x of iter) {
+                    items.push(fn(x))
+                }
+
+                return items
+            }
+
+            const exportPheromones = exporter(pheromone => [
+                pheromone.location.x,
+                pheromone.location.y,
+                pheromone.velocity.length,
+            ])
+
+            const exportAttractors = exporter(attractor => [
+                attractor.location.x,
+                attractor.location.y,
+                attractor.agents.length,
+            ])
+
+            return {
+                attractors: exportAttractors(simulation.environment.attractors),
+                pheromones: exportPheromones(simulation.environment.pheromones.values.values()),
+            }
+        }))
         this.tools.register(ToolType.SELECT_AGENT, new SelectTool({
             channel: mouseWorldCoordChannels,
             radius,
@@ -269,34 +298,9 @@ export default class AppController {
             })
         })
         shortcut.register('ctrl+p', () => {
-            const printPheromones = () => {
-                const items = []
-                for (const pheromone of this.simulation.environment.pheromones.values.values()) {
-                    items.push([
-                        pheromone.location.x,
-                        pheromone.location.y,
-                        pheromone.velocity.length,
-                    ])
-                }
-                console.log('Pheromones:')
-                console.log(items.join('\n'))
-            }
-
-            const printAttractors = () => {
-                const items = []
-                for (const attractor of this.simulation.environment.attractors) {
-                    items.push([
-                        attractor.location.x,
-                        attractor.location.y,
-                        attractor.agents.length,
-                    ])
-                }
-                console.log('Attractors:')
-                console.log(items.join('\n'))
-            }
-
-            printAttractors()
-            printPheromones()
+            this.tools.run(ToolType.CONSOLE_EXPORT, {
+                simulation: this.simulation,
+            })
         })
 
         shortcut.register('ctrl+a', () => {

@@ -8,6 +8,7 @@ export default class ToolType {
     static ADD_EMITTER = 'addEmitter'
     static MOVE = 'move'
     static DELETE = 'delete'
+    static CONSOLE_EXPORT = 'consoleExport'
 
     constructor() {
         throw new Error('Cannot create instance of ToolType')
