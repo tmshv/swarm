@@ -15,7 +15,7 @@ export default class PheromonesView extends EnvironmentView {
 
             const alpha = pheromone.velocity.length * 0.01
             ctx.fillStyle = `rgba(0, 250, 50, ${alpha})`
-            this.draw.rectCenter(location, s, s)
+            this.draw.rectCenterZoomed(location, s, s)
         }
     }
 

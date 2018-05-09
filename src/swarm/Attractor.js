@@ -53,4 +53,8 @@ export default class Attractor {
     getAssociatedEmitterCount(emitter) {
         return this._emittersCount.get(emitter)
     }
+
+    getAgentsCount() {
+        return this.agents.length
+    }
 }

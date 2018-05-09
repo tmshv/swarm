@@ -45,7 +45,8 @@ export default class Render {
     // }
 
     getValue(value) {
-        return this.matrix.applyToPoint(value, 0).x
+        const {scale} = this.matrix.decompose()
+        return value * scale.x
     }
 
     getCoord({x, y}) {
@@ -53,11 +54,24 @@ export default class Render {
     }
 
     text(coord, text, offset) {
+        return this.textWithOffset(coord, text, offset.x, offset.y)
+    }
+
+    textWithOffset(coord, text, offsetX, offsetY) {
         let {x, y} = this.getCoord(coord)
-        x += offset.x
-        y += offset.y
+        x += offsetX
+        y += offsetY
         this.context.font = '16px Arial'
         this.context.fillText(text, x, y)
+    }
+
+    circleCenterZoomed(coord, radius) {
+        const r = this.getValue(radius)
+        const {x, y} = this.getCoord(coord)
+
+        this.context.beginPath()
+        this.context.arc(x, y, r, 0, TWO_PI)
+        this.context.stroke()
     }
 
     circleCenter(coord, radius) {
@@ -75,6 +89,18 @@ export default class Render {
         const {x, y} = this.getCoord(coord)
 
         this.context.fillRect(x, y, w, h)
+    }
+
+    rectCenterZoomed(coord, w, h) {
+        const {x, y} = this.getCoord(coord)
+
+        const wz = this.getValue(w)
+        const hz = this.getValue(h)
+
+        const w2 = wz / 2
+        const h2 = hz / 2
+
+        this.context.fillRect(x - w2, y - h2, wz, hz)
     }
 
     rectCenter(coord, w, h) {
