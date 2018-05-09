@@ -28,6 +28,8 @@ import Tag from '../Tag'
 import SceneController from './SceneController'
 import DeleteTool from '../tools/DeleteTool'
 import FnTool from '../tools/FnTool'
+import SimulationControlSwitchTool from '../tools/SimulationControlSwitchTool'
+import SimulationControlStepTool from '../tools/SimulationControlStepTool'
 
 const Layer = {
     AGENTS: 'agents',
@@ -49,6 +51,8 @@ export default class AppController {
         this.__scaleY = scaleY
 
         const viewport = Viewport.fromWindow(this._window)
+
+        this.homeCameraPosition = cameraCoord
 
         this.simulation = simulation
         this.camera = new Camera(this._window)
@@ -181,6 +185,19 @@ export default class AppController {
                 pheromones: exportPheromones(simulation.environment.pheromones.values.values()),
             }
         }))
+        this.tools.register(ToolType.CONSOLE_DEBUG_EXPORT, new FnTool(({simulation, viewController}) => ({
+            agentsPoolSize: simulation.agents.size,
+            viewportTransform: viewController.getTransform().toArray(),
+        })))
+        this.tools.register(ToolType.RESET_VIEW, new FnTool(({viewController}) => {
+            this.camera.location.setFrom(this.homeCameraPosition)
+
+            viewController
+                .resetTransform()
+                .scale(this.__scaleX, this.__scaleY)
+                .translateFromCamera(this.camera)
+                .applyTransform()
+        }))
         this.tools.register(ToolType.SELECT_AGENT, new SelectTool({
             channel: mouseWorldCoordChannels,
             radius,
@@ -232,6 +249,8 @@ export default class AppController {
             viewController: this.viewController,
             channel: this.screenController.channels
         }))
+        this.tools.register(ToolType.SIMULATION_CONTROL_SWITCH, new SimulationControlSwitchTool())
+        this.tools.register(ToolType.SIMULATION_CONTROL_STEP, new SimulationControlStepTool())
     }
 
     updateCamera() {
@@ -240,8 +259,6 @@ export default class AppController {
     }
 
     initShortcuts() {
-        const simulation = this.simulation
-
         const keyboard = new KeyboardController(this._document)
         const shortcut = new ShortcutController(keyboard.channels)
         shortcut.register('space', () => {
@@ -260,27 +277,30 @@ export default class AppController {
             this.tools.activate(ToolType.SELECT_ATTRACTOR)
         })
         shortcut.register('r', () => {
-            if (simulation.isRunning) {
-                simulation.stop()
-            } else {
-                simulation.run()
-            }
+            this.tools.run(ToolType.SIMULATION_CONTROL_SWITCH, {
+                simulation: this.simulation,
+            })
         })
         shortcut.register('s', () => {
-            if (simulation.isRunning) {
-                simulation.stop()
-            }
-
-            simulation.step()
+            this.tools.run(ToolType.SIMULATION_CONTROL_STEP, {
+                simulation: this.simulation,
+            })
         })
         shortcut.register('m', () => {
             this.tools.activate(ToolType.MOVE, {
                 selectionController: this.selectionController,
             })
         })
+        shortcut.register('h', () => {
+            this.tools.activate(ToolType.RESET_VIEW, {
+                viewController: this.viewController,
+            })
+        })
         shortcut.register('ctrl+l', () => {
-            console.log('Pool:', this.simulation.agents.size)
-            console.log('Viewport:', this.viewController.getTransform().toArray())
+            this.tools.run(ToolType.CONSOLE_EXPORT, {
+                simulation: this.simulation,
+                viewController: this.viewController,
+            })
         })
         shortcut.register('backspace', () => {
             this.tools.run(ToolType.DELETE, {

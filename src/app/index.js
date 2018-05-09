@@ -39,6 +39,11 @@ function main() {
         console.log(pheromones.join('\n'))
     })
 
+    swarm.tools.getToolUpdateSignal(ToolType.CONSOLE_DEBUG_EXPORT).on(({agentsPoolSize, viewportTransform}) => {
+        console.log('Pool:', agentsPoolSize)
+        console.log('Viewport:', viewportTransform)
+    })
+
     const layers = swarm.createLayout()
     const ui = {
         onClick: () => {

@@ -78,6 +78,12 @@ export default class ViewController {
         return this
     }
 
+    resetTransform() {
+        this._matrix.reset()
+
+        return this
+    }
+
     applyTransform() {
         this.updateViewsMatrix()
 

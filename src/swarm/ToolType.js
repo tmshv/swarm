@@ -9,6 +9,10 @@ export default class ToolType {
     static MOVE = 'move'
     static DELETE = 'delete'
     static CONSOLE_EXPORT = 'consoleExport'
+    static CONSOLE_DEBUG_EXPORT = 'consoleDebugExport'
+    static SIMULATION_CONTROL_SWITCH = 'simulationControlSwitch'
+    static SIMULATION_CONTROL_STEP = 'simulationControlStep'
+    static RESET_VIEW = 'resetView'
 
     constructor() {
         throw new Error('Cannot create instance of ToolType')
