@@ -1,4 +1,5 @@
 import UpdateChannel from './channels/UpdateChannel'
+import {Layer} from './Layer'
 
 export default class Simulation {
     get frame() {
@@ -21,6 +22,16 @@ export default class Simulation {
 
         this.channels = new UpdateChannel(this)
         this._animationFrameRequestId = null
+
+        this._layers = new Map()
+    }
+
+    layer(name) {
+        if (this._layers.has(name)) return this._layers.get(name)
+
+        const layer = new Layer({name})
+        this._layers.set(name, layer)
+        return layer
     }
 
     getAgents() {

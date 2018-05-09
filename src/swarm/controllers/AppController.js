@@ -30,6 +30,7 @@ import DeleteTool from '../tools/DeleteTool'
 import FnTool from '../tools/FnTool'
 import SimulationControlSwitchTool from '../tools/SimulationControlSwitchTool'
 import SimulationControlStepTool from '../tools/SimulationControlStepTool'
+import BuildingsView from '../views/BuildingsView'
 
 const Layer = {
     AGENTS: 'agents',
@@ -38,6 +39,7 @@ const Layer = {
     ATTRACTORS: 'attractors',
     PHEROMONES: 'pheromones',
     SELECTED: 'selected',
+    BUILDINGS: 'buildings',
 }
 
 export default class AppController {
@@ -102,6 +104,8 @@ export default class AppController {
             .registerViewFactory(Layer.ATTRACTORS, layerRegistry[Layer.ATTRACTORS])
             .registerViewFactory(Layer.PHEROMONES, layerRegistry[Layer.PHEROMONES])
             .registerViewFactory(Layer.SELECTED, layerRegistry[Layer.SELECTED])
+            .registerViewFactory(Layer.BUILDINGS, layerRegistry[Layer.BUILDINGS])
+            .addLayout(Layer.BUILDINGS)
             .addLayout(Layer.OBSTACLES)
             .addLayout(Layer.PHEROMONES)
             .addLayout(Layer.EMITTERS)
@@ -146,6 +150,10 @@ export default class AppController {
             [Layer.PHEROMONES]: (params) => new PheromonesView({
                 clear: true,
                 maxValue: 10,
+                ...params,
+            }),
+            [Layer.BUILDINGS]: (params) => new BuildingsView({
+                clear: true,
                 ...params,
             }),
         }
