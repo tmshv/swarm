@@ -305,7 +305,7 @@ export default class AppController {
             })
         })
         shortcut.register('ctrl+l', () => {
-            this.tools.run(ToolType.CONSOLE_EXPORT, {
+            this.tools.run(ToolType.CONSOLE_DEBUG_EXPORT, {
                 simulation: this.simulation,
                 viewController: this.viewController,
             })
