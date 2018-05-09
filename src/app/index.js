@@ -20,7 +20,7 @@ function main() {
         simulation,
         scaleX,
         scaleY,
-        cameraCoord: getCameraCenter(),
+        cameraCoord: getCameraCenter(simulation),
     })
 
     swarm.selectionController.channels.update.on(item => {
