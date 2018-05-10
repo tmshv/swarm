@@ -1,0 +1,16 @@
+pipeline:
+  build:
+    image: docker
+    commands:
+      - docker build -t tmshv/swarm-app:latest -t tmshv/swarm-app:build-${DRONE_BUILD_NUMBER} .
+      - docker save -o swarm_app-docker_container${DRONE_BUILD_NUMBER}.tar tmshv/swarm-app:build-${DRONE_BUILD_NUMBER}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  scp:
+    image:
+    host: swarm.tmshv.com
+    username: master
+    target: ~/SwarmApp
+    source: swarm_app-docker_container${DRONE_BUILD_NUMBER}.tar
+    secrets: [scp_key]
