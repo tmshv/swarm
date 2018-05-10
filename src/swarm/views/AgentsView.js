@@ -3,13 +3,21 @@ import SimulationView from './SimulationView'
 export default class AgentsView extends SimulationView {
     render() {
         const ctx = this.draw.context
-        ctx.fillStyle = `rgba(200, 0, 0, ${1})`
 
         // this.renderTrack()
-        const s = 2
         this.simulation
             .getAgents()
             .forEach(agent => {
+                const deviant = agent.getTag('deviant')
+
+                const s = deviant
+                    ? 4
+                    : 2
+
+                ctx.fillStyle = deviant
+                    ? `rgb(200, 0, 200)`
+                    : `rgb(200, 0, 0)`
+
                 this.draw.rect(agent.location, s, s)
             })
     }
