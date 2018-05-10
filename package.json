@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.10",
-    "less": "^2.7.2",
+    "less": "^3.0.4",
     "less-loader": "^2.2.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
