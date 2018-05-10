@@ -10,7 +10,7 @@ export default class AgentPool {
     constructor() {
         // this.store = new QuadTree()
 
-        this._poolLimit = 500
+        this._poolLimit = 1000
         this.agents = []
         this.inactiveAgents = []
     }
