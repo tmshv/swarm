@@ -8,7 +8,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
 
   scp:
-    image:
+    image: appleboy/drone-scp
     host: swarm.tmshv.com
     username: master
     target: ~/SwarmApp
