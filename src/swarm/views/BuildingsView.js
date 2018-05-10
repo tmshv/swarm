@@ -15,7 +15,7 @@ export default class BuildingsView extends SimulationView {
 
     renderHouse(ctx, polygon) {
         ctx.strokeStyle = null
-        ctx.fillStyle = `#e8ecf3`
+        ctx.fillStyle = `#9a9a9a`
         this.draw.path(polygon.coords, true)
     }
 }
