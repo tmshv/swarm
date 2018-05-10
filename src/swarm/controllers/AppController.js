@@ -267,60 +267,49 @@ export default class AppController {
     }
 
     initShortcuts() {
+        const options = {
+            simulation: this.simulation,
+            selectionController: this.selectionController,
+            viewController: this.viewController,
+        }
         const keyboard = new KeyboardController(this._document)
         const shortcut = new ShortcutController(keyboard.channels)
         shortcut.register('space', () => {
-            this.tools.activate(ToolType.NAVIGATE)
+            this.tools.activate(ToolType.NAVIGATE, options)
         })
         shortcut.register('v', () => {
-            this.tools.activate(ToolType.SELECT_AGENT)
+            this.tools.activate(ToolType.SELECT_AGENT, options)
         })
         shortcut.register('o', () => {
-            this.tools.activate(ToolType.SELECT_OBSTACLE)
+            this.tools.activate(ToolType.SELECT_OBSTACLE, options)
         })
         shortcut.register('e', () => {
-            this.tools.activate(ToolType.SELECT_EMITTER)
+            this.tools.activate(ToolType.SELECT_EMITTER, options)
         })
         shortcut.register('a', () => {
-            this.tools.activate(ToolType.SELECT_ATTRACTOR)
+            this.tools.activate(ToolType.SELECT_ATTRACTOR, options)
         })
         shortcut.register('r', () => {
-            this.tools.run(ToolType.SIMULATION_CONTROL_SWITCH, {
-                simulation: this.simulation,
-            })
+            this.tools.run(ToolType.SIMULATION_CONTROL_SWITCH, options)
         })
         shortcut.register('s', () => {
-            this.tools.run(ToolType.SIMULATION_CONTROL_STEP, {
-                simulation: this.simulation,
-            })
+            this.tools.run(ToolType.SIMULATION_CONTROL_STEP, options)
         })
         shortcut.register('m', () => {
-            this.tools.activate(ToolType.MOVE, {
-                selectionController: this.selectionController,
-            })
+            this.tools.activate(ToolType.MOVE, options)
         })
         shortcut.register('h', () => {
-            this.tools.activate(ToolType.RESET_VIEW, {
-                viewController: this.viewController,
-            })
+            this.tools.activate(ToolType.RESET_VIEW, options)
         })
         shortcut.register('ctrl+l', () => {
-            this.tools.run(ToolType.CONSOLE_DEBUG_EXPORT, {
-                simulation: this.simulation,
-                viewController: this.viewController,
-            })
+            this.tools.run(ToolType.CONSOLE_DEBUG_EXPORT, options)
         })
         shortcut.register('backspace', () => {
-            this.tools.run(ToolType.DELETE, {
-                selectionController: this.selectionController,
-            })
+            this.tools.run(ToolType.DELETE, options)
         })
         shortcut.register('ctrl+p', () => {
-            this.tools.run(ToolType.CONSOLE_EXPORT, {
-                simulation: this.simulation,
-            })
+            this.tools.run(ToolType.CONSOLE_EXPORT, options)
         })
-
         shortcut.register('ctrl+a', () => {
             this.tools.activate(ToolType.ADD_ATTRACTOR)
         })
