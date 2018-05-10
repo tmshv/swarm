@@ -21,7 +21,7 @@ export default class Unit4AgentBehaviour extends Behaviour {
             // }),
         )
         this.smart = ComposableBehavior.compose(
-            // new SpreadPheromonesBehaviour({}),
+            new SpreadPheromonesBehaviour({}),
             new SeekNearestAttractorBehaviour({
                 accelerate: 0.5,
                 thresholdDistSquared: 10,
@@ -29,9 +29,11 @@ export default class Unit4AgentBehaviour extends Behaviour {
         )
     }
 
-    init({radius}) {
+    init({radius, seekNearest = true}) {
         this.radius = radius
         this._radiusSquared = radius ** 2
+
+        this._seekNearest = seekNearest
     }
 
     setAgent(agent) {
@@ -42,14 +44,23 @@ export default class Unit4AgentBehaviour extends Behaviour {
 
     run(options) {
         const {environment} = options
+        const attractor = this.findAttractor(environment)
 
-        const location = this.agent.location
-        const attractor = environment.getNearestAttractor(location, [])
-
-        if (location.distSquared(attractor.location) < this._radiusSquared) {
+        if (this.agent.location.distSquared(attractor.location) < this._radiusSquared) {
             this.smart.run(options)
         } else {
             this.finding.run(options)
         }
+    }
+
+    findAttractor(environment) {
+        const location = this.agent.location
+
+        if (this._seekNearest) {
+            return environment.getNearestAttractor(location, [])
+        }
+
+        const i = Math.floor(Math.random() * environment.attractors.length)
+        return environment.attractors[i]
     }
 }
