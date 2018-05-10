@@ -1,4 +1,5 @@
 import Simulation from '../swarm/Simulation'
+import {max} from 'lodash'
 import AgentPool from '../swarm/AgentPool'
 import Agent from '../swarm/Agent'
 import Environment from '../swarm/Environment'
@@ -329,8 +330,13 @@ function initEmitters(simulation) {
         [new Vector(374.319794, -12142.093037), 0.188299],
     ]
 
+    const maxPeriod = max(
+        emitters.map(x => x[1])
+    )
+
     emitters.forEach(([coord, period]) => {
-        simulation.addEmitter(createEmitter(coord, period * 500, 1))
+        const p = (maxPeriod / period) * 100
+        simulation.addEmitter(createEmitter(coord, p, 1))
     })
 }
 
