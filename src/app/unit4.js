@@ -55,6 +55,8 @@ export function getInitialTransform() {
 function createAgent(loc) {
     const radius = 500// + Math.random() * 100
 
+    const seekNearest = Math.random() < 0.9
+
     const a = new Agent({
         behaviour: ComposableBehavior.compose(
             new TtlBehavior({
@@ -66,6 +68,7 @@ function createAgent(loc) {
             // }),
             new Unit4AgentBehaviour({
                 radius,
+                seekNearest,
             }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
@@ -85,6 +88,7 @@ function createAgent(loc) {
     a.addBehaviour(AgentBehaviour.SEEK_LOCATION, new SeekLocationBehaviour({
         threshold: 5,
     }))
+    a.addTag('deviant', !seekNearest)
 
     return a
 }
