@@ -6,34 +6,27 @@ export default class ObstacleView extends SimulationView {
     render() {
         const ctx = this.draw.context
 
+        const renderers = {
+            [ObstacleType.BUILDING]: this.renderBuilding.bind(this),
+            [ObstacleType.ROAD]: this.renderRoad.bind(this),
+            [ObstacleType.THING]: this.renderThing.bind(this),
+        }
+        delete renderers[ObstacleType.ROAD]
+
         this.simulation.environment.obstacles
+            .filter(obstacle => renderers.hasOwnProperty(obstacle.getTag(Tag.TYPE)))
             .forEach(obstacle => {
                 const type = obstacle.getTag(Tag.TYPE)
-
-                switch (type) {
-                    case ObstacleType.BUILDING: {
-                        return this.renderBuilding(ctx, obstacle)
-                    }
-
-                    case ObstacleType.ROAD: {
-                        return this.renderRoad(ctx, obstacle)
-                    }
-
-                    case ObstacleType.THING: {
-                        return this.renderThing(ctx, obstacle)
-                    }
-                }
+                renderers[type](ctx, obstacle)
             })
     }
 
     renderBuilding(ctx, obstacle) {
         const alpha = 1
         ctx.strokeStyle = `rgba(200, 200, 200, ${alpha})`
-        ctx.fillStyle = `rgba(250, 250, 250, 1)`
 
         const coords = obstacle.lines.map(x => x.a)
         this.draw.path(coords)
-        ctx.fill()
 
         obstacle.lines.forEach(line => {
             this.draw.line(line)
