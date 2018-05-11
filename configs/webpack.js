@@ -1,4 +1,5 @@
 const webpackMerge = require('webpack-merge')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 function entry(entry) {
     return merge({entry})
