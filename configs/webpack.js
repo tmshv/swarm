@@ -32,6 +32,10 @@ function plugin(plugin) {
     return merge({plugins: [plugin]})
 }
 
+function copy(from, to){
+    return plugin(new CopyWebpackPlugin([{from, to}]))
+}
+
 function devServer(devServer) {
     return merge({devServer})
 }
@@ -50,6 +54,7 @@ exports.resolve = resolve
 exports.rule = rule
 exports.loader = loader
 exports.plugin = plugin
+exports.copy = copy
 exports.devServer = devServer
 exports.merge = merge
 exports.compose = compose
