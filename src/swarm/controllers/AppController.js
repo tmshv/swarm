@@ -62,35 +62,24 @@ export default class AppController {
 
         this.viewController = new ViewController(simulation, viewport)
         this.screenController = new ScreenController(this._window, this.viewController)
-
         this.initTools()
-        this.initShortcuts()
-
         this.sceneController = (new SceneController(new Storage(localStorage)))
             .initAttractorsSave(
                 this.tools.getToolUpdateSignal(ToolType.ADD_ATTRACTOR),
                 this.tools.getToolUpdateSignal(ToolType.DELETE),
             )
             .loadAttractors(this.simulation)
-
         const selectUpdateSignal = new ComposedSignal(null, [
             this.tools.getToolUpdateSignal(ToolType.SELECT_AGENT),
             this.tools.getToolUpdateSignal(ToolType.SELECT_OBSTACLE),
             this.tools.getToolUpdateSignal(ToolType.SELECT_EMITTER),
             this.tools.getToolUpdateSignal(ToolType.SELECT_ATTRACTOR),
         ])
-
-        this.tools.getToolUpdateSignal(ToolType.NAVIGATE).on(this.updateCamera.bind(this))
-
         this.selectionController = new SelectionController(selectUpdateSignal)
+        this.tools.getToolUpdateSignal(ToolType.NAVIGATE).on(this.updateCamera.bind(this))
+        this.viewController.subscribe(simulation.channels.update)
 
-        const update = simulation.channels.update
-        // new ComposedSignal(null, [
-        //     simulation.channels.update,
-        //     this.selectUpdateSignal,
-        // ])
-
-        this.viewController.subscribe(update)
+        this.initShortcuts()
     }
 
     createLayout() {
