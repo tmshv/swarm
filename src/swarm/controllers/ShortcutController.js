@@ -16,6 +16,8 @@ export default class ShortcutController {
 
         // if (this._lastFiredCombination === combination) return
         if (this.registry.has(combination)) {
+            event.preventDefault()
+
             // this._lastFiredCombination = combination
             const fn = this.registry.get(combination)
             fn.call(null)
