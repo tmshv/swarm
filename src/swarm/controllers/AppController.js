@@ -188,8 +188,16 @@ export default class AppController {
                 attractor.agents.length,
             ])
 
+            const attractors = simulation.environment.attractors.filter(
+                x => x.getTag(Tag.TYPE) !== AttractorType.UNKNOWN
+            )
+            const customAttractors = simulation.environment.attractors.filter(
+                x => x.getTag(Tag.TYPE) === AttractorType.UNKNOWN
+            )
+
             return {
-                attractors: exportAttractors(simulation.environment.attractors),
+                attractors: exportAttractors(attractors),
+                customAttractors: exportAttractors(customAttractors),
                 pheromones: exportPheromones(simulation.environment.pheromones.values.values()),
             }
         }))

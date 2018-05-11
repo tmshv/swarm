@@ -31,9 +31,12 @@ function main() {
         console.log('Delete:', item)
     })
 
-    swarm.tools.getToolUpdateSignal(ToolType.CONSOLE_EXPORT).on(({attractors, pheromones}) => {
+    swarm.tools.getToolUpdateSignal(ToolType.CONSOLE_EXPORT).on(({attractors, customAttractors, pheromones}) => {
         console.log('Attractors:')
         console.log(attractors.join('\n'))
+
+        console.log('Custom Attractors:')
+        console.log(customAttractors.join('\n'))
 
         console.log('Pheromones:')
         console.log(pheromones.join('\n'))
