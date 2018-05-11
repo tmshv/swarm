@@ -8,6 +8,7 @@ import SeparateAgentsBehaviour from '../behaviours/SeparateAgentsBehaviour'
 import View from './View'
 import Unit4AgentBehaviour from '../behaviours/Unit4AgentBehaviour'
 import AvoidPointObstaclesBehavior from '../behaviours/AvoidPointObstaclesBehavior'
+import renderAvoidObstacleBehavior from './render/renderAvoidObstacleBehavior'
 
 export default class SelectedAgentView extends View {
     constructor({item, ...args}) {
@@ -31,10 +32,11 @@ export default class SelectedAgentView extends View {
     renderAgent(agent) {
         const location = agent.location
 
-        const s = 16
-        this.draw.context.lineWidth = 1
-        this.draw.context.strokeStyle = 'rgba(0, 0, 0, 1)'
-        this.draw.targetArea(location, s, s, 3)
+        const s = 30
+        this.draw.context.lineWidth = 2
+        // this.draw.context.strokeStyle = 'rgba(0, 0, 0, 1)'
+        this.draw.context.strokeStyle = 'white'
+        this.draw.targetArea(location, s, s, 6)
 
         this.draw.context.strokeStyle = 'rgba(0, 0, 0, .5)'
         agent._stepForces.forEach(f => {
@@ -86,56 +88,7 @@ export default class SelectedAgentView extends View {
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'
             // this.draw.cross(a.location, 5)
         } else if (behaviour instanceof AvoidObstaclesBehavior) {
-            // ctx.strokeStyle = 'rgba(0, 50, 200, 0.25)'
-            // const predictionVector = behaviour.getPredictionVector()
-            // this.draw.vector(agent.location, predictionVector)
-
-            const edge = behaviour.edge
-            if (edge) {
-                const offsetSize = behaviour.predictionDistance
-                const offset = edge.offset(edge
-                    .normal
-                    .clone()
-                    .setLength(offsetSize)
-                )
-
-                ctx.strokeStyle = null
-                ctx.fillStyle = 'rgba(250, 0, 250, 0.1)'
-                this.draw.path([
-                    edge.a, edge.b,
-                    offset.b, offset.a,
-                ], true)
-
-                ctx.strokeStyle = 'rgba(200, 0, 200, 1)'
-                // this.draw.vector(location, behaviour.getForce(edge))
-                // this.draw.vector(location, behaviour.getNormalForce(edge))
-            }
-
-            ctx.strokeStyle = 'rgba(250, 0, 250, 1)'
-            this.draw.circleCenter(agent.location, behaviour.radius)
-
-            const impactForce = behaviour.impactForce
-            if (impactForce) {
-                const r = impactForce
-                    .clone()
-                    .setLength(40)
-                ctx.strokeStyle = 'rgba(250, 0, 0, 1)'
-                this.draw.vector(agent.location, r)
-            }
-
-            const intersection = behaviour.intersection
-            if (intersection) {
-                ctx.strokeStyle = null
-                ctx.fillStyle = 'rgba(250, 0, 250, 1)'
-                this.draw.circleCenter(intersection, 2)
-                ctx.fill()
-            }
-
-            // const obstacle = behaviour.obstacle
-            // if (obstacle) {
-            //     ctx.strokeStyle = 'rgba(250, 0, 250, 0.5)'
-            //     this.draw.line(obstacle.lines[0])
-            // }
+            renderAvoidObstacleBehavior(this.draw, agent, behaviour)
         } else if (behaviour instanceof InteractPheromonesBehaviour) {
             // const s = 2
             // ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
