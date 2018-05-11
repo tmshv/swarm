@@ -105,7 +105,7 @@ function createEmitter(coord, period, amount) {
 
 function createEnvironment() {
     const pheromones = new Pheromones({
-        cellSize: 10,
+        cellSize: 5,
         damp: 0.99,
     })
 
