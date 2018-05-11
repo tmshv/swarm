@@ -74,6 +74,13 @@ export default class Render {
         this.context.stroke()
     }
 
+    circleCenterFill(coord, radius) {
+        const {x, y} = this.getCoord(coord)
+        this.context.beginPath()
+        this.context.arc(x, y, radius, 0, TWO_PI)
+        this.context.fill()
+    }
+
     circleCenter(coord, radius) {
         this.arcCenter(coord, radius, 0, TWO_PI)
     }

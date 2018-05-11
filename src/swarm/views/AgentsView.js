@@ -11,14 +11,14 @@ export default class AgentsView extends SimulationView {
                 const deviant = agent.getTag('deviant')
 
                 const s = deviant
-                    ? 4
+                    ? 3
                     : 2
 
                 ctx.fillStyle = deviant
                     ? `rgb(200, 0, 200)`
-                    : `rgb(200, 0, 0)`
+                    : `rgb(200, 200, 0)`
 
-                this.draw.rect(agent.location, s, s)
+                this.draw.circleCenterFill(agent.location, s)
             })
     }
 
