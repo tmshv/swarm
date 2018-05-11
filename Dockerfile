@@ -8,6 +8,7 @@ RUN npm i
 
 COPY webpack.config.js .babelrc ./
 COPY configs ./configs
+COPY assets ./assets
 COPY src ./src
 RUN npm run build
 
