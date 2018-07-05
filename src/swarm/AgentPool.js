@@ -32,6 +32,10 @@ export default class AgentPool {
         // return this.store.addItem()
     }
 
+    getAgents(){
+        return this.agents
+    }
+
     getNearest(coord, radius) {
         let minDist = radius ** 2
         let agent = null
