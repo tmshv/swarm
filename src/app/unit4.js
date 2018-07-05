@@ -1539,10 +1539,14 @@ function getLayer(name) {
     return DATA.layers.find(x => x.layer === name)
 }
 
+function createPointFromArray([x, y, z]) {
+    return new Vector(x, y, z)
+}
+
 function importPolyline(polyline) {
     const geom = polyline.geometry
 
-    return geom.map(([x, y, z]) => new Vector(x, y, z))
+    return geom.map(createPointFromArray)
 }
 
 function getRoads() {
