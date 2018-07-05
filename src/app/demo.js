@@ -29,7 +29,7 @@ const pheromones = new Pheromones({
     decreaseValue: .0001,
 })
 
-export function createDemoSimulation() {
+export async function createSimulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool())
     s.setEnvironment(createEnvironment())

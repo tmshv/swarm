@@ -9,11 +9,11 @@ import AppController from '../swarm/controllers/AppController'
 import {createSimulation, getCameraCenter} from './unit4'
 import ToolType from '../swarm/ToolType'
 
-function main() {
+async function main() {
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
-    const simulation = createSimulation()
+    const simulation = await createSimulation()
 
     const swarm = new AppController(window, document)
     swarm.init({

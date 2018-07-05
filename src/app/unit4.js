@@ -28,7 +28,7 @@ import AttractorType from '../swarm/AttractorType'
 import Polygon from '../swarm/Polygon'
 import {getCentroid} from '../swarm/lib/geometry'
 
-export function createSimulation() {
+export async function createSimulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool())
     s.setEnvironment(createEnvironment())
