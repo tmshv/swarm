@@ -134,7 +134,25 @@ function createAttractor({x, y, power}) {
 }
 
 function initAttractors(env) {
-    const attractors = [
+    const busStops = getBusStops()
+
+    const init = (attractors, type) => {
+        attractors.forEach((coord) => {
+            const a = createAttractor({
+                x: coord.x,
+                y: coord.y,
+                power: 100,
+            })
+            a.addTag(Tag.TYPE, type)
+            env.addAttractor(a)
+        })
+    }
+
+    init(busStops, AttractorType.BUS_STOP)
+}
+
+function getBusStops() {
+    return [
         new Vector(-1642.782785, -12079.318041),
         new Vector(-1730.530358, -12172.137168),
         new Vector(-1353.044149, -12426.632504),
@@ -189,16 +207,6 @@ function initAttractors(env) {
         new Vector(201.958142, -12106.437177),
         new Vector(-161.388614, -12859.922853),
     ]
-
-    attractors.forEach((coord) => {
-        const a = createAttractor({
-            x: coord.x,
-            y: coord.y,
-            power: 100,
-        })
-        a.addTag(Tag.TYPE, AttractorType.BUS_STOP)
-        env.addAttractor(a)
-    })
 }
 
 function initEmitters(simulation) {
