@@ -23,6 +23,10 @@ export default class AttractorsView extends EnvironmentView {
                     return this.renderBusStation(ctx, a, maxValue)
                 }
 
+                case AttractorType.METRO_STATION: {
+                    return this.renderMetroStation(ctx, a, maxValue)
+                }
+
                 default: {
                     return this.renderUnknown(ctx, a, maxValue)
                 }
@@ -39,6 +43,26 @@ export default class AttractorsView extends EnvironmentView {
         return maxValue < M
             ? M
             : maxValue
+    }
+
+    renderMetroStation(ctx, a, maxAgentsCount) {
+        const location = a.location
+        const agentsCount = a.getAgentsCount()
+        ctx.lineWidth = 2
+        ctx.fillStyle = 'white'
+
+        this.draw.text(location, `M`, busStopOffset)
+
+        if (agentsCount) {
+            const acRatio = Math.min(1, (agentsCount / maxAgentsCount))
+            const radius = acRatio * 100
+
+            ctx.lineWidth = 1
+            ctx.strokeStyle = `rgb(250, 20, 20)`
+
+            this.draw.circleCenterZoomed(location, radius)
+            this.draw.text(location, `${agentsCount}`, busStopTextOffset)
+        }
     }
 
     renderBusStation(ctx, a, maxAgentsCount) {

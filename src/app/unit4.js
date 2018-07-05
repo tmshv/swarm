@@ -135,6 +135,7 @@ function createAttractor({x, y, power}) {
 
 function initAttractors(env) {
     const busStops = getBusStops()
+    const metroStations = getMetroStations()
 
     const init = (attractors, type) => {
         attractors.forEach((coord) => {
@@ -149,6 +150,11 @@ function initAttractors(env) {
     }
 
     init(busStops, AttractorType.BUS_STOP)
+    init(metroStations, AttractorType.METRO_STATION)
+}
+
+function getMetroStations() {
+    return getLayer('METRO').objects.map(importPoint)
 }
 
 function getBusStops() {
@@ -1541,6 +1547,12 @@ function getLayer(name) {
 
 function createPointFromArray([x, y, z]) {
     return new Vector(x, y, z)
+}
+
+function importPoint(point) {
+    const geom = point.geometry
+
+    return createPointFromArray(geom)
 }
 
 function importPolyline(polyline) {
