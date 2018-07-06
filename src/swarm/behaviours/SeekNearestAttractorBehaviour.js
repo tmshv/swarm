@@ -64,7 +64,7 @@ export default class SeekNearestAttractorBehaviour extends Behaviour {
     // }
 
     selectTargetAttractor(env) {
-        const a = env.getNearestAttractorsWithOneOfType(this.agent.location, this.attractorTypes, this.visitedAttractors)
+        const a = env.getNearestAttractorWithOneOfType(this.agent.location, this.attractorTypes, this.visitedAttractors)
 
         if (this.agent.location.distSquared(a.location) < this.radiusSquared) {
             this.targetAttractor = a
