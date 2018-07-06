@@ -11,7 +11,7 @@ export default class ObstacleView extends SimulationView {
             [ObstacleType.ROAD]: this.renderRoad.bind(this),
             [ObstacleType.THING]: this.renderThing.bind(this),
         }
-        delete renderers[ObstacleType.ROAD]
+        // delete renderers[ObstacleType.ROAD]
 
         this.simulation.environment.obstacles
             .filter(obstacle => renderers.hasOwnProperty(obstacle.getTag(Tag.TYPE)))
