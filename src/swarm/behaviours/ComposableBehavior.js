@@ -14,6 +14,11 @@ export default class ComposableBehavior extends Behaviour {
     }
 
     run(options) {
-        this.behaviours.forEach(x => x.run(options))
+        let status = false
+        this.behaviours.forEach(x => {
+            status = x.run(options)
+        })
+
+        return status
     }
 }
