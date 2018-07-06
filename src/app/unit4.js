@@ -62,22 +62,26 @@ export function getInitialTransform() {
 }
 
 function createAgent(loc) {
-    const radius = 500// + Math.random() * 100
-
-    const seekNearest = Math.random() < 0.9
+    const seekMetro = Math.random() < 0.3
+    const radius = seekMetro
+        ? 5000
+        : 500
+    const  ttl = seekMetro
+        ? 5000
+        : 1000
 
     const a = new Agent({
         behaviour: ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 1000,
+                ttl,
             }),
+            new Unit4AgentBehaviour({
+                radius,
             // new SeekNearestAttractorBehaviour({
             //     accelerate: 0.5,
             //     thresholdDistSquared: 10,
             // }),
-            new Unit4AgentBehaviour({
-                radius,
-                seekNearest,
+                seekMetro,
             }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
@@ -97,7 +101,7 @@ function createAgent(loc) {
     a.addBehaviour(AgentBehaviour.SEEK_LOCATION, new SeekLocationBehaviour({
         threshold: 5,
     }))
-    a.addTag('deviant', !seekNearest)
+    a.addTag('deviant', seekMetro)
 
     return a
 }
@@ -137,8 +141,8 @@ function initAttractors(env) {
     const busStops = getBusStops()
     const metroStations = getMetroStations()
 
-    const init = (attractors, type) => {
-        attractors.forEach((coord) => {
+    const f = (as, type) => {
+        as.forEach((coord) => {
             const a = createAttractor({
                 x: coord.x,
                 y: coord.y,
@@ -149,12 +153,19 @@ function initAttractors(env) {
         })
     }
 
-    init(busStops, AttractorType.BUS_STOP)
-    init(metroStations, AttractorType.METRO_STATION)
+    f(busStops, AttractorType.BUS_STOP)
+    f(metroStations, AttractorType.METRO_STATION)
 }
 
 function getMetroStations() {
-    return getLayer('METRO').objects.map(importPoint)
+    const as = [
+          // createPointFromArray([719.391233, -12553.041285, 0.0])   
+    ]
+
+    return [
+        ...as,
+        ...getLayer('METRO').objects.map(importPoint),
+    ]
 }
 
 function getBusStops() {
@@ -362,7 +373,7 @@ function initEmitters(simulation) {
     )
 
     emitters.forEach(([coord, period]) => {
-        const p = (maxPeriod / period) * 100
+        const p = (maxPeriod / period) * 300
         simulation.addEmitter(createEmitter(coord, p, 1))
     })
 }
@@ -1562,7 +1573,8 @@ function importPolyline(polyline) {
 }
 
 function getRoads() {
-    return getLayer('ROAD').objects.map(importPolyline)
+    return []
+    // return getLayer('ROAD').objects.map(importPolyline)
 }
 
 function initBuildings(simulation) {

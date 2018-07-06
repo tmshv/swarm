@@ -7,10 +7,13 @@ import LimitAccelerationBehaviour from './LimitAccelerationBehaviour'
 import SpreadPheromonesBehaviour from './SpreadPheromonesBehaviour'
 import SeekNearestAttractorBehaviour from './SeekNearestAttractorBehaviour'
 import InteractPheromonesBehaviour from './InteractPheromonesBehaviour'
+import AttractorType from '../AttractorType'
 
 export default class Unit4AgentBehaviour extends Behaviour {
     constructor(options) {
         super(options)
+
+        const dieAttractorTypes = this.getDieAttractorTypes()
 
         this.finding = ComposableBehavior.compose(
             new RandomWalkBehaviour({
@@ -23,17 +26,29 @@ export default class Unit4AgentBehaviour extends Behaviour {
         this.smart = ComposableBehavior.compose(
             new SpreadPheromonesBehaviour({}),
             new SeekNearestAttractorBehaviour({
+                ...options,
+                attractorTypes: this.getAttractorTypes(),
+                dieAttractorTypes,
                 accelerate: 0.5,
                 thresholdDistSquared: 10,
             }),
         )
     }
 
-    init({radius, seekNearest = true}) {
-        this.radius = radius
-        this._radiusSquared = radius ** 2
+    getAttractorTypes() {
+        return this._seekMetro
+            ? [AttractorType.METRO_STATION, AttractorType.UNKNOWN]
+            : [AttractorType.BUS_STOP, AttractorType.UNKNOWN]
+    }
 
-        this._seekNearest = seekNearest
+    getDieAttractorTypes() {
+        return this._seekMetro
+            ? [AttractorType.METRO_STATION]
+            : [AttractorType.BUS_STOP]
+    }
+
+    init({ seekMetro = false }) {
+        this._seekMetro = seekMetro
     }
 
     setAgent(agent) {
@@ -43,24 +58,12 @@ export default class Unit4AgentBehaviour extends Behaviour {
     }
 
     run(options) {
-        const {environment} = options
-        const attractor = this.findAttractor(environment)
+        const smartStatus = this.smart.run(options)
 
-        if (this.agent.location.distSquared(attractor.location) < this._radiusSquared) {
-            this.smart.run(options)
-        } else {
-            this.finding.run(options)
-        }
-    }
-
-    findAttractor(environment) {
-        const location = this.agent.location
-
-        if (this._seekNearest) {
-            return environment.getNearestAttractor(location, [])
+        if (smartStatus) {
+            return true
         }
 
-        const i = Math.floor(Math.random() * environment.attractors.length)
-        return environment.attractors[i]
+        return this.finding.run(options)
     }
 }
