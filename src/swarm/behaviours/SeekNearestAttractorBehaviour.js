@@ -3,32 +3,44 @@ import AttractorType from '../AttractorType'
 import Tag from '../Tag'
 
 export default class SeekNearestAttractorBehaviour extends Behaviour {
-    init({thresholdDistSquared}) {
+    init({ radius, thresholdDistSquared, attractorTypes, dieAttractorTypes }) {
+        this.radius = radius
+        this.radiusSquared = radius ** 2
         this.thresholdDistSquared = thresholdDistSquared
+        this.attractorTypes = attractorTypes
+        this.dieAttractorTypes = dieAttractorTypes
         this.targetAttractor = null
 
         this.visitedAttractors = []
     }
 
-    run({environment}) {
+    run({ environment }) {
         this.selectTargetAttractor(environment)
 
         const attractor = this.targetAttractor
         const agent = this.agent
 
-        if (attractor) {
-            if (this.isReached()) {
-                this.visitedAttractors.push(attractor)
-                attractor.addAgent(agent)
-
-                const type = attractor.getTag(Tag.TYPE)
-                if (type === AttractorType.BUS_STOP) {
-                    agent.die()
-                }
-            }
-
-            this.seekAccelerated(this.targetAttractor.location)
+        if (!attractor) {
+            return false
         }
+
+        if (this.isReached()) {
+            this.visitedAttractors.push(attractor)
+            attractor.addAgent(agent)
+
+            if (this.isFinish()) {
+                // console.log('die finished', agent)
+                agent.die()
+            }
+        }
+
+        this.seekAccelerated(this.targetAttractor.location)
+
+        return true
+    }
+
+    isFinish() {
+        return this.dieAttractorTypes.includes(this._targetAttractorType)
     }
 
     isReached() {
@@ -52,6 +64,14 @@ export default class SeekNearestAttractorBehaviour extends Behaviour {
     // }
 
     selectTargetAttractor(env) {
-        this.targetAttractor = env.getNearestAttractor(this.agent.location, this.visitedAttractors)
+        const a = env.getNearestAttractorsWithOneOfType(this.agent.location, this.attractorTypes, this.visitedAttractors)
+
+        if (this.agent.location.distSquared(a.location) < this.radiusSquared) {
+            this.targetAttractor = a
+            this._targetAttractorType = a.getTag(Tag.TYPE)
+            return
+        }
+
+        // this.targetAttractor = null
     }
 }
