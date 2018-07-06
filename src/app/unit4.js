@@ -64,8 +64,8 @@ export function getInitialTransform() {
 function createAgent(loc) {
     const seekMetro = Math.random() < 0.3
     const radius = seekMetro
-        ? 5000
-        : 500
+        ? 15000
+        : 1500
     const  ttl = seekMetro
         ? 5000
         : 1000
