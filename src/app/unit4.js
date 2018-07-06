@@ -1573,8 +1573,7 @@ function importPolyline(polyline) {
 }
 
 function getRoads() {
-    return []
-    // return getLayer('ROAD').objects.map(importPolyline)
+    return getLayer('ROAD').objects.map(importPolyline)
 }
 
 function initBuildings(simulation) {
