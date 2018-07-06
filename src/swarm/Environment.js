@@ -1,4 +1,5 @@
 import Vector from './Vector'
+import Tag from './Tag'
 
 export default class Environment {
     get pheromones() {
@@ -34,6 +35,28 @@ export default class Environment {
         let minDist = 10000000
         let result = null
         this.attractors.forEach(a => {
+            const d = Vector
+                .sub(coord, a.location)
+                .lengthQuad
+            if (d < minDist && !excluded.includes(a)) {
+                minDist = d
+                result = a
+            }
+        })
+
+        return result
+    }
+    
+    getNearestAttractorWithOneOfType(coord, types, excluded = []) {
+        let minDist = 10000000
+        let result = null
+
+        this.attractors.forEach(a => {
+            const type = a.getTag(Tag.TYPE)
+            if (!types.includes(type)) {
+                return
+            }
+
             const d = Vector
                 .sub(coord, a.location)
                 .lengthQuad
