@@ -10,7 +10,7 @@
 - [population density. existing situation on site. processing simulation](https://www.youtube.com/watch?v=V-WJhu7kxbE)
 - [Will Geary: Open Data](http://willgeary.github.io/data/)
 - [Ant Road Planner](http://antroadplanner.ru)
-
+- [Unity ML Agents](https://tproger.ru/articles/unity-ml-agents-v-0-4/)
 
 ## Dev links
 
