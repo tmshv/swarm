@@ -13,7 +13,7 @@ export default class PheromonesView extends EnvironmentView {
         for (let pheromone of pheromones.getValuesIterator()) {
             const location = pheromone.location
 
-            const alpha = pheromone.velocity.length * 0.03
+            const alpha = pheromone.velocity.length * 0.06
             ctx.fillStyle = `rgba(250, 0, 250, ${alpha})`
             this.draw.rectCenterZoomed(location, s, s)
         }
