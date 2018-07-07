@@ -11,7 +11,7 @@ module.exports = compose([
         contentBase: targetDir,
         compress: false,
         port: 3000,
-        lazy: true,
+        lazy: false,
         historyApiFallback: true,
     }),
 ])({})
