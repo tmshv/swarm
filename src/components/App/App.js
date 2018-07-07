@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import className from 'classnames'
 import Simulation from '../Simulation/Simulation'
 import SidePanel from '../SidePanel'
 
@@ -36,6 +37,7 @@ export default class App extends Component {
                     {layers.map(({controlable, ...x}, i) => (
                         <Layer
                             key={i}
+                            visible={true}
                             layerProps={{
                                 width,
                                 height,
@@ -55,8 +57,10 @@ export default class App extends Component {
     }
 }
 
-const Layer = ({layerProps: simulationProps}) => (
-    <div className={'App-Layer'}>
+const Layer = ({layerProps: simulationProps, visible}) => (
+    <div className={className('App-Layer', {
+        'App-Layer--visible': visible,
+    })}>
         <Simulation
             {...simulationProps}
         />
