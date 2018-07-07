@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import className from 'classnames'
 import Simulation from '../Simulation/Simulation'
 import SidePanel from '../SidePanel'
@@ -8,8 +8,44 @@ import './App.less'
 export default class App extends Component {
     constructor(...args) {
         super(...args)
+        
+        this.state = {
+            layerList: [
+                {
+                    name: 'BUILDINGS',
+                    checked: true,
+                },
+                {
+                    name: 'OBSTACLES',
+                    checked: true,
+                },
+                {
+                    name: 'PHEROMONES',
+                    checked: true,
+                },
+                {
+                    name: 'EMITTERS',
+                    checked: true,
+                },
+                {
+                    name: 'ATTRACTORS',
+                    checked: true,
+                },
+                {
+                    name: 'AGENTS',
+                    checked: true,
+                },
+            ]
+        }
 
         this.onResize = this.onResize.bind(this)
+        this.onLayerCheckedChange = this.onLayerCheckedChange.bind(this)
+    }
+
+    isLayerVisible(index){
+        if(index === 6) return true
+
+        return this.state.layerList[index].checked
     }
 
     componentDidMount() {
@@ -24,8 +60,21 @@ export default class App extends Component {
         this.forceUpdate()
     }
 
+    onLayerCheckedChange(index, newValue) {
+        this.setState({
+            layerList: this.state.layerList.map((x, i) => index !== i ? x : ({
+                ...x,
+                checked: newValue,
+            }))
+        })
+    }
+
     render() {
-        const {layers, uiCallbacks} = this.props
+        const { layers, uiCallbacks } = this.props
+
+        // onChange: (i, checked) => {
+        //     console.log(i, checked)
+        // },
 
         const devicePixelRatio = window.devicePixelRatio
         const width = window.innerWidth
@@ -34,10 +83,10 @@ export default class App extends Component {
         return (
             <div className={'App'}>
                 <div className={'App-Simulation'}>
-                    {layers.map(({controlable, ...x}, i) => (
+                    {layers.map((x, i) => (
                         <Layer
                             key={i}
-                            visible={true}
+                            visible={this.isLayerVisible(i)}
                             layerProps={{
                                 width,
                                 height,
@@ -49,7 +98,11 @@ export default class App extends Component {
                 </div>
                 <div className={'App-BodyWrapper'}>
                     <div className={'App-Body'}>
-                        <SidePanel uiCallbacks={uiCallbacks}/>
+                        <SidePanel
+                            uiCallbacks={uiCallbacks}
+                            layers={this.state.layerList}
+                            onLayerCheckedChange={this.onLayerCheckedChange}
+                        />
                     </div>
                 </div>
             </div>
@@ -57,7 +110,7 @@ export default class App extends Component {
     }
 }
 
-const Layer = ({layerProps: simulationProps, visible}) => (
+const Layer = ({ layerProps: simulationProps, visible }) => (
     <div className={className('App-Layer', {
         'App-Layer--visible': visible,
     })}>
