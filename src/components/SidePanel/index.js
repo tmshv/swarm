@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import Button from '../Button'
 
 import './styles.less'
 
@@ -15,7 +16,7 @@ export default class SidePanel extends Component {
     render() {
         return (
             <div className={'SidePanel'}>
-                <button onClick={this.props.uiCallbacks.onClick}>Click</button>
+                <Button onClick={this.props.uiCallbacks.onClick}>Click</Button>
             </div>
         )
     }
