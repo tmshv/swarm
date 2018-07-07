@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Simulation from '../Simulation/Simulation'
+import SidePanel from '../SidePanel'
 
 import './App.less'
 
@@ -44,8 +45,10 @@ export default class App extends Component {
                         />
                     ))}
                 </div>
-                <div className={'App-Body'}>
-                    <button onClick={uiCallbacks.onClick}>Click</button>
+                <div className={'App-BodyWrapper'}>
+                    <div className={'App-Body'}>
+                        <SidePanel uiCallbacks={uiCallbacks}/>
+                    </div>
                 </div>
             </div>
         )
