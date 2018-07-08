@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import './styles.less'
 
 function LayerList({ items, onChange }) {
-
     return (
         <ul className={'LayerList'}>
             {items.map((x, i) => (
