@@ -1,54 +1,33 @@
 import Behaviour from './Behaviour'
 import RandomWalkBehaviour from './RandomWalkBehaviour'
-import TtlBehavior from './TtlBehavior'
 import ComposableBehavior from './ComposableBehavior'
-import AvoidObstaclesBehavior from './AvoidObstaclesBehavior'
-import LimitAccelerationBehaviour from './LimitAccelerationBehaviour'
 import SpreadPheromonesBehaviour from './SpreadPheromonesBehaviour'
 import SeekNearestAttractorBehaviour from './SeekNearestAttractorBehaviour'
 import InteractPheromonesBehaviour from './InteractPheromonesBehaviour'
-import AttractorType from '../AttractorType'
 
 export default class Unit4AgentBehaviour extends Behaviour {
-    constructor(options) {
-        super(options)
-
-        const dieAttractorTypes = this.getDieAttractorTypes()
-
+    init({ pheromonesName, attractorTypes, dieAttractorTypes, ...options }) {
         this.finding = ComposableBehavior.compose(
             new RandomWalkBehaviour({
                 accelerate: 0.5,
             }),
-            // new InteractPheromonesBehaviour({
-            //     accelerate: 0.5,
-            // }),
         )
         this.smart = ComposableBehavior.compose(
-            new SpreadPheromonesBehaviour({}),
+            new SpreadPheromonesBehaviour({
+                pheromonesName,
+            }),
             new SeekNearestAttractorBehaviour({
                 ...options,
-                attractorTypes: this.getAttractorTypes(),
+                attractorTypes,
                 dieAttractorTypes,
                 accelerate: 0.5,
                 thresholdDistSquared: 10,
             }),
+            new InteractPheromonesBehaviour({
+                accelerate: 0.5,
+                pheromonesName,
+            }),
         )
-    }
-
-    getAttractorTypes() {
-        return this._seekMetro
-            ? [AttractorType.METRO_STATION, AttractorType.UNKNOWN]
-            : [AttractorType.BUS_STOP, AttractorType.UNKNOWN]
-    }
-
-    getDieAttractorTypes() {
-        return this._seekMetro
-            ? [AttractorType.METRO_STATION]
-            : [AttractorType.BUS_STOP]
-    }
-
-    init({ seekMetro = false }) {
-        this._seekMetro = seekMetro
     }
 
     setAgent(agent) {
