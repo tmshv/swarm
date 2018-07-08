@@ -8,43 +8,21 @@ import './App.less'
 export default class App extends Component {
     constructor(...args) {
         super(...args)
-        
+
         this.state = {
-            layerList: [
-                {
-                    name: 'BUILDINGS',
+            layerList: this.props.layers
+                .map(({ name, controlable }) => ({
+                    name,
+                    controlable,
                     checked: true,
-                },
-                {
-                    name: 'OBSTACLES',
-                    checked: true,
-                },
-                {
-                    name: 'PHEROMONES',
-                    checked: true,
-                },
-                {
-                    name: 'EMITTERS',
-                    checked: true,
-                },
-                {
-                    name: 'ATTRACTORS',
-                    checked: true,
-                },
-                {
-                    name: 'AGENTS',
-                    checked: true,
-                },
-            ]
+                }))
         }
 
         this.onResize = this.onResize.bind(this)
         this.onLayerCheckedChange = this.onLayerCheckedChange.bind(this)
     }
 
-    isLayerVisible(index){
-        if(index === 6) return true
-
+    isLayerVisible(index) {
         return this.state.layerList[index].checked
     }
 
@@ -80,6 +58,8 @@ export default class App extends Component {
         const width = window.innerWidth
         const height = window.innerHeight
 
+        const layerList = this.state.layerList.filter(({controlable}) => controlable)
+
         return (
             <div className={'App'}>
                 <div className={'App-Simulation'}>
@@ -100,7 +80,7 @@ export default class App extends Component {
                     <div className={'App-Body'}>
                         <SidePanel
                             uiCallbacks={uiCallbacks}
-                            layers={this.state.layerList}
+                            layers={layerList}
                             onLayerCheckedChange={this.onLayerCheckedChange}
                         />
                     </div>

@@ -9,6 +9,7 @@ export default class ViewController {
 
         this.viewFactory = new Map()
         this.views = []
+        this.viewOptions = []
 
         this._matrix = new Matrix()
 
@@ -189,32 +190,18 @@ export default class ViewController {
         })
     }
 
-    registerViewFactory(name, factory) {
-        this.viewFactory.set(name, factory)
-
-        return this
-    }
-
-    addLayout(layer) {
-        const view = this.createView(layer, {
-            simulation: this.simulation,
-        })
+    addLayout(view, options) {
         this.views.push(view)
+        this.viewOptions.push(options)
 
         return this
     }
 
-    createView(name, params) {
-        if (!this.viewFactory.has(name)) throw new Error(`Layer ${name} is not registered`)
-
-        const factory = this.viewFactory.get(name)
-        return factory(params)
-    }
-
-    getLayers(props) {
-        return this.views.map(view => ({
+    getLayers(mouseCallbacks) {
+        return this.views.map((view, i) => ({
+            ...this.viewOptions[i],
+            ...mouseCallbacks,
             view,
-            ...props,
         }))
     }
 

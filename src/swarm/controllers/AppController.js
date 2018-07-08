@@ -38,7 +38,6 @@ const Layer = {
     OBSTACLES: 'obstacles',
     ATTRACTORS: 'attractors',
     PHEROMONES: 'pheromones',
-    SELECTED: 'selected',
     BUILDINGS: 'buildings',
 }
 
@@ -82,71 +81,91 @@ export default class AppController {
         this.initShortcuts()
     }
 
-    createLayout() {
-        const layerRegistry = this.createLayers()
+    createLayout(layers) {
         const mouseCallbacks = this.screenController.getMouseCallbacks()
 
+        for (const layer of layers) {
+            const view = this.createView(layer)
+
+            if (!view) {
+                throw new Error(`View with name ${layer.view} not defined`)
+            }
+
+            this.viewController.addLayout(view, {
+                name: layer.name,
+                controlable: true,
+            })
+        }
+
+        const selectedView = new SelectedView({
+            simulation: this.simulation,
+            radius: 10,
+            updateSignal: this.selectionController.channels.update,
+        })
+        this.viewController.addLayout(selectedView, {
+            name: '[selected]',
+            controlable: false,
+        })
+
         return this.viewController
-            .registerViewFactory(Layer.AGENTS, layerRegistry[Layer.AGENTS])
-            .registerViewFactory(Layer.EMITTERS, layerRegistry[Layer.EMITTERS])
-            .registerViewFactory(Layer.OBSTACLES, layerRegistry[Layer.OBSTACLES])
-            .registerViewFactory(Layer.ATTRACTORS, layerRegistry[Layer.ATTRACTORS])
-            .registerViewFactory(Layer.PHEROMONES, layerRegistry[Layer.PHEROMONES])
-            .registerViewFactory(Layer.SELECTED, layerRegistry[Layer.SELECTED])
-            .registerViewFactory(Layer.BUILDINGS, layerRegistry[Layer.BUILDINGS])
-            .addLayout(Layer.BUILDINGS)
-            .addLayout(Layer.OBSTACLES)
-            .addLayout(Layer.PHEROMONES)
-            .addLayout(Layer.EMITTERS)
-            .addLayout(Layer.ATTRACTORS)
-            .addLayout(Layer.AGENTS)
-            .addLayout(Layer.SELECTED)
             .scale(this.__scaleX, this.__scaleY)
             .translateFromCamera(this.camera)
             .applyTransform()
-            .getLayers({
-                ...mouseCallbacks,
-            })
+            .getLayers(mouseCallbacks)
     }
 
-    createLayers() {
-        return {
-            [Layer.AGENTS]: (params) => new AgentsView({
-                clear: true,
-                ...params,
-            }),
-            [Layer.ATTRACTORS]: (params) => new AttractorsView({
-                clear: true,
-                ...params,
-            }),
-            // pathAttractors: (params) => new AttractorsPathView({
-            //     clear: false,
-            //     ...params,
-            // }),
-            [Layer.OBSTACLES]: (params) => new ObstacleView({
-                clear: true,
-                ...params,
-            }),
-            [Layer.EMITTERS]: (params) => new EmittersView({
-                clear: true,
-                ...params,
-            }),
-            [Layer.SELECTED]: (params) => new SelectedView({
-                ...params,
-                radius: 10,
-                updateSignal: this.selectionController.channels.update,
-            }),
-            [Layer.PHEROMONES]: (params) => new PheromonesView({
-                clear: true,
-                maxValue: 10,
-                ...params,
-            }),
-            [Layer.BUILDINGS]: (params) => new BuildingsView({
-                clear: true,
-                ...params,
-            }),
+    createView(layer) {
+        switch (layer.view) {
+            case Layer.BUILDINGS: {
+                return new BuildingsView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
+
+            case Layer.PHEROMONES: {
+                return new PheromonesView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
+
+            case Layer.AGENTS: {
+                return new AgentsView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
+
+            case Layer.EMITTERS: {
+                return new EmittersView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
+
+            case Layer.OBSTACLES: {
+                return new ObstacleView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
+
+            case Layer.ATTRACTORS: {
+                return new AttractorsView({
+                    ...layer.options,
+                    clear: true,
+                    simulation: this.simulation,
+                })
+            }
         }
 
+        return null
     }
 
     initTools() {

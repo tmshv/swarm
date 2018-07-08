@@ -48,7 +48,8 @@ async function main() {
         console.log('Viewport:', viewportTransform)
     })
 
-    const layers = swarm.createLayout()
+    const layersDefenition = getLayers()
+    const layers = swarm.createLayout(layersDefenition)
     const ui = {
         onClick: () => {
             if (simulation.isRunning) {
@@ -68,6 +69,48 @@ async function main() {
     )
     render(app, mountElement)
     window.s = simulation.run()
+}
+
+function getLayers() {
+    return [
+        {
+            name: 'Buildings',
+            view: 'buildings',
+            options: {}
+        },
+
+        {
+            name: 'Obstacles',
+            view: 'obstacles',
+            options: {}
+        },
+
+        {
+            name: 'Emitters',
+            view: 'emitters',
+            options: {}
+        },
+
+        {
+            name: 'Attractors',
+            view: 'attractors',
+            options: {}
+        },
+
+        {
+            name: 'Agents',
+            view: 'agents',
+            options: {}
+        },
+
+        {
+            name: 'Pheromones',
+            view: 'pheromones',
+            options: {
+                maxValue: 10,
+            }
+        },
+    ]
 }
 
 main()
