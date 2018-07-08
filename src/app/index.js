@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from 'react-dom'
+import { render } from 'react-dom'
 import App from '../components/App/App'
 
 import './index.less'
@@ -7,7 +7,7 @@ import '../styles/reset.less'
 
 import {createDemoSimulation, getDemoCameraCenter} from './demo'
 import AppController from '../swarm/controllers/AppController'
-import {createSimulation, getCameraCenter} from './unit4'
+import { createSimulation, getCameraCenter } from './unit4'
 import ToolType from '../swarm/ToolType'
 
 async function main() {
