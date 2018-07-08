@@ -104,9 +104,19 @@ function getLayers() {
         },
 
         {
-            name: 'Pheromones',
+            name: 'Pheromones: bus stop',
             view: 'pheromones',
             options: {
+                pheromonesName: 'bus-stop',
+                maxValue: 10,
+            }
+        },
+
+        {
+            name: 'Pheromones: metro',
+            view: 'pheromones',
+            options: {
+                pheromonesName: 'metro',
                 maxValue: 10,
             }
         },

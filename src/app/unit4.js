@@ -66,9 +66,18 @@ function createAgent(loc) {
     const radius = seekMetro
         ? 15000
         : 1500
-    const  ttl = seekMetro
+    const ttl = seekMetro
         ? 5000
         : 1000
+    const pheromonesName = seekMetro
+        ? 'metro'
+        : 'bus-stop'
+    const attractorTypes = seekMetro
+        ? [AttractorType.METRO_STATION, AttractorType.UNKNOWN]
+        : [AttractorType.BUS_STOP, AttractorType.UNKNOWN]
+    const dieAttractorTypes = seekMetro
+        ? [AttractorType.METRO_STATION]
+        : [AttractorType.BUS_STOP]
 
     const a = new Agent({
         behaviour: ComposableBehavior.compose(
@@ -77,11 +86,9 @@ function createAgent(loc) {
             }),
             new Unit4AgentBehaviour({
                 radius,
-            // new SeekNearestAttractorBehaviour({
-            //     accelerate: 0.5,
-            //     thresholdDistSquared: 10,
-            // }),
-                seekMetro,
+                attractorTypes,
+                dieAttractorTypes,
+                pheromonesName,
             }),
             new AvoidObstaclesBehavior({
                 accelerate: 0.5,
@@ -117,14 +124,15 @@ function createEmitter(coord, period, amount) {
 }
 
 function createEnvironment() {
-    const pheromones = new Pheromones({
+    const env = new Environment()
+    env.addPheromones('bus-stop', new Pheromones({
         cellSize: 5,
         damp: 0.99,
-    })
-
-    const env = new Environment({
-        pheromones,
-    })
+    }))
+    env.addPheromones('metro', new Pheromones({
+        cellSize: 5,
+        damp: 0.99,
+    }))
 
     initAttractors(env)
     initObstacles(env)

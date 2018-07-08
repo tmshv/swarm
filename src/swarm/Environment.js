@@ -2,18 +2,22 @@ import Vector from './Vector'
 import Tag from './Tag'
 
 export default class Environment {
-    get pheromones() {
-        return this._pheromones
-    }
-
-    constructor({pheromones}) {
+    constructor() {
         this.attractors = []
-        this._pheromones = pheromones
+        this._pheromones = new Map()
         this.obstacles = []
     }
 
     run() {
-        this._pheromones.run()
+        this._pheromones.forEach(x => x.run())
+    }
+
+    addPheromones(name, pheromones){
+        this._pheromones.set(name, pheromones)
+    }
+
+    getPheromones(name){
+        return this._pheromones.get(name)
     }
 
     getSample(center, matrix) {

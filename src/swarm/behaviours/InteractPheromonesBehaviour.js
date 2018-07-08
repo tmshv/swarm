@@ -2,16 +2,19 @@ import MovingBehavior from './MovingBehavior'
 import Vector from '../Vector'
 
 export default class InteractPheromonesBehaviour extends MovingBehavior {
-    init({}) {
+    init({pheromonesName}) {
+        this.pheromonesName = pheromonesName
         this.target = []
     }
 
     run({environment}) {
         this.target = []
-        const pheromones = environment.pheromones
+        const pheromones = environment.getPheromones(this.pheromonesName)
 
         const v = pheromones.getVelocityImpact(this.agent.location)
         this.force(v)
+
+        return true
 
         // const ph = pheromones.getValuesIterator()
         //

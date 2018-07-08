@@ -1,10 +1,14 @@
 import Behaviour from './Behaviour'
 
 export default class SpreadPheromonesBehaviour extends Behaviour {
-    init({}) {
+    init({pheromonesName}) {
+        this.pheromonesName = pheromonesName
     }
 
     run({environment}) {
-        environment.pheromones.gain(this.agent.location, this.agent.velocity)
+        const pheromones = environment.getPheromones(this.pheromonesName)
+        pheromones.gain(this.agent.location, this.agent.velocity)
+
+        return true
     }
 }
