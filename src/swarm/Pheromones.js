@@ -15,10 +15,14 @@ function roundVector(vector, v) {
 const dummyForce = new Vector(0, 0)
 
 export default class Pheromones {
-    constructor({cellSize, damp = 1}) {
+    constructor({ cellSize, damp = 1 }) {
         this.values = new Map()
         this.cellSize = cellSize
         this.pheromoneDamp = damp
+    }
+
+    getValuesIter() {
+        return this.values.values()
     }
 
     createPheromone(coord) {
@@ -57,7 +61,7 @@ export default class Pheromones {
             : dummyForce
     }
 
-    getValuesIterator(){
+    getValuesIterator() {
         return this.values.values()
     }
 

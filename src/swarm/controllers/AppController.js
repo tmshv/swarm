@@ -203,10 +203,17 @@ export default class AppController {
                 x => x.getTag(Tag.TYPE) === AttractorType.UNKNOWN
             )
 
+            const pheromonesNames = Array.from(simulation.environment.getPheromonesNamesIter())
+            
             return {
                 attractors: exportAttractors(attractors),
                 customAttractors: exportAttractors(customAttractors),
-                pheromones: exportPheromones(simulation.environment.pheromones.values.values()),
+                pheromones: pheromonesNames.map(name => ({
+                    name,
+                    values: exportPheromones(Array.from(
+                        simulation.environment.getPheromones(name).getValuesIter()
+                    ))
+                })),
             }
         }))
         this.tools.register(ToolType.CONSOLE_DEBUG_EXPORT, new FnTool(({simulation, viewController}) => ({

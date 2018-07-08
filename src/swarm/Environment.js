@@ -20,6 +20,10 @@ export default class Environment {
         return this._pheromones.get(name)
     }
 
+    getPheromonesNamesIter(){
+        return this._pheromones.keys()
+    }
+
     getSample(center, matrix) {
         return [...this.attractors]
     }
