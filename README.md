@@ -13,6 +13,7 @@
 - [Unity ML Agents](https://tproger.ru/articles/unity-ml-agents-v-0-4/)
 - [ant-simulator source code (CoffeeScript)](https://github.com/bwiklund/ant-simulator)
 - [ant colony video](https://vimeo.com/153676751)
+- [Computational Planning Science by Reinhard Koenig ](https://vimeo.com/channels/586317)
 
 ## Dev links
 
