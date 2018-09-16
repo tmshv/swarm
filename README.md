@@ -24,3 +24,7 @@
 - [HTML5 Canvas Zoom and Pan Image](https://gist.github.com/dzhang123/2a3a611b3d75a45a3f41)
 
 - [polyline-normals npm package](https://www.npmjs.com/package/polyline-normals)
+
+- [Имитация естественного движения: Steering Behaviors](https://habr.com/post/358366/)
+- [Имитация естественного движения: Steering Behaviors — 2](https://habr.com/post/358460/)
+- [Wall avoidance steering](https://gamedev.stackexchange.com/questions/45381/wall-avoidance-steering)
