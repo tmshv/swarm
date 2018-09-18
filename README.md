@@ -28,3 +28,4 @@
 - [Имитация естественного движения: Steering Behaviors](https://habr.com/post/358366/)
 - [Имитация естественного движения: Steering Behaviors — 2](https://habr.com/post/358460/)
 - [Wall avoidance steering](https://gamedev.stackexchange.com/questions/45381/wall-avoidance-steering)
+- [Go WebAssembly Repulsion](https://stdiopt.github.io/gowasm-experiments/repulsion/)
