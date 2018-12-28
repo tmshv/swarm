@@ -22,6 +22,8 @@ import ObstacleType from '../swarm/ObstacleType'
 import AvoidPointObstaclesBehavior from '../swarm/behaviours/AvoidPointObstaclesBehavior'
 import PointObstacle from '../swarm/PointObstacle'
 import PathObstacle from '../swarm/PathObstacle'
+import BoidBehavior from '../swarm/behaviours/BoidBehavior'
+import AttractorType from '../swarm/AttractorType';
 
 const pheromones = new Pheromones({
     cellSize: 5,
@@ -38,8 +40,8 @@ export async function createSimulation() {
     return s
 }
 
-export function getDemoCameraCenter() {
-    return new Vector(250, 0)
+export function getCameraCenter() {
+    return new Vector(0, 0)
 }
 
 function createAgent(loc, behaviour = null) {
@@ -52,7 +54,7 @@ function createAgent(loc, behaviour = null) {
     if (!behaviour) {
         behaviour = ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 1000,
+                ttl: 3000,
             }),
 
             // new ConditionalBehavior({
@@ -82,8 +84,9 @@ function createAgent(loc, behaviour = null) {
 
             // new WalkToNearestAttractorBehaviour({}),
             new SeekNearestAttractorBehaviour({
-                accelerate: 1,
+                accelerate: .1,
                 thresholdDistQuad: 10,
+                attractorsType: [AttractorType.UNKNOWN],
             }),
             // new InteractAgentsBehaviour({
             //     accelerate: 0.4,
@@ -102,18 +105,21 @@ function createAgent(loc, behaviour = null) {
             // new SpreadPheromonesBehaviour({
             //     pheromones,
             // }),
-            new AvoidPointObstaclesBehavior({
-                accelerate: 0.1,
-                predictionDistance: 50,
-                radius: 50,
-            }),
-            new AvoidObstaclesBehavior({
-                accelerate: 0.1,
-                predictionDistance: 50,
-                radius: 50,
+            // new AvoidPointObstaclesBehavior({
+            //     accelerate: 0.1,
+            //     predictionDistance: 50,
+            //     radius: 50,
+            // }),
+            // new AvoidObstaclesBehavior({
+            //     accelerate: 1,
+            //     predictionDistance: 10,
+            //     radius: 50,
+            // }),
+            new BoidBehavior({
+
             }),
             new LimitAccelerationBehaviour({
-                limit: .2,
+                limit: .1,
             })
         )
     }
@@ -149,7 +155,7 @@ function createEnvironment() {
 
     // env.addAttractor(mouseAttractor)
     const attractors = [
-        [new Vector(800, 40), 100],
+        [new Vector(200, 40), 100],
     ]
 
     attractors.forEach(([coord, power]) => {
@@ -168,12 +174,10 @@ function createEnvironment() {
 function initObstacles(env) {
     const buildings = [
         [
-            // new Vector(0, 0),
-            // new Vector(300, 0),
-            new Vector(200, -50),
-            new Vector(300, -50),
-            new Vector(300, 50),
-            new Vector(200, 50),
+            new Vector(-100, -100),
+            new Vector(100, -100),
+            new Vector(100, 100),
+            new Vector(-100, 100),
         ]
     ]
 
