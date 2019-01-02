@@ -58,7 +58,7 @@ export default class App extends Component {
         const width = window.innerWidth
         const height = window.innerHeight
 
-        const layerList = this.state.layerList.filter(({controlable}) => controlable)
+        const layerList = this.state.layerList.filter(({ controlable }) => controlable)
 
         return (
             <div className={'App'}>
