@@ -1,6 +1,6 @@
 import NavigateTool from '../tools/NavigateTool'
 import ObstacleView from '../views/ObstacleView'
-import {findNearestInLocation} from '../lib/utils'
+import { findNearestInLocation } from '../lib/utils'
 import ToolController from './ToolController'
 import SelectTool from '../tools/SelectTool'
 import PheromonesView from '../views/PheromonesView'
@@ -47,7 +47,7 @@ export default class AppController {
         this._document = document
     }
 
-    init({simulation, cameraCoord, scaleX, scaleY}) {
+    init({ simulation, cameraCoord, scaleX, scaleY }) {
         this.__scaleX = scaleX
         this.__scaleY = scaleY
 
@@ -204,7 +204,7 @@ export default class AppController {
             )
 
             const pheromonesNames = Array.from(simulation.environment.getPheromonesNamesIter())
-            
+
             return {
                 attractors: exportAttractors(attractors),
                 customAttractors: exportAttractors(customAttractors),
@@ -216,11 +216,11 @@ export default class AppController {
                 })),
             }
         }))
-        this.tools.register(ToolType.CONSOLE_DEBUG_EXPORT, new FnTool(({simulation, viewController}) => ({
+        this.tools.register(ToolType.CONSOLE_DEBUG_EXPORT, new FnTool(({ simulation, viewController }) => ({
             agentsPoolSize: simulation.agents.size,
             viewportTransform: viewController.getTransform().toArray(),
         })))
-        this.tools.register(ToolType.RESET_VIEW, new FnTool(({viewController}) => {
+        this.tools.register(ToolType.RESET_VIEW, new FnTool(({ viewController }) => {
             this.camera.location.setFrom(this.homeCameraPosition)
 
             viewController
