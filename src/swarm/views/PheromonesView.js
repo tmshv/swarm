@@ -1,20 +1,17 @@
 import EnvironmentView from './EnvironmentView'
 
 export default class PheromonesView extends EnvironmentView {
-    constructor({ pheromonesName, ...args }) {
+    constructor({
+        pheromonesName,
+        pheromoneVelocityMultiplier,
+        fill,
+        ...args
+    }) {
         super(args)
 
         this.pheromonesName = pheromonesName
-        const m = 1
-        this.fill = alpha => `rgba(140, 160, 255, ${alpha * m})`
-
-        if (pheromonesName === 'bus-stop') {
-            this.fill = alpha => `rgba(150, 170, 255, ${alpha * m})`
-        }
-
-        if (pheromonesName === 'metro') {
-            this.fill = alpha => `rgba(220, 220, 255, ${alpha * m})`
-        }
+        this.pheromoneVelocityMultiplier = pheromoneVelocityMultiplier
+        this.fill = fill
     }
 
     render() {
@@ -25,9 +22,8 @@ export default class PheromonesView extends EnvironmentView {
 
         for (let pheromone of pheromones.getValuesIterator()) {
             const location = pheromone.location
+            const alpha = pheromone.velocity.length * this.pheromoneVelocityMultiplier
 
-            const alpha = pheromone.velocity.length * 0.5
-            // const alpha = 1
             ctx.fillStyle = fillStyle(alpha)
             this.draw.rectCenterZoomed(location, s, s)
         }
@@ -37,7 +33,6 @@ export default class PheromonesView extends EnvironmentView {
         const location = pheromone.location
         const predict = pheromone.velocity
             .clone()
-            // .limit(50)
             .add(pheromone.location)
 
         ctx.strokeStyle = `rgb(0, 250, 50)`

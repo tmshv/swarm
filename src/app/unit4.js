@@ -30,6 +30,62 @@ import {getCentroid} from '../swarm/lib/geometry'
 
 let DATA
 
+export function getLayers() {
+    return [
+        {
+            name: 'Buildings',
+            view: 'buildings',
+            options: {}
+        },
+
+        {
+            name: 'Obstacles',
+            view: 'obstacles',
+            options: {}
+        },
+
+        {
+            name: 'Emitters',
+            view: 'emitters',
+            options: {}
+        },
+
+        {
+            name: 'Attractors',
+            view: 'attractors',
+            options: {}
+        },
+
+        {
+            name: 'Agents',
+            view: 'agents',
+            options: {}
+        },
+
+        {
+            name: 'Pheromones: bus stop',
+            view: 'pheromones',
+            options: {
+                pheromonesName: 'bus-stop',
+                pheromoneVelocityMultiplier: 0.5,
+                maxValue: 10,
+                fill: alpha => `rgba(250, 250, 0, ${alpha})`,
+            }
+        },
+
+        {
+            name: 'Pheromones: metro',
+            view: 'pheromones',
+            options: {
+                pheromonesName: 'metro',
+                pheromoneVelocityMultiplier: 0.5,
+                maxValue: 10,
+                fill: alpha => `rgba(250, 0, 250, ${alpha})`,
+            }
+        },
+    ]
+}
+
 export function getSettings() {
     return {
         backgroundColor: '#333f4d',

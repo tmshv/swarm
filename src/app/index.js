@@ -5,10 +5,10 @@ import App from '../components/App/App'
 import './index.less'
 import '../styles/reset.less'
 
-// import {createSimulation, getCameraCenter} from './demo'
-import {createSimulation, getCameraCenter} from './hny2019'
+// import {createSimulation, getCameraCenter, getSettings, getLayers } from './demo'
+import { createSimulation, getCameraCenter, getSettings, getLayers } from './hny2019'
+// import { createSimulation, getCameraCenter, getSettings, getLayers  } from './unit4'
 import AppController from '../swarm/controllers/AppController'
-// import { createSimulation, getCameraCenter } from './unit4'
 import ToolType from '../swarm/ToolType'
 
 async function main() {
@@ -109,58 +109,6 @@ function download(filename, text) {
     element.click();
 
     document.body.removeChild(element);
-}
-
-function getLayers() {
-    return [
-        {
-            name: 'Buildings',
-            view: 'buildings',
-            options: {}
-        },
-
-        {
-            name: 'Obstacles',
-            view: 'obstacles',
-            options: {}
-        },
-
-        {
-            name: 'Emitters',
-            view: 'emitters',
-            options: {}
-        },
-
-        {
-            name: 'Attractors',
-            view: 'attractors',
-            options: {}
-        },
-
-        {
-            name: 'Agents',
-            view: 'agents',
-            options: {}
-        },
-
-        {
-            name: 'Pheromones: bus stop',
-            view: 'pheromones',
-            options: {
-                pheromonesName: 'bus-stop',
-                maxValue: 10,
-            }
-        },
-
-        {
-            name: 'Pheromones: metro',
-            view: 'pheromones',
-            options: {
-                pheromonesName: 'metro',
-                maxValue: 10,
-            }
-        },
-    ]
 }
 
 main()

@@ -206,6 +206,50 @@ const buildings = [
     ],
 ]
 
+export function getLayers() {
+    return [
+        {
+            name: 'Obstacles',
+            view: 'obstacles',
+            options: {}
+        },
+
+        {
+            name: 'Emitters',
+            view: 'emitters',
+            options: {}
+        },
+
+        {
+            name: 'Agents',
+            view: 'agents',
+            options: {}
+        },
+
+        {
+            name: 'Pheromones1',
+            view: 'pheromones',
+            options: {
+                pheromonesName: 'bus-stop',
+                pheromoneVelocityMultiplier: 1,
+                maxValue: 10,
+                fill: alpha => `rgba(150, 170, 255, ${alpha * 2})`,
+            }
+        },
+
+        {
+            name: 'Pheromones2',
+            view: 'pheromones',
+            options: {
+                pheromonesName: 'metro',
+                pheromoneVelocityMultiplier: 1,
+                maxValue: 10,
+                fill: alpha => `rgba(220, 220, 255, ${alpha * 3})`,
+            }
+        },
+    ]
+}
+
 export function getSettings() {
     return {
         backgroundColor: 'white',
