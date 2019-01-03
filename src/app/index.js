@@ -54,7 +54,7 @@ async function main() {
         }
 
         pheromones.forEach(({ name, values }) => {
-            if(values.length){
+            if (values.length) {
                 write(`Pheromones: ${name}`)
                 write(values.join('\n'))
                 write('\n')
