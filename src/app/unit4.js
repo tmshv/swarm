@@ -35,7 +35,9 @@ export function getLayers() {
         {
             name: 'Buildings',
             view: 'buildings',
-            options: {}
+            options: {
+                fill: () => `#9099a3`,
+            },
         },
 
         {
