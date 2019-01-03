@@ -1,7 +1,4 @@
 import SimulationView from './SimulationView'
-import Tag from '../Tag'
-import ObstacleType from '../ObstacleType'
-import Polygon from '../Polygon'
 
 export default class BuildingsView extends SimulationView {
     render() {
