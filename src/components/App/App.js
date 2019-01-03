@@ -60,6 +60,8 @@ export default class App extends Component {
 
         const layerList = this.state.layerList.filter(({ controlable }) => controlable)
 
+        const showUi = false
+
         return (
             <div className={'App'}>
                 <div className={'App-Simulation'}>
@@ -77,13 +79,15 @@ export default class App extends Component {
                     ))}
                 </div>
                 <div className={'App-BodyWrapper'}>
-                    <div className={'App-Body'}>
-                        <SidePanel
-                            uiCallbacks={uiCallbacks}
-                            layers={layerList}
-                            onLayerCheckedChange={this.onLayerCheckedChange}
-                        />
-                    </div>
+                    {!showUi ? null : (
+                        <div className={'App-Body'}>
+                            <SidePanel
+                                uiCallbacks={uiCallbacks}
+                                layers={layerList}
+                                onLayerCheckedChange={this.onLayerCheckedChange}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         )
