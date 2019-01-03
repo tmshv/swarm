@@ -3,17 +3,25 @@ export default function renderAvoidObstacleBehavior(drawer, agent, behaviour) {
     ctx.lineWidth = 1
     ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
 
+    renderFutureLocation(drawer, agent, behaviour)
     if (behaviour.edge) renderWall(drawer, behaviour)
     if (behaviour.impactForce) renderForce(drawer, agent, behaviour)
     if (behaviour.intersection) renderIntersection(drawer, agent, behaviour)
 
-    renderRadius(drawer, agent, behaviour)
+    // renderRadius(drawer, agent, behaviour)
 
     // const obstacle = behaviour.obstacle
     // if (obstacle) {
     //     ctx.strokeStyle = 'rgba(250, 0, 250, 0.5)'
     //     drawer.line(obstacle.lines[0])
     // }
+}
+
+function renderFutureLocation(drawer, agent, behaviour) {
+    const f = behaviour.predictLocation()
+    const ctx = drawer.context
+    ctx.strokeStyle = '#fff'
+    drawer.circleCenter(f, 2)
 }
 
 function renderIntersection(drawer, agent, behaviour) {
@@ -52,7 +60,7 @@ function renderWall(drawer, behaviour) {
     )
 
     ctx.strokeStyle = null
-    ctx.fillStyle = 'rgba(250, 0, 250, 0.1)'
+    ctx.fillStyle = 'rgba(250, 0, 250, 1)'
     drawer.path([
         edge.a, edge.b,
         offset.b, offset.a,

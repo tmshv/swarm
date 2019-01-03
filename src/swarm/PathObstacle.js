@@ -3,7 +3,7 @@ import Line from './Line'
 import Obstacle from './Obstacle'
 
 export default class PathObstacle extends Obstacle {
-    static fromCoords(coords) {
+    static fromCoords(coords, fixNormals=true) {
         const length = coords.length
         if (length < 2) {
             throw new Error('Coords size is too small')
@@ -17,7 +17,7 @@ export default class PathObstacle extends Obstacle {
             lines.push(line)
         }
 
-        return new PathObstacle({lines})
+        return new PathObstacle({lines, fixNormals})
     }
 
     constructor({lines, fixNormals = true}) {

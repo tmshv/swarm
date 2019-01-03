@@ -38,13 +38,13 @@ export default class SelectedAgentView extends View {
         this.draw.context.strokeStyle = 'white'
         this.draw.targetArea(location, s, s, 6)
 
-        this.draw.context.strokeStyle = 'rgba(0, 0, 0, .5)'
+        this.draw.context.strokeStyle = '#fff'
         agent._stepForces.forEach(f => {
             this.draw.vector(location, f)
         })
 
-        this.draw.context.strokeStyle = 'rgba(250, 250, 0, 1)'
-        this.draw.vector(location, agent._stepAcceleration)
+        // this.draw.context.strokeStyle = 'rgba(250, 250, 0, 1)'
+        // this.draw.vector(location, agent._stepAcceleration)
 
         // this.draw.context.lineWidth = 3
         // this.draw.vector(location, agent
@@ -52,6 +52,9 @@ export default class SelectedAgentView extends View {
         //     .clone()
         //     .setLength(5)
         // )
+
+        this.draw.context.fillStyle = '#fff'
+        this.draw.circleCenterFill(location, 2)
     }
 
     renderBehaviour(agent, behaviour) {
@@ -83,6 +86,8 @@ export default class SelectedAgentView extends View {
             //     this.draw.cross(agent.location, s)
             // })
         } else if (behaviour instanceof SeekNearestAttractorBehaviour) {
+            // this.draw.circleCenter(a.location, behaviour.radius)
+            
             // const a = behaviour.targetAttractor
             // if (!a) return
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'

@@ -38,7 +38,9 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         // let normalForce = this.getNormalForce(edge)
         // force.add(normalForce)
 
-        this.agent.acceleration.direct(force)
+        // this.agent.acceleration.direct(force)
+        this.agent.force(force)
+        // this.seekAccelerated(force)
 
         this.edge = edge
         this.impactForce = force
@@ -55,25 +57,33 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
     }
 
     getForce(edge) {
-        const futureLocation = this.predictLocation()
-        const distSquared = edge.distSquared(futureLocation)
-        const n = Math.sqrt(
-            this.predictionDistanceSquared - distSquared
-        )
+        // const futureLocation = this.predictLocation()
+        // const distSquared = edge.distSquared(futureLocation)
+        const distSquared = edge.distSquared(this.agent.location)
 
-        const normal = edge.normal
-            .clone()
-            .setLength(n)
+        // const n = Math.sqrt(
+        //     this.predictionDistanceSquared - distSquared
+        // )
 
-        const force = this
-            .getPredictionVector()
-            .add(normal)
-        // const force = edge.getDirection()
-        // const predictDirection = this.getPredictionVector()
+        const n = distSquared + 1
+        const normal = edge.normal.clone()
+
+        const force = normal.divide(n)
+        force.mult(5)
+        // return normal
+
+        // const force = this
+        //     .getPredictionVector()
+        //     .add(normal)
         //
-        // if (force.dot(predictDirection) < 0) {
-        //     force.reverse()
-        // }
+        // console.log(force, n)
+        //
+        // // const force = edge.getDirection()
+        // // const predictDirection = this.getPredictionVector()
+        // //
+        // // if (force.dot(predictDirection) < 0) {
+        // //     force.reverse()
+        // // }
 
         return force
     }

@@ -5,14 +5,15 @@ export default class PheromonesView extends EnvironmentView {
         super(args)
 
         this.pheromonesName = pheromonesName
-        this.fill = alpha => `rgba(255, 255, 255, ${alpha})`
+        const m = 1
+        this.fill = alpha => `rgba(140, 160, 255, ${alpha * m})`
 
         if (pheromonesName === 'bus-stop') {
-            this.fill = alpha => `rgba(250, 250, 0, ${alpha})`
+            this.fill = alpha => `rgba(150, 170, 255, ${alpha * m})`
         }
 
         if (pheromonesName === 'metro') {
-            this.fill = alpha => `rgba(250, 0, 250, ${alpha})`
+            this.fill = alpha => `rgba(220, 220, 255, ${alpha * m})`
         }
     }
 

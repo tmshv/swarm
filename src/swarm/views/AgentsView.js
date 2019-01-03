@@ -15,8 +15,8 @@ export default class AgentsView extends SimulationView {
                     : 2
 
                 ctx.fillStyle = deviant
-                    ? `rgb(200, 0, 200)`
-                    : `rgb(200, 200, 0)`
+                    ? `rgba(140, 160, 255, 1)`
+                    : `rgba(220, 220, 255, 1)`
 
                 this.draw.circleCenterFill(agent.location, s)
             })
