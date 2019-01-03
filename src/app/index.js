@@ -17,6 +17,7 @@ async function main() {
     const scaleY = -scale
     const simulation = await createSimulation()
 
+    const settings = getSettings()
     const swarm = new AppController(window, document)
     swarm.init({
         simulation,
@@ -87,6 +88,7 @@ async function main() {
     const mountElement = document.querySelector('#app')
     const app = (
         <App
+            backgroundColor={settings.backgroundColor}
             layers={layers}
             uiCallbacks={ui}
         />

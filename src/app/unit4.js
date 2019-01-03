@@ -30,6 +30,12 @@ import {getCentroid} from '../swarm/lib/geometry'
 
 let DATA
 
+export function getSettings() {
+    return {
+        backgroundColor: '#333f4d',
+    }
+}
+
 export async function createSimulation() {
     const url = 'https://dl.dropboxusercontent.com/s/oxr12uwkjopc14n/SWARM.json'
 

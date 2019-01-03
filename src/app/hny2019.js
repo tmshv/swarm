@@ -206,6 +206,12 @@ const buildings = [
     ],
 ]
 
+export function getSettings() {
+    return {
+        backgroundColor: 'white',
+    }
+}
+
 export async function createSimulation() {
     const s = new Simulation()
     s.setAgents(new AgentPool(150))

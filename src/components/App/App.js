@@ -64,7 +64,12 @@ export default class App extends Component {
 
         return (
             <div className={'App'}>
-                <div className={'App-Simulation'}>
+                <div
+                    className={'App-Simulation'}
+                    style={{
+                        backgroundColor: this.props.backgroundColor,
+                    }}
+                >
                     {layers.map((x, i) => (
                         <Layer
                             key={i}
