@@ -173,7 +173,7 @@ export default class AppController {
 
         const radius = 100
         this.tools = new ToolController()
-        this.tools.register(ToolType.CONSOLE_EXPORT, new FnTool(({simulation}) => {
+        this.tools.register(ToolType.CONSOLE_EXPORT, new FnTool(({ simulation }) => {
             const exporter = fn => iter => {
                 const items = []
 
@@ -229,6 +229,7 @@ export default class AppController {
                 .translateFromCamera(this.camera)
                 .applyTransform()
         }))
+        this.tools.register(ToolType.TOGGLE_UI, new FnTool(() => { }))
         this.tools.register(ToolType.SELECT_AGENT, new SelectTool({
             channel: mouseWorldCoordChannels,
             radius,
@@ -335,6 +336,9 @@ export default class AppController {
         })
         shortcut.register('ctrl+a', () => {
             this.tools.activate(ToolType.ADD_ATTRACTOR)
+        })
+        shortcut.register('ctrl+b', () => {
+            this.tools.activate(ToolType.TOGGLE_UI)
         })
     }
 }

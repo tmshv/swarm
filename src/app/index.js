@@ -91,6 +91,7 @@ async function main() {
             backgroundColor={settings.backgroundColor}
             layers={layers}
             uiCallbacks={ui}
+            displayUiSignal={swarm.tools.getToolUpdateSignal(ToolType.TOGGLE_UI)}
         />
     )
     render(app, mountElement)

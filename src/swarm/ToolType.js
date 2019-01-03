@@ -13,6 +13,7 @@ export default class ToolType {
     static SIMULATION_CONTROL_SWITCH = 'simulationControlSwitch'
     static SIMULATION_CONTROL_STEP = 'simulationControlStep'
     static RESET_VIEW = 'resetView'
+    static TOGGLE_UI = 'TOGGLE_UI'
 
     constructor() {
         throw new Error('Cannot create instance of ToolType')

@@ -10,6 +10,7 @@ export default class App extends Component {
         super(...args)
 
         this.state = {
+            showUi: false,
             layerList: this.props.layers
                 .map(({ name, controlable }) => ({
                     name,
@@ -22,16 +23,26 @@ export default class App extends Component {
         this.onLayerCheckedChange = this.onLayerCheckedChange.bind(this)
     }
 
+    onToggleUi = () => {
+        this.setState({
+            showUi: !this.state.showUi,
+        })
+    }
+
     isLayerVisible(index) {
         return this.state.layerList[index].checked
     }
 
     componentDidMount() {
         window.addEventListener('resize', this.onResize)
+
+        this.props.displayUiSignal.on(this.onToggleUi)
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.onResize)
+
+        this.props.displayUiSignal.off(this.onToggleUi)
     }
 
     onResize() {
@@ -60,8 +71,6 @@ export default class App extends Component {
 
         const layerList = this.state.layerList.filter(({ controlable }) => controlable)
 
-        const showUi = false
-
         return (
             <div className={'App'}>
                 <div
@@ -84,7 +93,7 @@ export default class App extends Component {
                     ))}
                 </div>
                 <div className={'App-BodyWrapper'}>
-                    {!showUi ? null : (
+                    {!this.state.showUi ? null : (
                         <div className={'App-Body'}>
                             <SidePanel
                                 uiCallbacks={uiCallbacks}
