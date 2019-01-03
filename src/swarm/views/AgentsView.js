@@ -1,6 +1,17 @@
 import SimulationView from './SimulationView'
 
 export default class AgentsView extends SimulationView {
+    constructor({
+        fill,
+        size,
+        ...args
+    }) {
+        super(args)
+
+        this.fill = fill
+        this.size = size
+    }
+
     render() {
         const ctx = this.draw.context
 
@@ -8,15 +19,8 @@ export default class AgentsView extends SimulationView {
         this.simulation
             .getAgents()
             .forEach(agent => {
-                const deviant = agent.getTag('deviant')
-
-                const s = deviant
-                    ? 3
-                    : 2
-
-                ctx.fillStyle = deviant
-                    ? `rgba(140, 160, 255, 1)`
-                    : `rgba(220, 220, 255, 1)`
+                const s = this.size(agent)
+                ctx.fillStyle = this.fill(agent)
 
                 this.draw.circleCenterFill(agent.location, s)
             })

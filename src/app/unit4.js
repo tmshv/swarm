@@ -59,7 +59,20 @@ export function getLayers() {
         {
             name: 'Agents',
             view: 'agents',
-            options: {}
+            options: {
+                size: agent => {
+                    const deviant = agent.getTag('deviant')
+                    return deviant
+                        ? 3
+                        : 2
+                },
+                fill: agent => {
+                    const deviant = agent.getTag('deviant')
+                    return deviant
+                        ? `rgb(200, 0, 200)`
+                        : `rgb(200, 200, 0)`
+                },
+            },
         },
 
         {

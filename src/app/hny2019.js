@@ -223,7 +223,15 @@ export function getLayers() {
         {
             name: 'Agents',
             view: 'agents',
-            options: {}
+            options: {
+                size: () => 4,
+                fill: agent => {
+                    const deviant = agent.getTag('deviant')
+                    return deviant
+                        ? `rgba(140, 160, 255, 1)`
+                        : `rgba(220, 220, 255, 1)`
+                },
+            },
         },
 
         {
