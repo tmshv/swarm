@@ -238,7 +238,7 @@ function createAgent(loc) {
         ? 'metro'
         : 'bus-stop'
 
-        const a = new Agent({
+    const a = new Agent({
         behaviour: ComposableBehavior.compose(
             new TtlBehavior({
                 ttl,
