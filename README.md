@@ -15,6 +15,7 @@
 - [ant colony video](https://vimeo.com/153676751)
 - [Computational Planning Science by Reinhard Koenig](https://vimeo.com/channels/586317)
 - [Culebra rhino/grasshopper plugin](https://www.food4rhino.com/app/culebra)
+- [ant_sugar](https://github.com/dg92/ant_sugar)
 
 ## Dev links
 
