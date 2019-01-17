@@ -31,3 +31,12 @@
 - [Имитация естественного движения: Steering Behaviors — 2](https://habr.com/post/358460/)
 - [Wall avoidance steering](https://gamedev.stackexchange.com/questions/45381/wall-avoidance-steering)
 - [Go WebAssembly Repulsion](https://stdiopt.github.io/gowasm-experiments/repulsion/)
+
+Js geometry libs:
+
+- [geometry-processing-js](https://geometrycollective.github.io/geometry-processing-js/)
+- [flatten.js](https://alexbol99.github.io/flatten-js/)
+- [dg.js](http://jason.matf.bg.ac.rs/~dg/)
+- [pts.js](https://ptsjs.org)
+- [paper.js](http://paperjs.org)
+- [joint.js](https://resources.jointjs.com/docs/jointjs/v2.2/geometry.html)
