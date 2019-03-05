@@ -17,6 +17,11 @@
 - [Culebra rhino/grasshopper plugin](https://www.food4rhino.com/app/culebra)
 - [ant_sugar](https://github.com/dg92/ant_sugar)
 
+### Neural-mmo
+- https://github.com/openai/neural-mmo
+- https://dev.by/news/openai-zapustila-neironnyi-simulyator-neural-mmo
+- https://blog.openai.com/neural-mmo/
+
 ## Dev links
 
 - [Веб-воркеры в JavaScript: безопасный параллелизм](https://habrahabr.ru/company/ruvds/blog/352828/)
