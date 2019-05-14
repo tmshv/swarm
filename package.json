@@ -17,34 +17,17 @@
     "transformation-matrix-js": "^2.7.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --env.NODE_ENV=development --env.TARGET=app",
-    "build": "webpack --env.TARGET=app --env.NODE_ENV=production"
+    "start": "parcel src/app/index.html",
+    "build": "parcel build src/app/index.html"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^4.5.1",
-    "css-loader": "^0.28.10",
-    "less": "^3.0.4",
-    "less-loader": "^2.2.3",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-es6-promise": "^1.1.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-imports": "^1.4.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-regenerator": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "html-webpack-plugin": "^2.30.1",
-    "style-loader": "^0.20.2",
-    "uglifyjs-webpack-plugin": "^1.1.4",
-    "url-loader": "^0.6.2",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-merge": "^4.1.1"
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "cssnano": "^4.1.10",
+    "less": "^3.9.0",
+    "parcel-bundler": "^1.12.3"
   }
 }
