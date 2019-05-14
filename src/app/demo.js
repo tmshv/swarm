@@ -7,27 +7,27 @@ import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
 import Emitter from '../swarm/Emitter'
 import Vector from '../swarm/Vector'
-import SeekNearestAttractorBehaviour from '../swarm/behaviours/SeekNearestAttractorBehaviour'
+import SeekNearestAttractorBehavior from '../swarm/behaviors/SeekNearestAttractorBehavior'
 import Pheromones from '../swarm/Pheromones'
 import Obstacle from '../swarm/Obstacle'
-import AvoidObstaclesBehavior from '../swarm/behaviours/AvoidObstaclesBehavior'
-import TtlBehavior from '../swarm/behaviours/TtlBehavior'
-import ComposableBehavior from '../swarm/behaviours/ComposableBehavior'
-import LimitAccelerationBehaviour from '../swarm/behaviours/LimitAccelerationBehaviour'
-import SeekLocationBehaviour from '../swarm/behaviours/SeekLocationBehaviour'
-import AgentBehaviour from '../swarm/AgentBehaviour'
+import AvoidObstaclesBehavior from '../swarm/behaviors/AvoidObstaclesBehavior'
+import TtlBehavior from '../swarm/behaviors/TtlBehavior'
+import ComposableBehavior from '../swarm/behaviors/ComposableBehavior'
+import LimitAccelerationBehavior from '../swarm/behaviors/LimitAccelerationBehavior'
+import SeekLocationBehavior from '../swarm/behaviors/SeekLocationBehavior'
+import AgentBehavior from '../swarm/AgentBehavior'
 import Line from '../swarm/Line'
 import Tag from '../swarm/Tag'
 import ObstacleType from '../swarm/ObstacleType'
-import AvoidPointObstaclesBehavior from '../swarm/behaviours/AvoidPointObstaclesBehavior'
+import AvoidPointObstaclesBehavior from '../swarm/behaviors/AvoidPointObstaclesBehavior'
 import PointObstacle from '../swarm/PointObstacle'
 import PathObstacle from '../swarm/PathObstacle'
-import BoidBehavior from '../swarm/behaviours/BoidBehavior'
-import AttractorType from '../swarm/AttractorType';
-import AlignAgentsBehaviour from '../swarm/behaviours/AlignAgentsBehaviour';
-import SeparateAgentsBehaviour from '../swarm/behaviours/SeparateAgentsBehaviour';
-import CohesionAgentsBehaviour from '../swarm/behaviours/CohesionAgentsBehaviour';
-import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour';
+import BoidBehavior from '../swarm/behaviors/BoidBehavior'
+import AttractorType from '../swarm/AttractorType'
+import AlignAgentsBehavior from '../swarm/behaviors/AlignAgentsBehavior'
+import SeparateAgentsBehavior from '../swarm/behaviors/SeparateAgentsBehavior'
+import CohesionAgentsBehavior from '../swarm/behaviors/CohesionAgentsBehavior'
+import RandomWalkBehavior from '../swarm/behaviors/RandomWalkBehavior'
 
 const pheromones = new Pheromones({
     cellSize: 5,
@@ -96,15 +96,15 @@ export function getCameraCenter() {
     return new Vector(0, 0)
 }
 
-function createAgent(loc, behaviour = null) {
+function createAgent(loc, behavior = null) {
     const initialVelocity = new Vector(0, 0)
 
     // const noise = Vector.fromAngle(Math.random() * Math.PI * 2)
     // noise.mult(0.1)
     // loc.add(noise)
 
-    if (!behaviour) {
-        behaviour = ComposableBehavior.compose(
+    if (!behavior) {
+        behavior = ComposableBehavior.compose(
             new TtlBehavior({
                 ttl: 1000,
             }),
@@ -113,48 +113,48 @@ function createAgent(loc, behaviour = null) {
             //     predicate: new IfTargetReachedBehavior({
             //         minDistance: 5,
             //     }),
-            //     trueBranch: AgentBehaviour.SEEK_LOCATION,
-            //     falseBranch: new RandomWalkBehaviour({
+            //     trueBranch: AgentBehavior.SEEK_LOCATION,
+            //     falseBranch: new RandomWalkBehavior({
             //         accelerate: 0.25,
             //     }),
             // }),
 
-            new AlignAgentsBehaviour({
+            new AlignAgentsBehavior({
                 accelerate: .21,
                 radius: 25,
             }),
             
-            new SeparateAgentsBehaviour({
+            new SeparateAgentsBehavior({
                 accelerate: 1,
                 radius: 25,
             }),
             
-            new CohesionAgentsBehaviour({
+            new CohesionAgentsBehavior({
                 accelerate: .05,
                 radius: 25,
             }),
 
-            // new WalkToNearestAttractorBehaviour({}),
-            // new SeekNearestAttractorBehaviour({
+            // new WalkToNearestAttractorBehavior({}),
+            // new SeekNearestAttractorBehavior({
             //     accelerate: .1,
             //     thresholdDistQuad: 1000000,
             //     attractorTypes: [AttractorType.UNKNOWN],
             // }),
-            // new InteractAgentsBehaviour({
+            // new InteractAgentsBehavior({
             //     accelerate: 0.4,
             //     radius: 25,
             //     initialInterest: 200,
             // }),
-            new RandomWalkBehaviour({
+            new RandomWalkBehavior({
                 accelerate: 0.1,
             }),
-            // new InteractEnvironmentBehaviour({
+            // new InteractEnvironmentBehavior({
             //     accelerate: 0.1
             // }),
-            // new InteractPheromonesBehaviour({
+            // new InteractPheromonesBehavior({
             //     accelerate: .05,
             // }),
-            // new SpreadPheromonesBehaviour({
+            // new SpreadPheromonesBehavior({
             //     pheromones,
             // }),
             // new AvoidPointObstaclesBehavior({
@@ -170,19 +170,19 @@ function createAgent(loc, behaviour = null) {
             // new BoidBehavior({
 
             // }),
-            new LimitAccelerationBehaviour({
+            new LimitAccelerationBehavior({
                 limit: 1,
             })
         )
     }
 
     const a = new Agent({
-        behaviour,
+        behavior,
     })
     a.damp = 0.75
     a.location.setFrom(loc)
     a.velocity.setFrom(initialVelocity)
-    a.addBehaviour(AgentBehaviour.SEEK_LOCATION, new SeekLocationBehaviour({
+    a.addBehavior(AgentBehavior.SEEK_LOCATION, new SeekLocationBehavior({
         accelerate: 0.1,
         threshold: 2,
     }))

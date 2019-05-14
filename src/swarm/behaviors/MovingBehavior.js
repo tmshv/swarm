@@ -1,6 +1,6 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 
-export default class MovingBehavior extends Behaviour {
+export default class MovingBehavior extends Behavior {
     constructor(options) {
         super(options)
         this.accelerate = options.accelerate

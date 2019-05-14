@@ -1,11 +1,11 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 import Vector from '../Vector'
 
 import {Chance} from 'chance'
 
 const chance = new Chance()
 
-export default class InteractAgentsBehaviour extends Behaviour {
+export default class InteractAgentsBehavior extends Behavior {
     init({radius, initialInterest}) {
         this.initialInterest = initialInterest
         this.radius = radius

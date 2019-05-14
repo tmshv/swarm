@@ -1,6 +1,6 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 
-export default class SpreadPheromonesBehaviour extends Behaviour {
+export default class SpreadPheromonesBehavior extends Behavior {
     init({pheromonesName}) {
         this.pheromonesName = pheromonesName
     }

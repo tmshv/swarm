@@ -1,6 +1,6 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 
-export default class TtlBehavior extends Behaviour {
+export default class TtlBehavior extends Behavior {
     init({ttl}) {
         this.ttl = ttl
     }

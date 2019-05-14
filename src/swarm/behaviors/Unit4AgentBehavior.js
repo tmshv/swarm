@@ -1,29 +1,29 @@
-import Behaviour from './Behaviour'
-import RandomWalkBehaviour from './RandomWalkBehaviour'
+import Behavior from './Behavior'
+import RandomWalkBehavior from './RandomWalkBehavior'
 import ComposableBehavior from './ComposableBehavior'
-import SpreadPheromonesBehaviour from './SpreadPheromonesBehaviour'
-import SeekNearestAttractorBehaviour from './SeekNearestAttractorBehaviour'
-import InteractPheromonesBehaviour from './InteractPheromonesBehaviour'
+import SpreadPheromonesBehavior from './SpreadPheromonesBehavior'
+import SeekNearestAttractorBehavior from './SeekNearestAttractorBehavior'
+import InteractPheromonesBehavior from './InteractPheromonesBehavior'
 
-export default class Unit4AgentBehaviour extends Behaviour {
+export default class Unit4AgentBehavior extends Behavior {
     init({ pheromonesName, attractorTypes, dieAttractorTypes, ...options }) {
         this.finding = ComposableBehavior.compose(
-            new RandomWalkBehaviour({
+            new RandomWalkBehavior({
                 accelerate: 0.5,
             }),
         )
         this.smart = ComposableBehavior.compose(
-            new SpreadPheromonesBehaviour({
+            new SpreadPheromonesBehavior({
                 pheromonesName,
             }),
-            new SeekNearestAttractorBehaviour({
+            new SeekNearestAttractorBehavior({
                 ...options,
                 attractorTypes,
                 dieAttractorTypes,
                 accelerate: 0.5,
                 thresholdDistSquared: 10,
             }),
-            new InteractPheromonesBehaviour({
+            new InteractPheromonesBehavior({
                 accelerate: 0.5,
                 pheromonesName,
             }),

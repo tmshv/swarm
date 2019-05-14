@@ -1,6 +1,6 @@
 import MovingBehavior from './MovingBehavior'
 
-export default class SeparateAgentsBehaviour extends MovingBehavior {
+export default class SeparateAgentsBehavior extends MovingBehavior {
     init({radius}) {
         this.radius = radius
     }

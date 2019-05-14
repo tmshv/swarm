@@ -1,7 +1,7 @@
 import MovingBehavior from './MovingBehavior'
 import Vector from '../Vector'
 
-export default class InteractPheromonesBehaviour extends MovingBehavior {
+export default class InteractPheromonesBehavior extends MovingBehavior {
     init({pheromonesName}) {
         this.pheromonesName = pheromonesName
         this.target = []

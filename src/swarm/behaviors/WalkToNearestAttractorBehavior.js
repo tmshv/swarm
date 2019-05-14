@@ -1,13 +1,13 @@
-import Behaviour from './Behaviour'
-import AgentBehaviour from '../AgentBehaviour'
+import Behavior from './Behavior'
+import AgentBehavior from '../AgentBehavior'
 
-export default class WalkToNearestAttractorBehaviour extends Behaviour {
+export default class WalkToNearestAttractorBehavior extends Behavior {
     init({}) {
         this.visitedAttractors = []
     }
 
     run({environment}) {
-        const walk = this.agent.getBehaviour(AgentBehaviour.SEEK_LOCATION)
+        const walk = this.agent.getBehavior(AgentBehavior.SEEK_LOCATION)
         const reached = walk.run()
 
         if (reached) {

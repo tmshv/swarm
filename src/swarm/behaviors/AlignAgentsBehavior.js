@@ -1,7 +1,7 @@
 import MovingBehavior from './MovingBehavior'
 import Vector from '../Vector'
 
-export default class CohesionAgentsBehaviour extends MovingBehavior {
+export default class AlignAgentsBehavior extends MovingBehavior {
     init({radius}) {
         this.radius = radius
 
@@ -13,10 +13,10 @@ export default class CohesionAgentsBehaviour extends MovingBehavior {
 
         this.average.set(0, 0)
         for (let a of agents) {
-            this.average.add(a.location)
+            this.average.add(a.velocity)
         }
         this.average.divide(agents.length)
 
-        this.seek(this.average)
+        this.force(this.average)
     }
 }

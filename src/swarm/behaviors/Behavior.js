@@ -1,4 +1,4 @@
-export default class Behaviour {
+export default class Behavior {
     constructor(options) {
         this.accelerate = options.accelerate
         this.init(options)

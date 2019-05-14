@@ -1,9 +1,9 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 import {Chance} from 'chance'
 
 const chance = new Chance()
 
-export default class InteractEnvironmentBehaviour extends Behaviour {
+export default class InteractEnvironmentBehavior extends Behavior {
     init({}) {
         this.environmentSample = []
         this.interest = new Map()

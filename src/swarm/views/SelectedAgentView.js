@@ -1,13 +1,13 @@
-import SeekNearestAttractorBehaviour from '../behaviours/SeekNearestAttractorBehaviour'
-import InteractEnvironmentBehaviour from '../behaviours/InteractEnvironmentBehaviour'
-import InteractAgentsBehaviour from '../behaviours/InteractAgentsBehaviour'
-import AvoidObstaclesBehavior from '../behaviours/AvoidObstaclesBehavior'
-import InteractPheromonesBehaviour from '../behaviours/InteractPheromonesBehaviour'
-import ComposableBehavior from '../behaviours/ComposableBehavior'
-import SeparateAgentsBehaviour from '../behaviours/SeparateAgentsBehaviour'
+import SeekNearestAttractorBehavior from '../behaviors/SeekNearestAttractorBehavior'
+import InteractEnvironmentBehavior from '../behaviors/InteractEnvironmentBehavior'
+import InteractAgentsBehavior from '../behaviors/InteractAgentsBehavior'
+import AvoidObstaclesBehavior from '../behaviors/AvoidObstaclesBehavior'
+import InteractPheromonesBehavior from '../behaviors/InteractPheromonesBehavior'
+import ComposableBehavior from '../behaviors/ComposableBehavior'
+import SeparateAgentsBehavior from '../behaviors/SeparateAgentsBehavior'
 import View from './View'
-import Unit4AgentBehaviour from '../behaviours/Unit4AgentBehaviour'
-import AvoidPointObstaclesBehavior from '../behaviours/AvoidPointObstaclesBehavior'
+import Unit4AgentBehavior from '../behaviors/Unit4AgentBehavior'
+import AvoidPointObstaclesBehavior from '../behaviors/AvoidPointObstaclesBehavior'
 import renderAvoidObstacleBehavior from './render/renderAvoidObstacleBehavior'
 
 export default class SelectedAgentView extends View {
@@ -25,7 +25,7 @@ export default class SelectedAgentView extends View {
     }
 
     render() {
-        this.renderBehaviour(this.item, this.item.behaviour)
+        this.renderBehavior(this.item, this.item.behavior)
         this.renderAgent(this.item)
     }
 
@@ -57,76 +57,76 @@ export default class SelectedAgentView extends View {
         this.draw.circleCenterFill(location, 2)
     }
 
-    renderBehaviour(agent, behaviour) {
+    renderBehavior(agent, behavior) {
         const location = agent.location
         const ctx = this.draw.context
         ctx.lineWidth = 1
         ctx.strokeStyle = 'rgba(255, 0, 255, 1)'
 
-        if (behaviour instanceof ComposableBehavior) {
-            behaviour.behaviours.forEach(b => {
-                this.renderBehaviour(agent, b)
+        if (behavior instanceof ComposableBehavior) {
+            behavior.behaviors.forEach(b => {
+                this.renderBehavior(agent, b)
             })
-        } else if (behaviour instanceof InteractEnvironmentBehaviour) {
-            // const a = behaviour.targetAttractor
-            // const interest = behaviour.interest.get(a)
+        } else if (behavior instanceof InteractEnvironmentBehavior) {
+            // const a = behavior.targetAttractor
+            // const interest = behavior.interest.get(a)
             //
             // if (interest > 0) {
             //     this.draw.circleCenter(a.location, interest)
             // }
-        } else if (behaviour instanceof InteractAgentsBehaviour) {
+        } else if (behavior instanceof InteractAgentsBehavior) {
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'
             //
-            // this.draw.circleCenter(agent.location, behaviour.radius)
+            // this.draw.circleCenter(agent.location, behavior.radius)
             //
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)'
-            // behaviour.agentsInView.forEach(agent => {
-            //     const r = behaviour.interest.get(agent) / behaviour.initialInterest
+            // behavior.agentsInView.forEach(agent => {
+            //     const r = behavior.interest.get(agent) / behavior.initialInterest
             //     const s = r * 5
             //     this.draw.cross(agent.location, s)
             // })
-        } else if (behaviour instanceof SeekNearestAttractorBehaviour) {
-            // this.draw.circleCenter(a.location, behaviour.radius)
+        } else if (behavior instanceof SeekNearestAttractorBehavior) {
+            // this.draw.circleCenter(a.location, behavior.radius)
             
-            // const a = behaviour.targetAttractor
+            // const a = behavior.targetAttractor
             // if (!a) return
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'
             // this.draw.cross(a.location, 5)
-        } else if (behaviour instanceof AvoidObstaclesBehavior) {
-            renderAvoidObstacleBehavior(this.draw, agent, behaviour)
-        } else if (behaviour instanceof InteractPheromonesBehaviour) {
+        } else if (behavior instanceof AvoidObstaclesBehavior) {
+            renderAvoidObstacleBehavior(this.draw, agent, behavior)
+        } else if (behavior instanceof InteractPheromonesBehavior) {
             // const s = 2
             // ctx.strokeStyle = 'rgba(0, 255, 0, 1)'
             // ctx.fillStyle = null
             //
-            // behaviour.target.forEach(({location}) => {
+            // behavior.target.forEach(({location}) => {
             //     this.draw.cross(location, s, s)
             // })
-        } else if (behaviour instanceof SeparateAgentsBehaviour) {
+        } else if (behavior instanceof SeparateAgentsBehavior) {
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)'
             // ctx.fillStyle = null
             //
-            // this.draw.circleCenter(agent.location, behaviour.radius)
-        } else if (behaviour instanceof Unit4AgentBehaviour) {
+            // this.draw.circleCenter(agent.location, behavior.radius)
+        } else if (behavior instanceof Unit4AgentBehavior) {
             // ctx.lineWidth = 1
             // ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
             // ctx.fillStyle = null
             //
-            // // this.draw.circleCenter(agent.location, behaviour.radius)
-        } else if (behaviour instanceof AvoidPointObstaclesBehavior) {
-            // const p = behaviour
+            // // this.draw.circleCenter(agent.location, behavior.radius)
+        } else if (behavior instanceof AvoidPointObstaclesBehavior) {
+            // const p = behavior
             //     .getPredictionVector()
             //     .setLength(100)
             // this.draw.vector(agent.location, p)
 
-            const obstacle = behaviour.obstacle
+            const obstacle = behavior.obstacle
             if (obstacle) {
                 if (obstacle.containCoord(agent.location)) {
                     ctx.strokeStyle ='rgba(250, 0, 250, 1)'
                     this.draw.cross(agent.location, 5)
                 }
 
-                const offsetRadius = obstacle.radius + behaviour.predictionDistance
+                const offsetRadius = obstacle.radius + behavior.predictionDistance
 
                 ctx.strokeStyle = null
                 ctx.fillStyle = 'rgba(250, 0, 250, 0.1)'

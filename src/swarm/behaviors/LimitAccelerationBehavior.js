@@ -1,6 +1,6 @@
-import Behaviour from './Behaviour'
+import Behavior from './Behavior'
 
-export default class LimitAccelerationBehaviour extends Behaviour {
+export default class LimitAccelerationBehavior extends Behavior {
     init({limit}) {
         this.limit = limit
     }

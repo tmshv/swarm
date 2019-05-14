@@ -16,15 +16,15 @@ export default class Agent extends Vehicle {
         return this._track
     }
 
-    constructor({behaviour}) {
+    constructor({behavior}) {
         super()
-        behaviour.setAgent(this)
+        behavior.setAgent(this)
 
         this._locked = false
         this._alive = true
         this.events = new Channel()
-        this.behaviour = behaviour
-        this.namedBehaviours = new Map()
+        this.behavior = behavior
+        this.namedBehaviors = new Map()
 
         this._stepForces = []
         this._stepAcceleration = new Vector(0, 0)
@@ -78,19 +78,19 @@ export default class Agent extends Vehicle {
         this.events.get(AgentEvent.DIE).trigger(this)
     }
 
-    addBehaviour(name, behaviour) {
-        behaviour.setAgent(this)
-        this.namedBehaviours.set(name, behaviour)
+    addBehavior(name, behavior) {
+        behavior.setAgent(this)
+        this.namedBehaviors.set(name, behavior)
     }
 
-    getBehaviour(name) {
-        return this.namedBehaviours.get(name)
+    getBehavior(name) {
+        return this.namedBehaviors.get(name)
     }
 
     run(options) {
         this._stepForces.length = 0
         this._stepAcceleration.setFrom(this.acceleration)
 
-        this.behaviour.run(options)
+        this.behavior.run(options)
     }
 }

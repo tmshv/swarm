@@ -1,6 +1,6 @@
 import MovingBehavior from './MovingBehavior'
 
-export default class SeekLocationBehaviour extends MovingBehavior {
+export default class SeekLocationBehavior extends MovingBehavior {
     get threshold() {
         return this._threshold
     }
