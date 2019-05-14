@@ -24,6 +24,10 @@ import PointObstacle from '../swarm/PointObstacle'
 import PathObstacle from '../swarm/PathObstacle'
 import BoidBehavior from '../swarm/behaviours/BoidBehavior'
 import AttractorType from '../swarm/AttractorType';
+import AlignAgentsBehaviour from '../swarm/behaviours/AlignAgentsBehaviour';
+import SeparateAgentsBehaviour from '../swarm/behaviours/SeparateAgentsBehaviour';
+import CohesionAgentsBehaviour from '../swarm/behaviours/CohesionAgentsBehaviour';
+import RandomWalkBehaviour from '../swarm/behaviours/RandomWalkBehaviour';
 
 const pheromones = new Pheromones({
     cellSize: 5,
@@ -60,42 +64,28 @@ export function getLayers() {
         {
             name: 'Agents',
             view: 'agents',
-            options: {}
-        },
-
-        {
-            name: 'Pheromones: bus stop',
-            view: 'pheromones',
             options: {
-                pheromonesName: 'bus-stop',
-                pheromoneVelocityMultiplier: 0.5,
-                maxValue: 10,
-                fill: alpha => `rgba(150, 170, 255, ${alpha})`,
-            }
-        },
-
-        {
-            name: 'Pheromones: metro',
-            view: 'pheromones',
-            options: {
-                pheromonesName: 'metro',
-                pheromoneVelocityMultiplier: 0.5,
-                maxValue: 10,
-                fill: alpha => `rgba(220, 220, 255, ${alpha})`,
-            }
+                size: () => 4,
+                fill: agent => {
+                    const deviant = agent.getTag('deviant')
+                    return deviant
+                        ? `rgba(140, 160, 255, 1)`
+                        : `rgba(220, 220, 255, 1)`
+                },
+            },
         },
     ]
 }
 
 export function getSettings() {
     return {
-        backgroundColor: 'white',
+        backgroundColor: '#333f4d',
     }
 }
 
 export async function createSimulation() {
     const s = new Simulation()
-    s.setAgents(new AgentPool())
+    s.setAgents(new AgentPool(50))
     s.setEnvironment(createEnvironment())
     createEmitters(s)
 
@@ -116,7 +106,7 @@ function createAgent(loc, behaviour = null) {
     if (!behaviour) {
         behaviour = ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 3000,
+                ttl: 1000,
             }),
 
             // new ConditionalBehavior({
@@ -129,35 +119,35 @@ function createAgent(loc, behaviour = null) {
             //     }),
             // }),
 
-            // new AlignAgentsBehaviour({
-            //     accelerate: .21,
-            //     radius: 25,
-            // }),
-            //
-            // new SeparateAgentsBehaviour({
-            //     accelerate: 1,
-            //     radius: 25,
-            // }),
-            //
-            // new CohesionAgentsBehaviour({
-            //     accelerate: .05,
-            //     radius: 25,
-            // }),
+            new AlignAgentsBehaviour({
+                accelerate: .21,
+                radius: 25,
+            }),
+            
+            new SeparateAgentsBehaviour({
+                accelerate: 1,
+                radius: 25,
+            }),
+            
+            new CohesionAgentsBehaviour({
+                accelerate: .05,
+                radius: 25,
+            }),
 
             // new WalkToNearestAttractorBehaviour({}),
-            new SeekNearestAttractorBehaviour({
-                accelerate: .1,
-                thresholdDistQuad: 10,
-                attractorsType: [AttractorType.UNKNOWN],
-            }),
+            // new SeekNearestAttractorBehaviour({
+            //     accelerate: .1,
+            //     thresholdDistQuad: 1000000,
+            //     attractorTypes: [AttractorType.UNKNOWN],
+            // }),
             // new InteractAgentsBehaviour({
             //     accelerate: 0.4,
             //     radius: 25,
             //     initialInterest: 200,
             // }),
-            // new RandomWalkBehaviour({
-            //     accelerate: 0.25,
-            // }),
+            new RandomWalkBehaviour({
+                accelerate: 0.1,
+            }),
             // new InteractEnvironmentBehaviour({
             //     accelerate: 0.1
             // }),
@@ -172,16 +162,16 @@ function createAgent(loc, behaviour = null) {
             //     predictionDistance: 50,
             //     radius: 50,
             // }),
-            // new AvoidObstaclesBehavior({
-            //     accelerate: 1,
-            //     predictionDistance: 10,
-            //     radius: 50,
-            // }),
-            new BoidBehavior({
-
+            new AvoidObstaclesBehavior({
+                accelerate: 1,
+                predictionDistance: 10,
+                radius: 50,
             }),
+            // new BoidBehavior({
+
+            // }),
             new LimitAccelerationBehaviour({
-                limit: .1,
+                limit: 1,
             })
         )
     }
@@ -202,7 +192,7 @@ function createAgent(loc, behaviour = null) {
 
 function createEmitters(s) {
     const emitters = [
-        [new Vector(-150, 0), 10000, 1],
+        [new Vector(-150, 0), 50, 1],
     ]
 
     emitters.forEach(e => {
@@ -218,14 +208,18 @@ function createEnvironment() {
     // env.addAttractor(mouseAttractor)
     const attractors = [
         [new Vector(200, 40), 100],
+        [new Vector(50, 150), 100],
+        [new Vector(50, -150), 100],
     ]
 
     attractors.forEach(([coord, power]) => {
-        env.addAttractor(createAttractor({
+        const a = createAttractor({
             x: coord.x,
             y: coord.y,
             power,
-        }))
+        })
+        a.addTag(AttractorType.UNKNOWN)
+        env.addAttractor(a)
     })
 
     initObstacles(env)
