@@ -108,10 +108,11 @@ export function getSettings() {
 }
 
 export async function createSimulation() {
-    const url = 'https://dl.dropboxusercontent.com/s/oxr12uwkjopc14n/SWARM.json'
+    // const url = 'https://dl.dropboxusercontent.com/s/oxr12uwkjopc14n/SWARM.json'
 
-    const res = await fetch(url)
-    DATA = await res.json()
+    // const res = await fetch(url)
+    // DATA = await res.json()
+    DATA = await import('../../assets/SWARM.json')
 
     console.log(DATA)
 
