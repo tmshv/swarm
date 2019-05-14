@@ -25,6 +25,27 @@ export default class SidePanel extends Component {
                         onChange={this.props.onLayerCheckedChange}
                     />
                 </Row>
+
+                <Row>
+                    <h3>Help</h3>
+
+                    <ul>
+                        <li>space NAVIGATE</li>
+                        <li>backspace DELETE</li>
+                        <li>v SELECT_AGENT</li>
+                        <li>o SELECT_OBSTACLE</li>
+                        <li>e SELECT_EMITTER</li>
+                        <li>a SELECT_ATTRACTOR</li>
+                        <li>r SIMULATION_CONTROL_SWITCH</li>
+                        <li>s SIMULATION_CONTROL_STEP</li>
+                        <li>m MOVE</li>
+                        <li>h RESET_VIEW</li>
+                        <li>ctrl+l CONSOLE_DEBUG_EXPORT</li>
+                        <li>ctrl+p ToolType.CONSOLE_EXPORT</li>
+                        <li>ctrl+a ADD_ATTRACTOR</li>
+                        <li>ctrl+b TOGGLE_UI</li>
+                    </ul>
+                </Row>
             </div>
         )
     }
