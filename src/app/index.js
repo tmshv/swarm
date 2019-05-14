@@ -5,13 +5,15 @@ import App from '../components/App/App'
 import './index.less'
 import '../styles/reset.less'
 
-// import {createSimulation, getCameraCenter, getSettings, getLayers } from './demo'
-import { createSimulation, getCameraCenter, getSettings, getLayers } from './hny2019'
-// import { createSimulation, getCameraCenter, getSettings, getLayers  } from './a101'
 import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
 
 async function main() {
+    const project = await import('./a101')
+    // const project = await import('./demo')
+    // const project = await import('./hny2019')
+    const { createSimulation, getCameraCenter, getSettings, getLayers } = project
+
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
