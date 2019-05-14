@@ -15,7 +15,12 @@
 - [ant colony video](https://vimeo.com/153676751)
 - [Computational Planning Science by Reinhard Koenig](https://vimeo.com/channels/586317)
 - [Culebra rhino/grasshopper plugin](https://www.food4rhino.com/app/culebra)
+- [Culebra Java](http://www.complicitmatter.com/culebra-java/)
 - [ant_sugar](https://github.com/dg92/ant_sugar)
+- [traffic-simulation-de](https://github.com/movsim/traffic-simulation-de)
+
+### Articles
+- [Using Ant Colony and Genetic Evolution to Optimize Ride-Sharing Trip Duration](https://towardsdatascience.com/using-ant-colony-and-genetic-evolution-to-optimize-ride-sharing-trip-duration-56194215923f)
 
 ### Neural-mmo
 - https://github.com/openai/neural-mmo
