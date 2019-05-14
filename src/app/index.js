@@ -9,9 +9,9 @@ import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
 
 async function main() {
-    const project = await import('./a101')
+    // const project = await import('./a101')
     // const project = await import('./demo')
-    // const project = await import('./hny2019')
+    const project = await import('./hny2019')
     const { createSimulation, getCameraCenter, getSettings, getLayers } = project
 
     const scale = 1
