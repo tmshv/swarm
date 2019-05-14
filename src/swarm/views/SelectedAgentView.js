@@ -6,7 +6,6 @@ import InteractPheromonesBehavior from '../behaviors/InteractPheromonesBehavior'
 import ComposableBehavior from '../behaviors/ComposableBehavior'
 import SeparateAgentsBehavior from '../behaviors/SeparateAgentsBehavior'
 import View from './View'
-import Unit4AgentBehavior from '../behaviors/Unit4AgentBehavior'
 import AvoidPointObstaclesBehavior from '../behaviors/AvoidPointObstaclesBehavior'
 import renderAvoidObstacleBehavior from './render/renderAvoidObstacleBehavior'
 
@@ -107,12 +106,6 @@ export default class SelectedAgentView extends View {
             // ctx.fillStyle = null
             //
             // this.draw.circleCenter(agent.location, behavior.radius)
-        } else if (behavior instanceof Unit4AgentBehavior) {
-            // ctx.lineWidth = 1
-            // ctx.strokeStyle = 'rgba(0, 0, 0, 1)'
-            // ctx.fillStyle = null
-            //
-            // // this.draw.circleCenter(agent.location, behavior.radius)
         } else if (behavior instanceof AvoidPointObstaclesBehavior) {
             // const p = behavior
             //     .getPredictionVector()
