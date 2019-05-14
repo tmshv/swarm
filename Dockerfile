@@ -1,12 +1,11 @@
 # Build
-FROM node:10 as build
+FROM node:12-alpine as build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm i -g npm
-RUN npm i
+RUN npm ci
 
-COPY .babelrc ./
+COPY .babelrc .browserslistrc ./
 COPY assets ./assets
 COPY src ./src
 RUN npm run build
