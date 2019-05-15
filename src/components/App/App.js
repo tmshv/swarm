@@ -10,7 +10,7 @@ export default class App extends Component {
     constructor(props) {
         super(props)
 
-        const viewOptions = props.controlsLayout.reduce((acc, x) => {
+        const variables = props.controlsLayout.reduce((acc, x) => {
             return {
                 ...acc,
                 [x.field]: x.defaultValue,
@@ -25,17 +25,17 @@ export default class App extends Component {
                     controlable,
                     checked: true,
                 })),
-            viewOptions,
+            variables,
         }
 
         this.onResize = this.onResize.bind(this)
         this.onLayerCheckedChange = this.onLayerCheckedChange.bind(this)
     }
 
-    onChangeViewOptions = viewOptions => {
-        this.props.view.setOptions(viewOptions)
+    onChangeVariables = variables => {
+        this.props.swarm.setVariables(variables)
 
-        this.setState({ viewOptions })
+        this.setState({ variables })
     }
 
     onToggleUi = () => {
@@ -53,7 +53,7 @@ export default class App extends Component {
 
         this.props.displayUiSignal.on(this.onToggleUi)
 
-        this.props.view.setOptions(this.state.viewOptions)
+        this.props.swarm.setVariables(this.state.variables)
     }
 
     componentWillUnmount() {
@@ -123,8 +123,8 @@ export default class App extends Component {
 
                 <Dat
                     layout={this.props.controlsLayout}
-                    data={this.state.viewOptions}
-                    onChange={this.onChangeViewOptions}
+                    data={this.state.variables}
+                    onChange={this.onChangeVariables}
                 />
             </div>
         )

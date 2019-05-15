@@ -21,25 +21,25 @@ export default class Emitter {
         }
     }
 
-    create() {
-        const agent = this.factory(this.location)
+    create(variables) {
+        const agent = this.factory(this.location, variables)
         agent.addTag(Tag.EMITTER, this)
 
         return agent
     }
 
-    emit() {
+    emit(variables) {
         const items = []
         for (let i = 0; i < this.amount; i++) {
-            items.push(this.create())
+            items.push(this.create(variables))
         }
         this.events.emit.trigger(items)
     }
 
-    run() {
+    run(variables) {
         this._counter--
         if (this._counter <= 0) {
-            this.emit()
+            this.emit(variables)
             this._counter = this.period
         }
     }

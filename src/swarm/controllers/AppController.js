@@ -81,6 +81,11 @@ export default class AppController {
         this.initShortcuts()
     }
 
+    setVariables(x) {
+        this.simulation.setVariables(x)
+        this.viewController.setOptions(x)
+    }
+
     createLayout(layers) {
         const mouseCallbacks = this.screenController.getMouseCallbacks()
 

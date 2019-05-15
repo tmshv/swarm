@@ -92,7 +92,7 @@ async function main() {
             layers={layers}
             uiCallbacks={ui}
             displayUiSignal={swarm.tools.getToolUpdateSignal(ToolType.TOGGLE_UI)}
-            view={swarm.viewController}
+            swarm={swarm}
             controlsLayout={project.createControls()}
         />
     )

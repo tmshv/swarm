@@ -24,6 +24,12 @@ export default class Simulation {
         this._animationFrameRequestId = null
 
         this._layers = new Map()
+
+        this.variables = {}
+    }
+
+    setVariables(x) {
+        this.variables = x
     }
 
     layer(name) {
@@ -70,16 +76,18 @@ export default class Simulation {
     }
 
     step() {
+        const variables = this.variables
         try {
             const agents = this.getAgents()
 
-            this.emitters.forEach(x => x.run())
-            this.env.run()
+            this.emitters.forEach(x => x.run(variables))
+            this.env.run(variables)
 
             agents.forEach(a => {
                 a.run({
                     agentsPool: this.agents,
                     environment: this.env,
+                    variables,
                 })
             })
             agents.forEach(a => {
