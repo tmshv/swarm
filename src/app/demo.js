@@ -65,15 +65,46 @@ export function getLayers() {
             name: 'Agents',
             view: 'agents',
             options: {
-                size: () => 4,
-                fill: agent => {
-                    const deviant = agent.getTag('deviant')
-                    return deviant
-                        ? `rgba(140, 160, 255, 1)`
-                        : `rgba(220, 220, 255, 1)`
+                size: (agent, options) => options.agentSize,
+                fill: (agent, options) => {
+                    console.log(options)
+                    return `rgba(255, 255, 255, ${options.agentAlpha})`
                 },
             },
         },
+    ]
+}
+
+export function createControls() {
+    return [
+        // {
+        //     type: 'string',
+        //     field: '',
+        //     label: '',
+        // },
+        {
+            type: 'number',
+            field: 'agentAlpha',
+            label: 'Agent alpha',
+            min: 0,
+            max: 1,
+            step: 0.05,
+            defaultValue: 1,
+        },
+        {
+            type: 'number',
+            field: 'agentSize',
+            label: 'Agent size',
+            min: 1,
+            max: 10,
+            step: 0.5,
+            defaultValue: 2,
+        },
+        //                     {/* <DatString path='package' label='Package' />
+        //         <DatNumber path='power' label='Power' min={9000} max={9999} step={1} />
+        //         <DatBoolean path='isAwesome' label='Awesome?' />
+        //         <DatColor path='feelsLike' label='Feels Like' /> */}
+
     ]
 }
 

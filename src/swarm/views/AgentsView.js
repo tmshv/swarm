@@ -12,15 +12,15 @@ export default class AgentsView extends SimulationView {
         this.size = size
     }
 
-    render() {
+    render(options) {
         const ctx = this.draw.context
 
         // this.renderTrack()
         this.simulation
             .getAgents()
             .forEach(agent => {
-                const s = this.size(agent)
-                ctx.fillStyle = this.fill(agent)
+                const s = this.size(agent, options)
+                ctx.fillStyle = this.fill(agent, options)
 
                 this.draw.circleCenterFill(agent.location, s)
             })

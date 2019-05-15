@@ -14,6 +14,11 @@ export default class ViewController {
         this._matrix = new Matrix()
 
         this.render = this.render.bind(this)
+        this.options = {}
+    }
+
+    setOptions(options) {
+        this.options = options        
     }
 
     subscribe(signal) {
@@ -130,7 +135,7 @@ export default class ViewController {
         //     .getScreenCenterOffset()
         // // offset.x *= 1 / this._scale.x
         // // offset.y *= 1 / this._scale.y
-        //
+        
         // const t = camera.location
         //     .clone()
         //     .mult(-1)
@@ -178,7 +183,7 @@ export default class ViewController {
 
     render() {
         this.views.forEach(view => {
-            if (view.isInitialized) view.run()
+            if (view.isInitialized) view.run(this.options)
         })
 
         return this

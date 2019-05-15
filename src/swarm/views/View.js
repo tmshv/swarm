@@ -49,7 +49,7 @@ export default class View {
         if (!this.shouldRender()) return
 
         this.beforeRender()
-        this.render()
+        this.render(options)
         this.afterRender()
     }
 
@@ -65,7 +65,7 @@ export default class View {
 
     }
 
-    render() {
+    render(options) {
 
     }
 }
