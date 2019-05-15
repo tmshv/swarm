@@ -67,8 +67,9 @@ export function getLayers() {
             options: {
                 size: (agent, options) => options.agentSize,
                 fill: (agent, options) => {
-                    console.log(options)
-                    return `rgba(255, 255, 255, ${options.agentAlpha})`
+                    // return `rgba(255, 255, 255, ${options.agentAlpha})`
+                    
+                    return options.agentColor
                 },
             },
         },
@@ -84,12 +85,12 @@ export function createControls() {
         // },
         {
             type: 'number',
-            field: 'agentAlpha',
-            label: 'Agent alpha',
-            min: 0,
-            max: 1,
-            step: 0.05,
-            defaultValue: 1,
+            field: 'agentTtl',
+            label: 'Agent ttl',
+            min: 1,
+            max: 10000,
+            step: 1,
+            defaultValue: 1000,
         },
         {
             type: 'number',
@@ -99,6 +100,12 @@ export function createControls() {
             max: 10,
             step: 0.5,
             defaultValue: 2,
+        },
+        {
+            type: 'color',
+            field: 'agentColor',
+            label: 'Agent color',
+            defaultValue: '#ffffff',
         },
         //                     {/* <DatString path='package' label='Package' />
         //         <DatNumber path='power' label='Power' min={9000} max={9999} step={1} />
@@ -127,17 +134,15 @@ export function getCameraCenter() {
     return new Vector(0, 0)
 }
 
-function createAgent(loc, behavior = null) {
+function createAgent(loc, vars) {
     const initialVelocity = new Vector(0, 0)
 
-    // const noise = Vector.fromAngle(Math.random() * Math.PI * 2)
-    // noise.mult(0.1)
-    // loc.add(noise)
+    let behavior = null
 
     if (!behavior) {
         behavior = ComposableBehavior.compose(
             new TtlBehavior({
-                ttl: 1000,
+                ttl: vars.agentTtl,
             }),
 
             // new ConditionalBehavior({
@@ -152,17 +157,17 @@ function createAgent(loc, behavior = null) {
 
             new AlignAgentsBehavior({
                 accelerate: .21,
-                radius: 25,
+                radius: 250,
             }),
             
             new SeparateAgentsBehavior({
-                accelerate: 1,
-                radius: 25,
+                accelerate: 0.2,
+                radius: 250,
             }),
             
             new CohesionAgentsBehavior({
-                accelerate: .05,
-                radius: 25,
+                accelerate: .5,
+                radius: 250,
             }),
 
             // new WalkToNearestAttractorBehavior({}),
@@ -176,9 +181,9 @@ function createAgent(loc, behavior = null) {
             //     radius: 25,
             //     initialInterest: 200,
             // }),
-            new RandomWalkBehavior({
-                accelerate: 0.1,
-            }),
+            // new RandomWalkBehavior({
+            //     accelerate: 0.1,
+            // }),
             // new InteractEnvironmentBehavior({
             //     accelerate: 0.1
             // }),
@@ -207,11 +212,14 @@ function createAgent(loc, behavior = null) {
         )
     }
 
+    const noise = Vector.fromAngle(Math.random() * Math.PI * 2)
+    noise.mult(0.1)
+
     const a = new Agent({
         behavior,
     })
     a.damp = 0.75
-    a.location.setFrom(loc)
+    a.location.setFrom(Vector.add(loc, noise))
     a.velocity.setFrom(initialVelocity)
     a.addBehavior(AgentBehavior.SEEK_LOCATION, new SeekLocationBehavior({
         accelerate: 0.1,
@@ -223,7 +231,7 @@ function createAgent(loc, behavior = null) {
 
 function createEmitters(s) {
     const emitters = [
-        [new Vector(-150, 0), 50, 1],
+        [new Vector(0, 0), 50, 1],
     ]
 
     emitters.forEach(e => {
@@ -237,23 +245,23 @@ function createEnvironment() {
     })
 
     // env.addAttractor(mouseAttractor)
-    const attractors = [
-        [new Vector(200, 40), 100],
-        [new Vector(50, 150), 100],
-        [new Vector(50, -150), 100],
-    ]
+    // const attractors = [
+    //     [new Vector(200, 40), 100],
+    //     [new Vector(50, 150), 100],
+    //     [new Vector(50, -150), 100],
+    // ]
 
-    attractors.forEach(([coord, power]) => {
-        const a = createAttractor({
-            x: coord.x,
-            y: coord.y,
-            power,
-        })
-        a.addTag(AttractorType.UNKNOWN)
-        env.addAttractor(a)
-    })
+    // attractors.forEach(([coord, power]) => {
+    //     const a = createAttractor({
+    //         x: coord.x,
+    //         y: coord.y,
+    //         power,
+    //     })
+    //     a.addTag(AttractorType.UNKNOWN)
+    //     env.addAttractor(a)
+    // })
 
-    initObstacles(env)
+    // initObstacles(env)
 
     return env
 }
