@@ -7,7 +7,7 @@
     "classnames": "^2.2.5",
     "core-decorators": "^0.20.0",
     "history": "^4.7.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "prop-types": "^15.6.1",
     "react": "^16.8.6",
     "react-dat-gui": "^3.0.0",
