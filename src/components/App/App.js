@@ -4,7 +4,7 @@ import Simulation from '../Simulation/Simulation'
 import SidePanel from '../SidePanel'
 import Dat from '../Dat'
 
-import './App.less'
+import s from './styles.module.css'
 
 export default class App extends Component {
     constructor(props) {
@@ -91,7 +91,7 @@ export default class App extends Component {
         return (
             <div className={'App'}>
                 <div
-                    className={'App-Simulation'}
+                    className={s.appSimulation}
                     style={{
                         backgroundColor: this.props.backgroundColor,
                     }}
@@ -109,9 +109,9 @@ export default class App extends Component {
                         />
                     ))}
                 </div>
-                <div className={'App-BodyWrapper'}>
+                <div className={s.appBodyWrapper}>
                     {!this.state.showUi ? null : (
-                        <div className={'App-Body'}>
+                        <div className={s.appBody}>
                             <SidePanel
                                 uiCallbacks={uiCallbacks}
                                 layers={layerList}
@@ -132,8 +132,8 @@ export default class App extends Component {
 }
 
 const Layer = ({ layerProps: simulationProps, visible }) => (
-    <div className={className('App-Layer', {
-        'App-Layer--visible': visible,
+    <div className={className(s.appLayer, {
+        [s.appLayerVisible]: visible,
     })}>
         <Simulation
             {...simulationProps}

@@ -1,4 +1,4 @@
-import 'react-dat-gui/build/react-dat-gui.css';
+// import 'react-dat-gui/build/react-dat-gui.css';
 import React, { Component } from 'react';
 
 import DatGui, { DatBoolean, DatColor, DatNumber, DatString } from 'react-dat-gui';

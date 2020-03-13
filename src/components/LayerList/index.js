@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import './styles.less'
+import s from './styles.module.css'
 
 function LayerList({ items, onChange }) {
     return (
-        <ul className={'LayerList'}>
+        <ul className={s.layerList}>
             {items.map((x, i) => (
                 <li key={i}>
                     <input

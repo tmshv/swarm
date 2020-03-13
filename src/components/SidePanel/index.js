@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Button from '../Button'
 import LayerList from '../LayerList'
 
-import './styles.less'
+import s from './styles.module.css'
 
 export default class SidePanel extends Component {
     static propTypes = {
@@ -14,7 +14,7 @@ export default class SidePanel extends Component {
 
     render() {
         return (
-            <div className={'SidePanel'}>
+            <div className={s.sidePanel}>
                 <Row>
                     <Button onClick={this.props.uiCallbacks.onClick}>RUN/STOP</Button>
                 </Row>

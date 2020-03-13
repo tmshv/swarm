@@ -1,4 +1,4 @@
-.Button {
+.button {
     cursor: pointer;
 
     padding: 10px;
@@ -8,15 +8,15 @@
     background: white;
 }
 
-.Button:hover {
+.button:hover {
     box-shadow: 0 0 0 2px #e600ff;
 }
 
-.Button--focus-mouse:focus {
+.buttonFocusMouse:focus {
     outline: none;   
 }
 
-.Button--focus-keyboard:focus {
+.buttonFocusKeyboard:focus {
     outline: none;
     box-shadow: 0 0 0 2px #e600ff;
 }

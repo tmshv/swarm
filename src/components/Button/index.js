@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import './styles.less'
+import s from './styles.module.css'
 
 export default class Button extends PureComponent {
     static propTypes = {
@@ -43,11 +43,11 @@ export default class Button extends PureComponent {
 
     render() {
         const f = this.state.mouseDown
-            ? 'Button--focus-mouse'
-            : 'Button--focus-keyboard'
+            ? s.buttonFocusMouse
+            : s.buttonFocusKeyboard
 
         return (
-            <button className={`Button ${f}`} onClick={this.props.onClick}>{this.props.children}</button>
+            <button className={`${s.button} ${f}`} onClick={this.props.onClick}>{this.props.children}</button>
         )
     }
 }
