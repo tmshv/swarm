@@ -47,6 +47,10 @@ export default class AppController {
         this._document = document
     }
 
+    getSimulation() {
+        return this.simulation
+    }
+
     init({ simulation, cameraCoord, scaleX, scaleY }) {
         this.__scaleX = scaleX
         this.__scaleY = scaleY

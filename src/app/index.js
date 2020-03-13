@@ -1,29 +1,27 @@
+import './index.less'
+import '../styles/reset.less'
+
 import React from 'react'
 import { render } from 'react-dom'
 import App from '../components/App/App'
-
-import './index.less'
-import '../styles/reset.less'
+import { init } from './init'
 
 import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
 
-async function main() {
-    const project = await import('./demo')
-    const { createSimulation, getCameraCenter, getSettings, getLayers } = project
-
+async function initSimulation(project) {
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
-    const simulation = await createSimulation()
+    const simulation = await project.createSimulation()
+    const cameraCoord = project.getCameraCenter(simulation)
 
-    const settings = getSettings()
     const swarm = new AppController(window, document)
     swarm.init({
         simulation,
         scaleX,
         scaleY,
-        cameraCoord: getCameraCenter(simulation),
+        cameraCoord,
     })
 
     swarm.selectionController.channels.update.on(item => {
@@ -73,8 +71,15 @@ async function main() {
         console.log('Viewport:', viewportTransform)
     })
 
-    const layersDefenition = getLayers()
-    const layers = swarm.createLayout(layersDefenition)
+    return swarm
+}
+
+async function main() {
+    const project = await init('http://localhost:5000/PARNAS_SWARM.json')
+    const settings = project.getSettings()
+    const swarm = await initSimulation(project)
+    const simulation = swarm.getSimulation()
+    const layers = swarm.createLayout(project.getLayers())
     const ui = {
         onClick: () => {
             if (simulation.isRunning) {

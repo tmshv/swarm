@@ -38,6 +38,12 @@ export default class Environment {
         this.attractors.splice(i, 1)
         return this
     }
+    
+    getRandomAttractor() {
+        const i = Math.floor(Math.random() * this.attractors.length)
+
+        return this.attractors[i]
+    }
 
     getNearestAttractor(coord, excluded = []) {
         let minDist = 10000000
@@ -62,7 +68,7 @@ export default class Environment {
         this.attractors.forEach(a => {
             const type = a.getTag(Tag.TYPE)
             if (!types.includes(type)) {
-                return
+                return null
             }
 
             const d = Vector
