@@ -1,26 +1,29 @@
-import {fastInverseSqrt} from './lib/math'
+import { fastInverseSqrt } from './lib/math'
 
 export default class Vector {
-    static sub(a, b) {
+    static sub(a: Vector, b: Vector) {
         return new Vector(
             a.x - b.x,
             a.y - b.y,
         )
     }
 
-    static add(a, b) {
+    static add(a: Vector, b: Vector) {
         return new Vector(
             a.x + b.x,
             a.y + b.y,
         )
     }
 
-    static fromAngle(angle) {
+    static fromAngle(angle: number) {
         return new Vector(
             Math.cos(angle),
             Math.sin(angle),
         )
     }
+
+    private _x: number
+    private _y: number
 
     get x() {
         return this._x
@@ -50,7 +53,7 @@ export default class Vector {
         return this._x * this._x + this._y * this._y
     }
 
-    constructor(x, y) {
+    constructor(x: number, y: number) {
         this._x = x
         this._y = y
     }
@@ -59,19 +62,19 @@ export default class Vector {
         return new Vector(this._x, this._y)
     }
 
-    set(x, y){
+    set(x: number, y: number) {
         this._x = x
         this._y = y
 
         return this
     }
 
-    direct(vector) {
+    direct(vector: Vector) {
         const angle = Math.atan2(vector.y, vector.x)
         return this.setAngle(angle)
     }
 
-    setAngle(angle) {
+    setAngle(angle: number) {
         const length = this.length
 
         return this.set(
@@ -80,43 +83,43 @@ export default class Vector {
         )
     }
 
-    setFrom(vector) {
+    setFrom(vector: Vector) {
         return this.set(vector.x, vector.y)
     }
 
-    dot(vector) {
+    dot(vector: Vector) {
         return this._x * vector.x + this._y * vector.y
     }
 
-    add(vector){
+    add(vector: Vector) {
         this._x += vector.x
         this._y += vector.y
 
         return this
     }
 
-    sub(vector){
+    sub(vector: Vector) {
         this._x -= vector.x
         this._y -= vector.y
 
         return this
     }
 
-    mult(value){
+    mult(value: number) {
         this._x *= value
         this._y *= value
 
         return this
     }
 
-    multNonUniform(xValue, yValue){
+    multNonUniform(xValue: number, yValue: number) {
         this._x *= xValue
         this._y *= yValue
 
         return this
     }
 
-    divide(value) {
+    divide(value: number) {
         this._x = this._x / value
         this._y = this._y / value
 
@@ -136,13 +139,13 @@ export default class Vector {
         return this.mult(-1)
     }
 
-    setLength(value) {
+    setLength(value: number) {
         return !(this._x === 0 && this._y === 0)
             ? this.normalize().mult(value)
             : this
     }
 
-    limit(value) {
+    limit(value: number) {
         return this.lengthSquared > value ** 2
             ? this.normalize().mult(value)
             : this
@@ -156,21 +159,21 @@ export default class Vector {
         return new Vector(this.y, -this.x)
     }
 
-    dist(vector) {
+    dist(vector: Vector) {
         const dx = this._x - vector.x
         const dy = this._y - vector.y
 
         return Math.sqrt(dx * dx + dy * dy)
     }
 
-    distSquared(vector) {
+    distSquared(vector: Vector) {
         const dx = this._x - vector.x
         const dy = this._y - vector.y
 
         return dx * dx + dy * dy
     }
 
-    distQuad(vector) {
+    distQuad(vector: Vector) {
         const dx = this._x - vector.x
         const dy = this._y - vector.y
 
@@ -181,11 +184,11 @@ export default class Vector {
         return isNaN(this._x) || isNaN(this._y)
     }
 
-    equals(vector) {
+    equals(vector: Vector) {
         return this._x === vector.x && this._y === vector.y
     }
 
-    toArray() {
+    toArray(): [number, number] {
         return [this._x, this._y]
     }
 }

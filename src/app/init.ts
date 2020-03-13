@@ -299,7 +299,7 @@ function createGeometry(geom) {
     const mult = 10
     switch (geom.type) {
         case 'point': {
-            const v = new Vector(...geom.coordinates)
+            const v = new Vector(geom.coordinates[0], geom.coordinates[1])
             v.mult(mult)
             return v
         }
