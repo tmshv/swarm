@@ -40,12 +40,6 @@ export async function fetchProject(url: string) {
     return data
 }
 
-const pheromones = new Pheromones({
-    cellSize: 5,
-    // increaseValue: 1,
-    // decreaseValue: .0001,
-})
-
 export function getLayers() {
     return [
         {
@@ -164,7 +158,7 @@ export function getCameraCenter(data: SwarmData): Vector {
     return createGeometry(target.geometry)
 }
 
-function createGeometry(geom) {
+function createGeometry(geom: SwarmObjectGeometry) {
     const mult = 10
     switch (geom.type) {
         case 'point': {
@@ -190,15 +184,25 @@ function createEmitters(s: Simulation, data: SwarmData) {
         .forEach(obj => {
             const coord = createGeometry(obj.geometry)
             const amount = obj.properties.amount
-            const period = obj.properties.period || 10
-            const e = createEmitter(coord, period, amount)
-            s.addEmitter(e)
+            const period = obj.properties.period || 100
+
+            s.addEmitter(new Emitter({
+                x: coord.x,
+                y: coord.y,
+                period,
+                amount,
+                factory: createAgent,
+            }))
         })
 }
 
 function createEnvironment(data: SwarmData) {
     const env = new Environment()
-    env.addPheromones('kek', pheromones)
+    env.addPheromones('kek', new Pheromones({
+        cellSize: 5,
+        // increaseValue: 1,
+        // decreaseValue: .0001,
+    }))
 
     initAttractors(env, data)
     initObstacles(env, data)
@@ -210,13 +214,10 @@ function initAttractors(env: Environment, data: SwarmData) {
     data.objects
         .filter(x => x.type === 'attractor')
         .forEach(obj => {
-            const coord = createGeometry(obj.geometry)
+            const coord: Vector = createGeometry(obj.geometry)
             const power = 1
-            const a = createAttractor({
-                x: coord.x,
-                y: coord.y,
-                power,
-            })
+            const id = Id.get(obj.type)
+            const a = new Attractor({ id, power, x: coord.x, y: coord.y })
             a.addTag(AttractorType.UNKNOWN)
             env.addAttractor(a)
         })
@@ -274,19 +275,4 @@ function initObstacles(env: Environment, data: SwarmData) {
             env.addObstacle(x)
         })
 
-}
-
-function createEmitter(coord, period, amount) {
-    return new Emitter({
-        x: coord.x,
-        y: coord.y,
-        period,
-        amount,
-        factory: createAgent,
-    })
-}
-
-function createAttractor({ x, y, power }) {
-    const id = Id.get('attractor')
-    return new Attractor({ id, x, y, power })
 }
