@@ -8,13 +8,14 @@
 
 import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
+import Vector from 'src/swarm/Vector'
+import { createSimulation } from './init'
 
-export async function initSimulation(project) {
+export async function initSimulation(project, { cameraCoord }: { cameraCoord: Vector }) {
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
-    const simulation = await project.createSimulation()
-    const cameraCoord = project.getCameraCenter(simulation)
+    const simulation = await createSimulation(project)
 
     const swarm = new AppController(window, document)
     swarm.init({
@@ -23,6 +24,24 @@ export async function initSimulation(project) {
         scaleY,
         cameraCoord,
     })
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
+    swarm.viewController.zoom(-1, cameraCoord)
 
     swarm.selectionController.channels.update.on(item => {
         console.log('Select:', item)

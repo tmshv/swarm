@@ -32,25 +32,38 @@ import SpreadPheromonesBehavior from '../swarm/behaviors/SpreadPheromonesBehavio
 
 let DATA = null
 
-export async function init(url) {
+export type SwarmUserData = {
+    [name: string]: any
+}
+
+export type SwarmObjectGeometry = {
+    type: string
+    coordinates: any
+}
+
+export type SwarmDataObject = {
+    type: string
+    geometry: SwarmObjectGeometry
+    properties: SwarmUserData
+}
+
+export type SwarmData = {
+    vesion: string
+    options: SwarmUserData
+    objects: SwarmDataObject[]
+}
+
+export async function fetchProject(url: string) {
     const res = await fetch(url)
-    const data = await res.json()
+    const data: SwarmData = await res.json()
 
-    DATA = data
-
-    return {
-        createSimulation,
-        getCameraCenter,
-        getSettings,
-        getLayers,
-        createControls,
-    }
+    return data
 }
 
 const pheromones = new Pheromones({
     cellSize: 5,
-    increaseValue: 1,
-    decreaseValue: .0001,
+    // increaseValue: 1,
+    // decreaseValue: .0001,
 })
 
 export function getLayers() {
@@ -146,13 +159,15 @@ export function createControls() {
     ]
 }
 
-export function getSettings() {
+export function getSettings(data: SwarmData) {
     return {
         backgroundColor: '#333f4d',
+        ...data.options,
     }
 }
 
-export async function createSimulation() {
+export async function createSimulation(data: SwarmData) {
+    DATA = data
     const s = new Simulation()
     s.setAgents(new AgentPool(100))
     s.setEnvironment(createEnvironment())
@@ -161,8 +176,8 @@ export async function createSimulation() {
     return s
 }
 
-export function getCameraCenter() {
-    const target = DATA.objects.find(x => x.type === 'emitter')
+export function getCameraCenter(data: SwarmData): Vector {
+    const target = data.objects.find(x => x.type === 'emitter')
     if (!target) {
         return new Vector(0, 0)
     }
@@ -313,8 +328,7 @@ function createEmitters(s) {
 }
 
 function createEnvironment() {
-    const env = new Environment({
-    })
+    const env = new Environment()
     env.addPheromones('kek', pheromones)
 
     initAttractors(env)
