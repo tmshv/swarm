@@ -2,7 +2,6 @@ import Simulation from '../swarm/Simulation'
 import AgentPool from '../swarm/AgentPool'
 import Agent from '../swarm/Agent'
 import Environment from '../swarm/Environment'
-
 import Attractor from '../swarm/Attractor'
 import Id from '../swarm/Id'
 import Emitter from '../swarm/Emitter'
@@ -29,8 +28,6 @@ import SeparateAgentsBehavior from '../swarm/behaviors/SeparateAgentsBehavior'
 import CohesionAgentsBehavior from '../swarm/behaviors/CohesionAgentsBehavior'
 import RandomWalkBehavior from '../swarm/behaviors/RandomWalkBehavior'
 import SpreadPheromonesBehavior from '../swarm/behaviors/SpreadPheromonesBehavior'
-
-let DATA = null
 
 export type SwarmUserData = {
     [name: string]: any
@@ -167,11 +164,10 @@ export function getSettings(data: SwarmData) {
 }
 
 export async function createSimulation(data: SwarmData) {
-    DATA = data
     const s = new Simulation()
     s.setAgents(new AgentPool(100))
-    s.setEnvironment(createEnvironment())
-    createEmitters(s)
+    s.setEnvironment(createEnvironment(data))
+    createEmitters(s, data)
 
     return s
 }
@@ -315,8 +311,8 @@ function createGeometry(geom) {
     }
 }
 
-function createEmitters(s) {
-    DATA.objects
+function createEmitters(s: Simulation, data: SwarmData) {
+    data.objects
         .filter(x => x.type === 'emitter')
         .forEach(obj => {
             const coord = createGeometry(obj.geometry)
@@ -327,18 +323,18 @@ function createEmitters(s) {
         })
 }
 
-function createEnvironment() {
+function createEnvironment(data: SwarmData) {
     const env = new Environment()
     env.addPheromones('kek', pheromones)
 
-    initAttractors(env)
-    initObstacles(env)
+    initAttractors(env, data)
+    initObstacles(env, data)
 
     return env
 }
 
-function initAttractors(env) {
-    DATA.objects
+function initAttractors(env: Environment, data: SwarmData) {
+    data.objects
         .filter(x => x.type === 'attractor')
         .forEach(obj => {
             const coord = createGeometry(obj.geometry)
@@ -351,16 +347,9 @@ function initAttractors(env) {
             a.addTag(AttractorType.UNKNOWN)
             env.addAttractor(a)
         })
-
-    // env.addAttractor(mouseAttractor)
-    // const attractors = [
-    //     [new Vector(200, 40), 100],
-    //     [new Vector(50, 150), 100],
-    //     [new Vector(50, -150), 100],
-    // ]
 }
 
-function initObstacles(env) {
+function initObstacles(env: Environment, data: SwarmData) {
     // DATA.objects
     //     .filter(x => x.type === 'obstacle' && x.geometry.type === 'point')
     //     .forEach(obj => {
@@ -372,7 +361,7 @@ function initObstacles(env) {
     //         env.addObstacle(x)
     //     })
 
-    DATA.objects
+    data.objects
         .filter(x => x.type === 'obstacle' && x.geometry.type === 'polyline')
         .forEach(obj => {
             const cs = createGeometry(obj.geometry)
