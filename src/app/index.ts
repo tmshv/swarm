@@ -1,11 +1,3 @@
-// import './index.less'
-// import '../styles/reset.less'
-
-// import React from 'react'
-// import { render } from 'react-dom'
-// import App from '../components/App/App'
-// import { init } from './init'
-
 import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
 import Vector from 'src/swarm/Vector'
@@ -93,37 +85,6 @@ export async function initSimulation(project, { cameraCoord }: { cameraCoord: Ve
     return swarm
 }
 
-// async function main() {
-//     const project = await init('http://localhost:5000/PARNAS_SWARM.json')
-//     const settings = project.getSettings()
-//     const swarm = await initSimulation(project)
-//     const simulation = swarm.getSimulation()
-//     const layers = swarm.createLayout(project.getLayers())
-//     const ui = {
-//         onClick: () => {
-//             if (simulation.isRunning) {
-//                 simulation.stop()
-//             } else {
-//                 simulation.run()
-//             }
-//         }
-//     }
-
-//     const mountElement = document.querySelector('#app')
-//     const app = (
-//         <App
-//             backgroundColor={settings.backgroundColor}
-//             layers={layers}
-//             uiCallbacks={ui}
-//             displayUiSignal={swarm.tools.getToolUpdateSignal(ToolType.TOGGLE_UI)}
-//             swarm={swarm}
-//             controlsLayout={project.createControls()}
-//         />
-//     )
-//     render(app, mountElement)
-//     window.s = simulation.run()
-// }
-
 function download(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -136,5 +97,3 @@ function download(filename, text) {
 
     document.body.removeChild(element);
 }
-
-// main()
