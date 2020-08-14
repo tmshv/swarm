@@ -2,6 +2,8 @@ import Channel from '../lib/Channel'
 import AgentEvent from './AgentEvent'
 import Vehicle from './Vehicle'
 import Vector from './Vector'
+import Behavior from './behaviors/Behavior'
+import Tag from './Tag'
 
 export default class Agent extends Vehicle {
     get isAlive() {
@@ -15,6 +17,20 @@ export default class Agent extends Vehicle {
     get track() {
         return this._track
     }
+
+    private _locked: boolean
+    private _alive: boolean
+    private events: Channel
+    private behavior: Behavior
+    private namedBehaviors: Map<string, Behavior>
+
+    private _stepForces: any[]
+    private _stepAcceleration: Vector
+
+    private _saveTrackPeriod: number
+    private __saveTrackCount: number
+    private _track: any[]
+    private tags: Map<string, Tag>
 
     constructor({behavior}) {
         super()
