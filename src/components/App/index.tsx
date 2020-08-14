@@ -1,32 +1,15 @@
-import { useState, useEffect } from 'react'
 import s from './app.module.css'
 import Signal from '@/lib/Signal'
 import App2 from './App'
-
-function useToggleUi(signal: Signal) {
-    const [value, setValue] = useState<boolean>(true)
-
-    useEffect(() => {
-        const callback = () => {
-            setValue(value => !value)
-        }
-        signal.on(callback)
-
-        return () => {
-            signal.off(callback)
-        }
-    }, [signal])
-
-    return value
-}
+import { useToggleSignal } from './useToggleSignal'
 
 export type AppProps = {
-    displayUiSignal: Signal
+    displayUiSignal: Signal<boolean>
     [key: string]: any // todo this is temp
 }
 
 export const App: React.FC<AppProps> = ({ displayUiSignal, ...props }) => {
-    const showUi = useToggleUi(displayUiSignal)
+    const showUi = useToggleSignal(displayUiSignal, true)
 
     return (
         <div className={s.container}>
