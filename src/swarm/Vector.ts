@@ -74,12 +74,12 @@ export default class Vector {
         return this.setAngle(angle)
     }
 
-    setAngle(angle: number) {
-        const length = this.length
+    setAngle(angle: number, length?:number) {
+        const s = length ? length : this.length
 
         return this.set(
-            Math.cos(angle) * length,
-            Math.sin(angle) * length,
+            Math.cos(angle) * s,
+            Math.sin(angle) * s,
         )
     }
 
