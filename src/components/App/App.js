@@ -18,7 +18,6 @@ export default class App extends Component {
         }, {})
 
         this.state = {
-            showUi: false,
             layerList: this.props.layers
                 .map(({ name, controlable }) => ({
                     name,
@@ -38,12 +37,6 @@ export default class App extends Component {
         this.setState({ variables })
     }
 
-    onToggleUi = () => {
-        this.setState({
-            showUi: !this.state.showUi,
-        })
-    }
-
     isLayerVisible(index) {
         return this.state.layerList[index].checked
     }
@@ -51,15 +44,11 @@ export default class App extends Component {
     componentDidMount() {
         window.addEventListener('resize', this.onResize)
 
-        this.props.displayUiSignal.on(this.onToggleUi)
-
         this.props.swarm.setVariables(this.state.variables)
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.onResize)
-
-        this.props.displayUiSignal.off(this.onToggleUi)
     }
 
     onResize() {
@@ -89,7 +78,7 @@ export default class App extends Component {
         const layerList = this.state.layerList.filter(({ controlable }) => controlable)
 
         return (
-            <div className={'App'}>
+            <>
                 <div
                     className={s.appSimulation}
                     style={{
@@ -110,7 +99,7 @@ export default class App extends Component {
                     ))}
                 </div>
                 <div className={s.appBodyWrapper}>
-                    {!this.state.showUi ? null : (
+                    {!this.props.showUi ? null : (
                         <div className={s.appBody}>
                             <SidePanel
                                 uiCallbacks={uiCallbacks}
@@ -126,7 +115,7 @@ export default class App extends Component {
                     data={this.state.variables}
                     onChange={this.onChangeVariables}
                 />
-            </div>
+            </>
         )
     }
 }

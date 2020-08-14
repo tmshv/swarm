@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import { useSwarm } from 'src/hooks/useSwarm'
 import ToolType from '../swarm/ToolType'
 
-const App = dynamic(import('src/components/App/App'), { ssr: false })
+const App = dynamic(import('src/components/App').then(m => m.App), { ssr: false })
 
 const Index: NextPage = () => {
     const controller = useSwarm('/PARNAS_SWARM.json')
