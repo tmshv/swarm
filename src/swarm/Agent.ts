@@ -20,7 +20,7 @@ export default class Agent extends Vehicle {
 
     private _locked: boolean
     private _alive: boolean
-    private events: Channel
+    public events: Channel
     private behavior: Behavior
     private namedBehaviors: Map<string, Behavior>
 

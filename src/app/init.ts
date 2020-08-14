@@ -218,7 +218,7 @@ function initAttractors(env: Environment, data: SwarmData) {
             const power = 1
             const id = Id.get(obj.type)
             const a = new Attractor({ id, power, x: coord.x, y: coord.y })
-            a.addTag(AttractorType.UNKNOWN)
+            a.addTag(AttractorType.UNKNOWN, null)
             env.addAttractor(a)
         })
 }
