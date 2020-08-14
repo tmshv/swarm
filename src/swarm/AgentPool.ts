@@ -1,11 +1,16 @@
 import QuadTree from './QuadTree'
 import Vector from './Vector'
 import AgentEvent from './AgentEvent'
+import Agent from './Agent'
 
 export default class AgentPool {
     get size() {
         return this.agents.length
     }
+
+    private _poolLimit: number
+    private agents: Agent[]
+    private inactiveAgents: Agent[]
 
     constructor(limit = 1000) {
         // this.store = new QuadTree()
@@ -19,7 +24,7 @@ export default class AgentPool {
     //     return this.store.getItem()
     // }
 
-    addAgent(agent) {
+    addAgent(agent: Agent) {
         if (this.agents.length >= this._poolLimit) return
 
         this.agents.push(agent)
@@ -32,11 +37,11 @@ export default class AgentPool {
         // return this.store.addItem()
     }
 
-    getAgents() {
+    getAgents(): Agent[] {
         return this.agents
     }
 
-    getNearest(coord, radius) {
+    getNearest(coord: Vector, radius: number): Agent[] {
         let minDist = radius ** 2
         let agent = null
         this.agents.forEach(a => {
@@ -49,7 +54,7 @@ export default class AgentPool {
         return agent
     }
 
-    getInRadius(coord, radius) {
+    getInRadius(coord: Vector, radius: number): Agent[] {
         const radiusQuad = radius ** 2
 
         return this.agents.filter(a => coord.distQuad(a.location) < radiusQuad)
