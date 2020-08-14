@@ -1,7 +1,9 @@
 import { NextPage } from 'next'
-import App from 'src/components/App/App'
+import dynamic from 'next/dynamic'
 import { useSwarm } from 'src/hooks/useSwarm'
 import ToolType from '../swarm/ToolType'
+
+const App = dynamic(import('src/components/App/App'), { ssr: false })
 
 const Index: NextPage = () => {
     const controller = useSwarm('/PARNAS_SWARM.json')
