@@ -5,10 +5,10 @@ export default class Vehicle {
         return this.acceleration.lengthSquared > 0
     }
 
-    private location: Vector
-    private velocity: Vector
-    private acceleration: Vector
-    private damp: number
+    public location: Vector
+    public velocity: Vector
+    public acceleration: Vector
+    public damp: number
 
     constructor() {
         this.location = new Vector(0, 0)

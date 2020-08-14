@@ -1,5 +1,8 @@
 import UpdateChannel from './channels/UpdateChannel'
-import {Layer} from './Layer'
+import { Layer } from './Layer'
+import Environment from './Environment'
+import AgentPool from './AgentPool'
+import Emitter from './Emitter'
 
 export default class Simulation {
     get frame() {
@@ -9,6 +12,17 @@ export default class Simulation {
     get environment() {
         return this.env
     }
+
+    private _frame: number
+    private isRunning: boolean
+    private env: Environment
+    private agents: AgentPool
+    private emitters: Emitter[]
+    private channels: UpdateChannel
+    private _animationFrameRequestId: number
+    private _layers: Map<string, Layer>
+    private viewFactory: any
+    private variables: any // object
 
     constructor() {
         this.loop = this.loop.bind(this)
@@ -35,7 +49,7 @@ export default class Simulation {
     layer(name) {
         if (this._layers.has(name)) return this._layers.get(name)
 
-        const layer = new Layer({name})
+        const layer = new Layer({ name })
         this._layers.set(name, layer)
         return layer
     }
@@ -48,7 +62,7 @@ export default class Simulation {
         this.agents = agentPool
     }
 
-    setEnvironment(env) {
+    setEnvironment(env: Environment) {
         this.env = env
     }
 

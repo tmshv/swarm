@@ -9,7 +9,7 @@ export default class AgentPool {
     }
 
     private _poolLimit: number
-    private agents: Agent[]
+    public agents: Agent[]
     private inactiveAgents: Agent[]
 
     constructor(limit = 1000) {

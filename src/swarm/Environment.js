@@ -8,8 +8,8 @@ export default class Environment {
         this.obstacles = []
     }
 
-    run() {
-        this._pheromones.forEach(x => x.run())
+    run(context) {
+        this._pheromones.forEach(x => x.run(context))
     }
 
     addPheromones(name, pheromones){
