@@ -5,6 +5,11 @@ export default class Vehicle {
         return this.acceleration.lengthSquared > 0
     }
 
+    private location: Vector
+    private velocity: Vector
+    private acceleration: Vector
+    private damp: number
+
     constructor() {
         this.location = new Vector(0, 0)
         this.velocity = new Vector(0, 0)
@@ -20,7 +25,7 @@ export default class Vehicle {
         this.velocity.mult(this.damp)
     }
 
-    force(vector) {
+    force(vector: Vector) {
         this.acceleration.add(vector)
         return this
     }
@@ -34,7 +39,7 @@ export default class Vehicle {
     //     return this.force(desire)
     // }
 
-    seek(target, accelerate = 1) {
+    seek(target: Vector, accelerate = 1) {
         const desire = Vector.sub(target, this.location)
         const distanceToTargetSquared = desire.lengthSquared
         const a = distanceToTargetSquared < accelerate
@@ -50,7 +55,7 @@ export default class Vehicle {
         return this
     }
 
-    flee(target, accelerate) {
+    flee(target: Vector, accelerate: number) {
         const desire = Vector
             .sub(this.location, target)
             .setLength(accelerate)
