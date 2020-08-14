@@ -2,8 +2,18 @@ import { useState, useEffect } from 'react'
 import { fetchProject, getLayers, createControls, getCameraCenter } from '../app/init'
 import { initSimulation } from '../app'
 
+export type SwarmController = {
+    options: any
+    project: any
+    ui: any
+    layers: any
+    swarm: any
+    simulation: any
+    createControls: any
+}
+
 export function useSwarm(url: string) {
-    const [controller, setController] = useState(null)
+    const [controller, setController] = useState<SwarmController>(null)
 
     useEffect(() => {
         (async () => {
