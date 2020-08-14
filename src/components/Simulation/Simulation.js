@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import Canvas from '../Canvas/Canvas'
+import { Canvas } from '../Canvas'
 
 export default class Simulation extends PureComponent {
     constructor(...args) {
@@ -9,7 +9,7 @@ export default class Simulation extends PureComponent {
     }
 
     onRef(ref) {
-        this.canvas = ref.canvas
+        this.canvas = ref
     }
 
     initView({width, height, view}) {
