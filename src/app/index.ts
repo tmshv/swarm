@@ -3,7 +3,11 @@ import ToolType from '../swarm/ToolType'
 import Vector from 'src/swarm/Vector'
 import { createSimulation } from './init'
 
-export async function initSimulation(project, { cameraCoord }: { cameraCoord: Vector }) {
+export type SimulationOptions = {
+    cameraCoord: Vector
+}
+
+export async function initSimulation(project, { cameraCoord }: SimulationOptions) {
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
