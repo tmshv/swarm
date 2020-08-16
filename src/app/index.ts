@@ -19,24 +19,6 @@ export async function createSwarmController(simulation: Simulation, { cameraCoor
         scaleY,
         cameraCoord,
     })
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
-    swarm.viewController.zoom(-1, cameraCoord)
 
     swarm.selectionController.channels.update.on(item => {
         console.log('Select:', item)
