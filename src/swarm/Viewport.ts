@@ -1,14 +1,17 @@
 import Rect from './Rect'
-import {getWindowHeight, getWindowWidth} from './lib/browser'
 import Vector from './Vector'
-import View from './views/View'
+import { getWindowHeight, getWindowWidth } from './lib/browser'
 
 export default class Viewport {
-    static fromWindow(window) {
+    static fromWindow(window: Window) {
         const w = getWindowWidth(window)
         const h = getWindowHeight(window)
         return new Viewport(window, w, h)
     }
+
+    private _rect: Rect
+    private _padding: number
+    private _window: Window
 
     get width() {
         return this._rect.width
@@ -18,7 +21,7 @@ export default class Viewport {
         return this._rect.height
     }
 
-    constructor(window, width, height) {
+    constructor(window: Window, width: number, height: number) {
         this._rect = Rect.fromWidthAndHeight(width, height)
         this._padding = 0
 
