@@ -2,6 +2,7 @@ import s from './app.module.css'
 import Signal from '@/lib/Signal'
 import App2 from './App'
 import { useToggleSignal } from './useToggleSignal'
+import { usePrevent } from '@/hooks/usePrevent'
 
 export type AppProps = {
     displayUiSignal: Signal<boolean>
@@ -10,6 +11,7 @@ export type AppProps = {
 
 export const App: React.FC<AppProps> = ({ displayUiSignal, ...props }) => {
     const showUi = useToggleSignal(displayUiSignal, true)
+    usePrevent(window, 'mousewheel')
 
     return (
         <div className={s.container}>
