@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import className from 'classnames'
-import Simulation from '../Simulation/Simulation'
+import { Simulation } from '../Simulation'
 import SidePanel from '../SidePanel'
 import Dat from '../Dat'
 
