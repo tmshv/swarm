@@ -14,7 +14,7 @@ export default class Simulation {
     }
 
     private _frame: number
-    private isRunning: boolean
+    public isRunning: boolean
     private env: Environment
     private agents: AgentPool
     private emitters: Emitter[]

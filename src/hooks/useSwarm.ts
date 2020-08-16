@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { fetchProject, getLayers, createControls, getCameraCenter } from '../app/init'
-import { initSimulation } from '../app'
+import { fetchProject, getLayers, createControls, getCameraCenter, createSimulation } from '../app/init'
+import { createSwarmController } from '../app'
 
 export type SwarmController = {
     options: any
@@ -19,8 +19,8 @@ export function useSwarm(url: string) {
         (async () => {
             const project = await fetchProject(url)
             const cameraCoord = getCameraCenter(project)
-            const swarm = await initSimulation(project, { cameraCoord })
-            const simulation = swarm.getSimulation()
+            const simulation = await createSimulation(project)
+            const swarm = await createSwarmController(simulation, { cameraCoord })
             const layers = swarm.createLayout(getLayers())
             const ui = {
                 onClick: () => {

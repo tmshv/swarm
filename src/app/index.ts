@@ -1,17 +1,16 @@
 import AppController from '../swarm/controllers/AppController'
 import ToolType from '../swarm/ToolType'
 import Vector from 'src/swarm/Vector'
-import { createSimulation } from './init'
+import Simulation from '@/swarm/Simulation'
 
 export type SimulationOptions = {
     cameraCoord: Vector
 }
 
-export async function initSimulation(project, { cameraCoord }: SimulationOptions) {
+export async function createSwarmController(simulation: Simulation, { cameraCoord }: SimulationOptions) {
     const scale = 1
     const scaleX = scale
     const scaleY = -scale
-    const simulation = await createSimulation(project)
 
     const swarm = new AppController(window, document)
     swarm.init({
