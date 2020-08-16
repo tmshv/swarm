@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
 import { fetchProject, getLayers, createControls, getCameraCenter, createSimulation } from '../app/init'
 import { createSwarmController } from '../app'
+import AppController from '@/swarm/controllers/AppController'
+import Simulation from '@/swarm/Simulation'
 
 export type SwarmController = {
-    options: any
+    options: object
     project: any
     ui: any
-    layers: any
-    swarm: any
-    simulation: any
+    layers: any[]
+    swarm: AppController
+    simulation: Simulation
     createControls: any
 }
 
