@@ -1,10 +1,8 @@
+import s from './styles.module.css'
+
 import React, { Component } from 'react'
 import className from 'classnames'
 import { Simulation } from '../Simulation'
-import SidePanel from '../SidePanel'
-import Dat from '../Dat'
-
-import s from './styles.module.css'
 
 export default class App extends Component {
     constructor(props) {
@@ -65,57 +63,30 @@ export default class App extends Component {
     }
 
     render() {
-        const { layers, uiCallbacks, view } = this.props
-
-        // onChange: (i, checked) => {
-        //     console.log(i, checked)
-        // },
-
         const devicePixelRatio = window.devicePixelRatio
         const width = window.innerWidth
         const height = window.innerHeight
 
-        const layerList = this.state.layerList.filter(({ controlable }) => controlable)
-
         return (
-            <>
-                <div
-                    className={s.appSimulation}
-                    style={{
-                        backgroundColor: this.props.backgroundColor,
-                    }}
-                >
-                    {layers.map((x, i) => (
-                        <Layer
-                            key={i}
-                            visible={this.isLayerVisible(i)}
-                            layerProps={{
-                                width,
-                                height,
-                                devicePixelRatio,
-                                ...x,
-                            }}
-                        />
-                    ))}
-                </div>
-                <div className={s.appBodyWrapper}>
-                    {!this.props.showUi ? null : (
-                        <div className={s.appBody}>
-                            <SidePanel
-                                uiCallbacks={uiCallbacks}
-                                layers={layerList}
-                                onLayerCheckedChange={this.onLayerCheckedChange}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                <Dat
-                    layout={this.props.controlsLayout}
-                    data={this.state.variables}
-                    onChange={this.onChangeVariables}
-                />
-            </>
+            <div
+                className={s.appSimulation}
+                style={{
+                    backgroundColor: this.props.backgroundColor,
+                }}
+            >
+                {this.props.layers.map((x, i) => (
+                    <Layer
+                        key={i}
+                        visible={this.isLayerVisible(i)}
+                        layerProps={{
+                            width,
+                            height,
+                            devicePixelRatio,
+                            ...x,
+                        }}
+                    />
+                ))}
+            </div>
         )
     }
 }

@@ -7,7 +7,7 @@
     height: 100%;
 }
 
-.appBody {
+/* .appBody {
     position: absolute;
     width: 25%;
     height: 100%;
@@ -15,9 +15,9 @@
     display: flex;
 
     pointer-events: auto;
-}
+} */
 
-.appBodyWrapper {
+/* .appBodyWrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -25,7 +25,7 @@
     height: 100%;
 
     pointer-events: none;
-}
+} */
 
 .appLayer {
     position: absolute;
