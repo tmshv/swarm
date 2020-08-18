@@ -1,6 +1,6 @@
 import s from './viewport.module.css'
 
-import className from 'classnames'
+import cx from 'clsx'
 import { Simulation } from '../Simulation'
 import { useEffect, useState } from 'react'
 
@@ -125,7 +125,7 @@ type LayerProps = {
 }
 
 const Layer: React.FC<LayerProps> = ({ layerProps: simulationProps, visible }) => (
-    <div className={className(s.appLayer, {
+    <div className={cx(s.appLayer, {
         [s.appLayerVisible]: visible,
     })}>
         <Simulation
