@@ -1,6 +1,6 @@
 import s from './app.module.css'
 import Signal from '@/lib/Signal'
-import App2 from './App'
+import { SwarmViewport } from '../SwarmViewport'
 import { useToggleSignal } from './useToggleSignal'
 import { usePrevent } from '@/hooks/usePrevent'
 import AppController from '@/swarm/controllers/AppController'
@@ -44,8 +44,8 @@ export const App: React.FC<AppProps> = ({ displayUiSignal, ...props }) => {
 
     return (
         <div className={s.container}>
-            <App2
-                {...props}
+            <SwarmViewport
+                {...props as any}
             />
 
             {!showUi ? null : (
