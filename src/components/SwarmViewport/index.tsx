@@ -3,6 +3,7 @@ import s from './viewport.module.css'
 import cx from 'clsx'
 import { Simulation } from '../Simulation'
 import { useEffect, useState } from 'react'
+import { usePrevent } from '@/hooks/usePrevent'
 
 function useWindowDimensions() {
     const devicePixelRatio = window.devicePixelRatio
@@ -40,6 +41,7 @@ type SwarmViewportProps = {
 }
 
 export const SwarmViewport: React.FC<SwarmViewportProps> = props => {
+    usePrevent(window, 'mousewheel')
     // constructor(props) {
     //     super(props)
 

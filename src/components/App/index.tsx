@@ -2,7 +2,6 @@ import s from './app.module.css'
 import Signal from '@/lib/Signal'
 import { SwarmViewport } from '../SwarmViewport'
 import { useToggleSignal } from './useToggleSignal'
-import { usePrevent } from '@/hooks/usePrevent'
 import AppController from '@/swarm/controllers/AppController'
 import { useEffect } from 'react'
 import Vector from '@/swarm/Vector'
@@ -31,7 +30,6 @@ export type AppProps = {
 
 export const App: React.FC<AppProps> = ({ displayUiSignal, ...props }) => {
     const showUi = useToggleSignal(displayUiSignal, true)
-    usePrevent(window, 'mousewheel')
     useSetupCamera(props.swarm)
 
     const layers = props.layers
