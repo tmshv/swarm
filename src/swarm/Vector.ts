@@ -1,6 +1,10 @@
 import { fastInverseSqrt } from './lib/math'
 
 export default class Vector {
+    static zero() {
+        return new Vector(0, 0)
+    }
+
     static sub(a: Vector, b: Vector) {
         return new Vector(
             a.x - b.x,
