@@ -1,29 +1,46 @@
 import { NextPage } from 'next'
-import dynamic from 'next/dynamic'
-import { useSwarm } from 'src/hooks/useSwarm'
-import ToolType from '../swarm/ToolType'
+// import dynamic from 'next/dynamic'
+// const App = dynamic(import('src/components/App')
+//     .then(m => m.App), { ssr: false })
 
-const App = dynamic(import('src/components/App').then(m => m.App), { ssr: false })
+type FrameProps = {
+    src: string
+}
+
+const Frame: React.FC<FrameProps> = props => {
+    return (
+        <div style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            top: 0,
+            left: 0,
+        }}>
+            <iframe
+                style={{
+                    width: '100%',
+                    height: '100%',
+                }}
+                frameBorder={'0'}
+                src={props.src}
+            />
+        </div>
+    )
+}
 
 const Index: NextPage = () => {
-    const controller = useSwarm('/PARNAS_SWARM.json')
-    if (!controller) {
-        return (
-            <div>loading</div>
-        )
-    }
+    // {/* <App
+    //     layers={controller.layers}
+    //     uiCallbacks={controller.ui}
+    //     displayUiSignal={controller.swarm.tools.getToolUpdateSignal(ToolType.TOGGLE_UI)}
+    //     swarm={controller.swarm}
+    // /> */}
 
     return (
-        <App
-            backgroundColor={controller.options.backgroundColor}
-            layers={controller.layers}
-            uiCallbacks={controller.ui}
-            displayUiSignal={controller.swarm.tools.getToolUpdateSignal(ToolType.TOGGLE_UI)}
-            swarm={controller.swarm}
-            controlsLayout={controller.createControls()}
+        <Frame
+            src={'/swarm/parnas'}
         />
     )
 }
 
 export default Index
-

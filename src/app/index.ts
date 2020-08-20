@@ -1,25 +1,7 @@
-import AppController from '../swarm/controllers/AppController'
-import ToolType from '../swarm/ToolType'
-import Vector from 'src/swarm/Vector'
-import Simulation from '@/swarm/Simulation'
+import AppController from '@/swarm/controllers/AppController'
+import ToolType from '@/swarm/ToolType'
 
-export type SimulationOptions = {
-    cameraCoord: Vector
-}
-
-export async function createSwarmController(simulation: Simulation, { cameraCoord }: SimulationOptions) {
-    const scale = 1
-    const scaleX = scale
-    const scaleY = -scale
-
-    const swarm = new AppController(window, document)
-    swarm.init({
-        simulation,
-        scaleX,
-        scaleY,
-        cameraCoord,
-    })
-
+export function initDebugTools(swarm: AppController) {
     swarm.selectionController.channels.update.on(item => {
         console.log('Select:', item)
     })

@@ -140,15 +140,6 @@ export function getSettings(data: SwarmData) {
     }
 }
 
-export async function createSimulation(data: SwarmData) {
-    const s = new Simulation()
-    s.setAgents(new AgentPool(100))
-    s.setEnvironment(createEnvironment(data))
-    createEmitters(s, data)
-
-    return s
-}
-
 export function getCameraCenter(data: SwarmData): Vector {
     const target = data.objects.find(x => x.type === 'emitter')
     if (!target) {

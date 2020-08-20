@@ -57,11 +57,15 @@ export default class AppController {
 
         const viewport = Viewport.fromWindow(this._window)
 
-        this.homeCameraPosition = cameraCoord
+        this.homeCameraPosition = Vector.zero()
 
         this.simulation = simulation
         this.camera = new Camera(this._window)
-        this.camera.location.setFrom(cameraCoord)
+
+        if (cameraCoord) {
+            this.camera.location.setFrom(cameraCoord)
+            this.homeCameraPosition.setFrom(cameraCoord)
+        }
 
         this.viewController = new ViewController(simulation, viewport)
         this.screenController = new ScreenController(this._window, this.viewController)

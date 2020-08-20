@@ -38,6 +38,7 @@ function useUpdateOnResize() {
 type SwarmViewportProps = {
     backgroundColor: string
     layers: any[]
+    swarm: any
 }
 
 export const SwarmViewport: React.FC<SwarmViewportProps> = props => {
