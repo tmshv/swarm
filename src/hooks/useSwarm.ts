@@ -24,6 +24,7 @@ import SeparateAgentsBehavior from '@/swarm/behaviors/SeparateAgentsBehavior'
 import SpreadPheromonesBehavior from '@/swarm/behaviors/SpreadPheromonesBehavior'
 import AvoidObstaclesBehavior from '@/swarm/behaviors/AvoidObstaclesBehavior'
 import LimitAccelerationBehavior from '@/swarm/behaviors/LimitAccelerationBehavior'
+import InteractPheromonesBehavior from '@/swarm/behaviors/InteractPheromonesBehavior'
 import AgentBehavior from '@/swarm/AgentBehavior'
 
 async function initSwarm(): Promise<Simulation> {
@@ -51,6 +52,7 @@ async function initSwarm(): Promise<Simulation> {
             SpreadPheromonesBehavior,
             AvoidObstaclesBehavior,
             LimitAccelerationBehavior,
+            InteractPheromonesBehavior,
         })
     } catch (error) {
         console.log('failed to find swarm function', error)
