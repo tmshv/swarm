@@ -13,8 +13,8 @@
         "lodash": "^4.17.20",
         "next": "^9.5.2",
         "prop-types": "^15.7.2",
-        "react-dat-gui": "^3.0.0",
         "react": "^16.13.0",
+        "react-dat-gui": "^3.0.0",
         "react-dom": "^16.13.0",
         "recompose": "^0.27.1",
         "transformation-matrix-js": "^2.7.6"
