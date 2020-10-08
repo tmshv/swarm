@@ -11,7 +11,7 @@
         "clsx": "^1.1.1",
         "core-decorators": "^0.20.0",
         "lodash": "^4.17.20",
-        "next": "^9.5.2",
+        "next": "^9.5.4",
         "prop-types": "^15.7.2",
         "react-dat-gui": "^3.0.0",
         "react": "^16.13.0",
