@@ -1,5 +1,12 @@
 # Swarm 
 
+How to run:
+
+```sh
+npm install
+npm start
+```
+
 ## Deploy
 
 It uses `@now/static` for deploying build under `./dist` folder to `now`.
