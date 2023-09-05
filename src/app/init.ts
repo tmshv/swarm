@@ -83,11 +83,11 @@ export function getLayers() {
             name: 'Agents',
             view: 'agents',
             options: {
-                size: (agent, options) => options.agentSize,
+                size: (agent, options) => options.agentSize ?? 1,
                 fill: (agent, options) => {
                     // return `rgba(255, 255, 255, ${options.agentAlpha})`
 
-                    return options.agentColor
+                    return options.agentColor ?? 'white'
                 },
             },
         },
