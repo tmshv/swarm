@@ -32,7 +32,9 @@
         "strictNullChecks": false
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "ThreeViewport",
+        "swarm"
     ],
     "include": [
         "next-env.d.ts",
