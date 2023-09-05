@@ -2,6 +2,7 @@
     "name": "@tmshv/swarm",
     "version": "0.1.0",
     "description": "Swarm App",
+    "type": "module",
     "scripts": {
         "start": "next",
         "build": "next build"
