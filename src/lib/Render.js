@@ -49,6 +49,10 @@ export default class Render {
         return value * scale.x
     }
 
+    /**
+     * this function map simulation coord to screen space
+     * @param {*} param0
+     */
     getCoord({x, y}) {
         return this.matrix.applyToPoint(x, y)
     }
