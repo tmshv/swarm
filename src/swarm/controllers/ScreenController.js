@@ -7,7 +7,6 @@ export default class ScreenController {
         this._window = window
         this.channels = new ScreenControllerChannel(this)
 
-
         this.onMouseDown = triggerCoordEvent(this.channels.mouseDown, this._transform.bind(this))
         this.onMouseUp = triggerCoordEvent(this.channels.mouseUp, this._transform.bind(this))
         this.onMouseMove = triggerCoordEvent(this.channels.mouseMove, this._transform.bind(this))
