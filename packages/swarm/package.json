@@ -1,0 +1,20 @@
+{
+    "name": "@tmshv/swarm",
+    "version": "0.1.0",
+    "description": "Swarm simulation library",
+    "type": "module",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "chance": "^1.1.4",
+        "clsx": "^1.1.1",
+        "core-decorators": "^0.20.0",
+        "lodash": "^4.17.21",
+        "transformation-matrix-js": "^2.7.6"
+    },
+    "devDependencies": {
+        "@types/node": "^13.9.1",
+        "typescript": "^5.2.2"
+    }
+}
