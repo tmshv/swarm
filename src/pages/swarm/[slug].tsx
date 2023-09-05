@@ -7,11 +7,12 @@ import { useEffect } from 'react'
 const SwarmViewport = dynamic(import('@/components/SwarmViewport').then(m => m.SwarmViewport), { ssr: false })
 
 type Props = {
-    scriptUrl: string
+    scriptUrl: string,
+    camera: [number, number, number, number, number, number]
 }
 
-const Index: NextPage<Props> = props => {
-    const controller = useSwarm(props.scriptUrl)
+const Index: NextPage<Props> = ({ scriptUrl, camera }) => {
+    const controller = useSwarm(scriptUrl, camera)
     if (!controller) {
         return (
             <div>loading</div>
@@ -36,6 +37,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
         }],
         ['mega', {
             script: '/repo/mega.js',
+            camera: [
+                0.5303213506452932,
+                0,
+                0,
+                -0.5303213506452932,
+                -1877.674241015046,
+                1700.8069588689884,
+            ],
         }],
     ])
 
@@ -53,6 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
     return {
         props: {
             scriptUrl: item.script,
+            camera: item.camera ?? null,
         }
     }
 }

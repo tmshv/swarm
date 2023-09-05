@@ -90,7 +90,7 @@ async function inject(src: string): Promise<HTMLScriptElement> {
     })
 }
 
-export function useSwarm(scriptUrl: string) {
+export function useSwarm(scriptUrl: string, camera: [number, number, number, number, number, number] | null) {
     const [controller, setController] = useState<SwarmController>(null)
 
     useEffect(() => {
@@ -122,6 +122,17 @@ export function useSwarm(scriptUrl: string) {
                 scaleY,
                 cameraCoord,
             })
+            if (camera) {
+                swarm.viewController.applyMatrix({
+                    a: camera[0],
+                    b: camera[1],
+                    c: camera[2],
+                    d: camera[3],
+                    e: camera[4],
+                    f: camera[5],
+                })
+            }
+
             initDebugTools(swarm)
 
             const layers = swarm.createLayout(getLayers())
