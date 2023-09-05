@@ -18,7 +18,7 @@ export default class ViewController {
     }
 
     setOptions(options) {
-        this.options = options        
+        this.options = options
     }
 
     subscribe(signal) {
@@ -135,7 +135,7 @@ export default class ViewController {
         //     .getScreenCenterOffset()
         // // offset.x *= 1 / this._scale.x
         // // offset.y *= 1 / this._scale.y
-        
+
         // const t = camera.location
         //     .clone()
         //     .mult(-1)
@@ -181,6 +181,9 @@ export default class ViewController {
         return this.setScreenToWorld(coord.clone())
     }
 
+    /**
+     * Run render method on each view
+     */
     render() {
         this.views.forEach(view => {
             if (view.isInitialized) view.run(this.options)

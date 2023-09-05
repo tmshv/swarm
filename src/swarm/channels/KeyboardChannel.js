@@ -1,4 +1,4 @@
-import Channel from '../../lib/Channel'
+import Channel from '@/lib/Channel'
 
 export default class KeyboardChannel extends Channel {
     get keyDown() {
