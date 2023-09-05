@@ -1,4 +1,4 @@
-import Channel from '../lib/Channel'
+import Channel from '@/lib/Channel'
 import AgentEvent from './AgentEvent'
 import Vehicle from './Vehicle'
 import Vector from './Vector'
