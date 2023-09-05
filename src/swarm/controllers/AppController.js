@@ -84,6 +84,8 @@ export default class AppController {
         ])
         this.selectionController = new SelectionController(selectUpdateSignal)
         this.tools.getToolUpdateSignal(ToolType.NAVIGATE).on(this.updateCamera.bind(this))
+
+        //Init render on simulation tick
         this.viewController.subscribe(simulation.channels.update)
 
         this.initShortcuts()
