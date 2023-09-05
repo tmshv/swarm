@@ -11,11 +11,12 @@ import AttractorType from '../swarm/AttractorType'
 import SeparateAgentsBehavior from '../swarm/behaviors/SeparateAgentsBehavior'
 import SpreadPheromonesBehavior from '../swarm/behaviors/SpreadPheromonesBehavior'
 import { SwarmUserData } from './init'
+import Behavior from '@/swarm/behaviors/Behavior'
 
 export function createAgent(loc: Vector, vars: SwarmUserData) {
     const initialVelocity = new Vector(0, 0)
 
-    let behavior = null
+    let behavior: Behavior | null = null
 
     if (!behavior) {
         behavior = ComposableBehavior.compose(
