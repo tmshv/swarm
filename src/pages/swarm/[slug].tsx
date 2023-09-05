@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
         return {
             props: {
                 scriptUrl: null,
+                camera: null,
             }
         }
     }
@@ -62,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
     return {
         props: {
             scriptUrl: item.script,
-            camera: item.camera ?? null,
+            camera: item.camera as [number, number, number, number, number, number] ?? null,
         }
     }
 }
