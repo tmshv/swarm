@@ -15,22 +15,18 @@ export default class SeekNearestAttractorBehavior extends Behavior {
     }
 
     run({ environment }) {
-        this.selectTargetAttractor(environment)
-
-        const attractor = this.targetAttractor
-        const agent = this.agent
-
+        const attractor = this.selectTargetAttractor(environment)
         if (!attractor) {
             return false
         }
 
         if (this.isReached()) {
             this.visitedAttractors.push(attractor)
-            attractor.addAgent(agent)
+            attractor.addAgent(this.agent)
 
             if (this.isFinish()) {
                 // console.log('die finished', agent)
-                agent.die()
+                this.agent.die()
             }
         }
 
@@ -64,18 +60,25 @@ export default class SeekNearestAttractorBehavior extends Behavior {
     // }
 
     selectTargetAttractor(env) {
-        const a = env.getNearestAttractorWithOneOfType(this.agent.location, this.attractorTypes, this.visitedAttractors)
+        if (!this.targetAttractor) {
+            // const a = env.getNearestAttractorWithOneOfType(this.agent.location, this.attractorTypes, this.visitedAttractors)
+            // const a = env.getNearestAttractor(this.agent.location)
+            const a = env.getRandomAttractor()
+            // console.log('selected', a)
 
-        if (!a) {
-            return
-        }
+            if (!a) {
+                return null
+            }
 
-        if (this.agent.location.distSquared(a.location) < this.radiusSquared) {
             this.targetAttractor = a
-            this._targetAttractorType = a.getTag(Tag.TYPE)
-            return
+
+            // if (this.agent.location.distSquared(a.location) < this.radiusSquared) {
+            //     this.targetAttractor = a
+            //     this._targetAttractorType = a.getTag(Tag.TYPE)
+            //     return null
+            // }
         }
 
-        // this.targetAttractor = null
+        return this.targetAttractor
     }
 }
