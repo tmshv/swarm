@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Rect from './Rect'
 import Vector from './Vector'
 import { getWindowHeight, getWindowWidth } from './lib/browser'

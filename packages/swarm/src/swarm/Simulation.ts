@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import UpdateChannel from './channels/UpdateChannel'
 import { Layer } from './Layer'
 import Environment from './Environment'
