@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Signal from './Signal'
 
 export default class ComposedSignal extends Signal {

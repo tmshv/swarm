@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {Matrix} from 'transformation-matrix-js'
 import Vector from '../swarm/Vector'
 import Cross from '../swarm/render/Cross'

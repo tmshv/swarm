@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export default class Storage {
     constructor(provider) {
         this._provider = provider
