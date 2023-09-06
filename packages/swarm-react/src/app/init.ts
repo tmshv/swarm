@@ -1,15 +1,16 @@
-import Simulation from '../swarm/Simulation'
-import AgentPool from '../swarm/AgentPool'
-import Environment from '../swarm/Environment'
-import Attractor from '../swarm/Attractor'
-import Id from '../swarm/Id'
-import Emitter from '../swarm/Emitter'
-import Vector from '../swarm/Vector'
-import Pheromones from '../swarm/Pheromones'
-import Tag from '../swarm/Tag'
-import ObstacleType from '../swarm/ObstacleType'
-import PathObstacle from '../swarm/PathObstacle'
-import AttractorType from '../swarm/AttractorType'
+import {
+    Simulation,
+    Environment,
+    Attractor,
+    Id,
+    Emitter,
+    Vector,
+    Pheromones,
+    Tag,
+    ObstacleType,
+    AttractorType,
+    PathObstacle
+} from '@tmshv/swarm'
 import { createAgent } from './createAgent'
 
 export type SwarmUserData = {

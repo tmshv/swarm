@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Signal from '@/lib/Signal'
+import { Signal } from '@tmshv/swarm'
 
 export function useSignalReducer<I, O>(signal: Signal<I>, initialValue: O, reduce: (acc: O, value: I) => O) {
     const [value, setValue] = useState(initialValue)

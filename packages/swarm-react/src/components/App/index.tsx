@@ -1,9 +1,10 @@
-import s from './app.module.css'
-import Signal from '@/lib/Signal'
+// import s from './app.module.css'
+// TODO fix this import
+const s: any = {}
+
 import { useToggleSignal } from './useToggleSignal'
-import AppController from '@/swarm/controllers/AppController'
+import {AppController, Vector, Signal} from '@tmshv/swarm'
 import { useEffect } from 'react'
-import Vector from '@/swarm/Vector'
 import SidePanel from '../SidePanel'
 
 function useSetupCamera(swarm: AppController) {

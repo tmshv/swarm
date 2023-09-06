@@ -1,4 +1,6 @@
-import s from './viewport.module.css'
+// import s from './viewport.module.css'
+// TODO fix this import
+const s: any = {}
 
 import cx from 'clsx'
 import { Simulation } from '../Simulation'

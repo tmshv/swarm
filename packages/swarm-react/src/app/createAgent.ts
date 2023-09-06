@@ -1,17 +1,18 @@
-import Agent from '../swarm/Agent'
-import Vector from '../swarm/Vector'
-import SeekNearestAttractorBehavior from '../swarm/behaviors/SeekNearestAttractorBehavior'
-import AvoidObstaclesBehavior from '../swarm/behaviors/AvoidObstaclesBehavior'
-import TtlBehavior from '../swarm/behaviors/TtlBehavior'
-import ComposableBehavior from '../swarm/behaviors/ComposableBehavior'
-import LimitAccelerationBehavior from '../swarm/behaviors/LimitAccelerationBehavior'
-import SeekLocationBehavior from '../swarm/behaviors/SeekLocationBehavior'
-import AgentBehavior from '../swarm/AgentBehavior'
-import AttractorType from '../swarm/AttractorType'
-import SeparateAgentsBehavior from '../swarm/behaviors/SeparateAgentsBehavior'
-import SpreadPheromonesBehavior from '../swarm/behaviors/SpreadPheromonesBehavior'
+import {
+    Agent,
+    Vector,
+    SeekNearestAttractorBehavior,
+    AvoidObstaclesBehavior,
+    TtlBehavior,
+    ComposableBehavior,
+    LimitAccelerationBehavior,
+    SeekLocationBehavior,
+    AgentBehavior,
+    AttractorType, SeparateAgentsBehavior,
+    SpreadPheromonesBehavior,
+    Behavior,
+} from '@tmshv/swarm'
 import { SwarmUserData } from './init'
-import Behavior from '@/swarm/behaviors/Behavior'
 
 export function createAgent(loc: Vector, vars: SwarmUserData) {
     const initialVelocity = new Vector(0, 0)
