@@ -7,13 +7,13 @@
                 "src/*"
             ]
         },
-        "target": "es6",
+        "target": "es2022",
         "lib": [
             "dom",
             "dom.iterable",
-            "esnext"
+            "es2023"
         ],
-        "allowJs": true,
+        "allowJs": false,
         "skipLibCheck": true,
         "strict": false,
         "forceConsistentCasingInFileNames": true,
@@ -25,11 +25,6 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
         "strictNullChecks": false
     },
     "rootDir": "src",
@@ -37,7 +32,6 @@
         "node_modules"
     ],
     "include": [
-        "**/*.ts",
-        "**/*.tsx"
+        "src/"
     ]
 }
