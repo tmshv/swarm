@@ -1,3 +1,7 @@
+import Signal from "@/lib/Signal"
+import ComposedSignal from "@/lib/ComposedSignal"
+import Channel from "@/lib/Channel"
+
 import Agent from "@/swarm/Agent"
 import Simulation from '@/swarm/Simulation'
 import AgentPool from '@/swarm/AgentPool'
@@ -12,6 +16,7 @@ import Tag from '@/swarm/Tag'
 import PathObstacle from '@/swarm/PathObstacle'
 import AttractorType from '@/swarm/AttractorType'
 import ComposableBehavior from '@/swarm/behaviors/ComposableBehavior'
+import Behavior from '@/swarm/behaviors/Behavior'
 import TtlBehavior from '@/swarm/behaviors/TtlBehavior'
 import SeekLocationBehavior from '@/swarm/behaviors/SeekLocationBehavior'
 import SeekNearestAttractorBehavior from '@/swarm/behaviors/SeekNearestAttractorBehavior'
@@ -22,7 +27,14 @@ import LimitAccelerationBehavior from '@/swarm/behaviors/LimitAccelerationBehavi
 import InteractPheromonesBehavior from '@/swarm/behaviors/InteractPheromonesBehavior'
 import AgentBehavior from '@/swarm/AgentBehavior'
 
+import AppController from '@/swarm/controllers/AppController'
+import ToolType from '@/swarm/ToolType'
+
 export {
+    Signal,
+    ComposedSignal,
+    Channel,
+
     Agent,
     Simulation,
     AgentPool,
@@ -36,6 +48,7 @@ export {
     Tag,
     PathObstacle,
     AttractorType,
+    Behavior,
     ComposableBehavior,
     TtlBehavior,
     SeekLocationBehavior,
@@ -46,5 +59,9 @@ export {
     LimitAccelerationBehavior,
     InteractPheromonesBehavior,
     AgentBehavior,
+
+    // TODO move to @tmshv/swarm-render
+    AppController,
+    ToolType,
 }
 
