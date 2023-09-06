@@ -7,14 +7,12 @@
         "build": "tsc"
     },
     "dependencies": {
-        "chance": "^1.1.4",
-        "clsx": "^1.1.1",
-        "core-decorators": "^0.20.0",
+        "chance": "^1.1.11",
         "lodash": "^4.17.21",
         "transformation-matrix-js": "^2.7.6"
     },
     "devDependencies": {
-        "@types/node": "^13.9.1",
+        "@types/node": "^20.5.9",
         "typescript": "^5.2.2"
     }
 }
