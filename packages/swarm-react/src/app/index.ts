@@ -1,5 +1,4 @@
-import AppController from '@/swarm/controllers/AppController'
-import ToolType from '@/swarm/ToolType'
+import { AppController, ToolType } from '@tmshv/swarm'
 
 export function initDebugTools(swarm: AppController) {
     swarm.selectionController.channels.update.on(item => {
