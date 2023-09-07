@@ -1,9 +1,9 @@
 // @ts-nocheck
 
 import {Matrix} from 'transformation-matrix-js'
-import Vector from '../swarm/Vector'
-import Cross from '../swarm/render/Cross'
-import PathShape from '../swarm/render/PathShape'
+import Vector from '~/src/swarm/Vector'
+import Cross from '~/src/swarm/render/Cross'
+import PathShape from '~/src/swarm/render/PathShape'
 
 const TWO_PI = 2 * Math.PI
 

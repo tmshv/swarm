@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-const App = dynamic(import('src/components/App')
-    .then(m => m.App), { ssr: false })
+// const App = dynamic(import('src/components/App')
+//     .then(m => m.App), { ssr: false })
 
 type FrameProps = {
     src: string

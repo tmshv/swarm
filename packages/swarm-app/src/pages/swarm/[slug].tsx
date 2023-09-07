@@ -1,10 +1,13 @@
 import { GetServerSideProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { useSwarm } from 'src/hooks/useSwarm'
+import { useSwarm } from '@tmshv/swarm-react'
 import { oneItem } from '@/lib/array'
 import { useEffect } from 'react'
 
-const SwarmViewport = dynamic(import('@/components/SwarmViewport').then(m => m.SwarmViewport), { ssr: false })
+// const SwarmViewport = dynamic(import('@/components/SwarmViewport').then(m => m.SwarmViewport), { ssr: false })
+const SwarmViewport = dynamic(import('@tmshv/swarm-react').then(m => m.SwarmViewport), {
+    ssr: false,
+})
 
 type Props = {
     scriptUrl: string,

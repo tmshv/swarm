@@ -1,6 +1,8 @@
-// import s from './viewport.module.css'
+import s from './viewport.module.css'
 // TODO fix this import
-const s: any = {}
+// const s: any = {}
+
+import React from 'react'
 
 import cx from 'clsx'
 import { Simulation } from '../Simulation'
@@ -44,7 +46,7 @@ type SwarmViewportProps = {
 }
 
 export const SwarmViewport: React.FC<SwarmViewportProps> = props => {
-    usePrevent(window, 'mousewheel')
+    // usePrevent(window, 'mousewheel')
     // constructor(props) {
     //     super(props)
 
