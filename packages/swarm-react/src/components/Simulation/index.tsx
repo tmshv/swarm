@@ -1,3 +1,4 @@
+import React from 'react'
 import { Canvas } from '../Canvas'
 import { useRef, useEffect } from 'react'
 

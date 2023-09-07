@@ -4,13 +4,13 @@
     "description": "Swarm react library",
     "type": "module",
     "types": "dist/index.d.ts",
-    "main": "dist/index.js",
     "module": "dist/index.js",
     "files": [
         "dist/"
     ],
     "scripts": {
-        "build": "tsc"
+        "build": "rollup -c rollup.config.js",
+        "build:ts": "tspc"
     },
     "dependencies": {
         "@tmshv/swarm": "0.1.0",
@@ -19,8 +19,14 @@
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
+        "@rollup/plugin-typescript": "^11.1.3",
         "@types/node": "^20.5.9",
         "@types/react": "^18.2.21",
-        "typescript": "^5.2.2"
+        "parcel": "^2.9.3",
+        "rollup-plugin-styles": "^4.0.0",
+        "ts-patch": "^3.0.2",
+        "typescript": "^5.2.2",
+        "typescript-plugin-css-modules": "^5.0.1",
+        "typescript-transform-paths": "^3.4.6"
     }
 }

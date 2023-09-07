@@ -3,14 +3,15 @@
     "version": "0.1.0",
     "description": "Swarm simulation library",
     "type": "module",
+    "source": "src/index.ts",
     "types": "dist/index.d.ts",
-    "main": "dist/index.js",
     "module": "dist/index.js",
     "files": [
         "dist/"
     ],
     "scripts": {
-        "build": "tsc"
+        "build": "parcel build",
+        "build:ts": "tspc"
     },
     "dependencies": {
         "chance": "^1.1.11",
@@ -19,6 +20,9 @@
     },
     "devDependencies": {
         "@types/node": "^20.5.9",
-        "typescript": "^5.2.2"
+        "parcel": "^2.9.3",
+        "ts-patch": "^3.0.2",
+        "typescript": "^5.2.2",
+        "typescript-transform-paths": "^3.4.6"
     }
 }

@@ -2,10 +2,12 @@
 // TODO fix this import
 const s: any = {}
 
+import React from 'react'
+
 import { useToggleSignal } from './useToggleSignal'
 import {AppController, Vector, Signal} from '@tmshv/swarm'
 import { useEffect } from 'react'
-import SidePanel from '../SidePanel'
+import SidePanel from '@/components/SidePanel'
 
 function useSetupCamera(swarm: AppController) {
     useEffect(() => {

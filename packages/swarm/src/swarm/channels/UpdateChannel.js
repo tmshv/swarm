@@ -1,4 +1,4 @@
-import Channel from '@/lib/Channel'
+import Channel from '~/src/lib/Channel'
 
 export default class UpdateChannel extends Channel {
     get update() {
