@@ -1,7 +1,7 @@
-import { useSwarm } from "@/hooks/useSwarm"
+import { useSwarm } from "~/src/hooks/useSwarm"
 
 // import { App } from "@/components/App"
-import { SwarmViewport } from "@/components/SwarmViewport"
+import { SwarmViewport } from "~/src/components/SwarmViewport"
 
 export {
     useSwarm,

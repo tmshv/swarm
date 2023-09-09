@@ -1,13 +1,10 @@
-import s from './viewport.module.css'
-// TODO fix this import
-// const s: any = {}
+import * as s from './viewport.module.css'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import cx from 'clsx'
-import { Simulation } from '../Simulation'
-import { useEffect, useState } from 'react'
-import { usePrevent } from '@/hooks/usePrevent'
+import { Simulation } from '~/src/components/Simulation'
+import { usePrevent } from '~/src/hooks/usePrevent'
 
 function useWindowDimensions() {
     const devicePixelRatio = window.devicePixelRatio

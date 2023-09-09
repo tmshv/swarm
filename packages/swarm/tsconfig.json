@@ -22,7 +22,7 @@
         "esModuleInterop": true,
         "module": "esnext",
         "moduleResolution": "node",
-        "strictNullChecks": false,
+        "strictNullChecks": false
     },
     "exclude": [
         "node_modules"

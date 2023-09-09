@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getLayers, createControls } from '@/app/init'
-import { initDebugTools } from '@/app'
+import { getLayers, createControls } from '~/src/app/init'
+import { initDebugTools } from '~/src/app'
 
 import {
     Agent,
