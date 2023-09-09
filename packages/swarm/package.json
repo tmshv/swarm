@@ -10,7 +10,8 @@
         "dist/"
     ],
     "scripts": {
-        "build": "parcel build",
+        "build": "rollup -c",
+        "build:parcel": "parcel build --no-scope-hoist",
         "build:ts": "tspc"
     },
     "dependencies": {
@@ -21,6 +22,7 @@
     "devDependencies": {
         "@types/node": "^20.5.9",
         "parcel": "^2.9.3",
+        "rollup-plugin-dts": "^6.0.1",
         "ts-patch": "^3.0.2",
         "typescript": "^5.2.2",
         "typescript-transform-paths": "^3.4.6"

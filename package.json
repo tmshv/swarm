@@ -8,7 +8,8 @@
     "description": "Swarm monorepo",
     "type": "module",
     "scripts": {
-        "start": "echo \"...\""
+        "start": "echo \"...\"",
+        "dev": "npm run dev -w @tmshv/swarm-app"
     },
     "devDependencies": {
         "@parcel/packager-ts": "^2.9.3",
