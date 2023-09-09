@@ -8,10 +8,10 @@
                 "./*"
             ]
         },
-        "target": "es2022",
+        "target": "es2020",
         "lib": [
             "dom",
-            "es2023"
+            "es2020"
         ],
         "declaration": true,
         "allowJs": true,
@@ -22,15 +22,7 @@
         "esModuleInterop": true,
         "module": "esnext",
         "moduleResolution": "node",
-        // "resolveJsonModule": true,
-        // "isolatedModules": true,
-        // "incremental": true,
         "strictNullChecks": false,
-        "plugins": [
-            {
-                "transform": "typescript-transform-paths"
-            }
-        ]
     },
     "exclude": [
         "node_modules"
