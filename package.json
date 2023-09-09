@@ -9,8 +9,9 @@
     "description": "Swarm monorepo",
     "type": "module",
     "scripts": {
-        "start": "echo \"...\"",
-        "dev": "npm run dev -w @tmshv/swarm-app"
+        "dev": "npm run --prefix apps/app dev",
+        "build": "npm run --prefix apps/app build",
+        "start": "npm run --prefix apps/app start"
     },
     "devDependencies": {
         "@parcel/packager-ts": "^2.9.3",
