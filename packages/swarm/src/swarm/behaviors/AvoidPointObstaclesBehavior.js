@@ -37,6 +37,8 @@ export default class AvoidPointObstaclesBehavior extends MovingBehavior {
         //     : null
     }
 
+    // TODO check it out: maybe better to force perpendicular to agent-obstacle line not reverse
+    // TODO check it out: maybe better to use sdf here
     getForce(coord) {
         return Vector
             .sub(coord, this.obstacle.location)
