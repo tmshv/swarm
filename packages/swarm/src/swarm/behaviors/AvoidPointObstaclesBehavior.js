@@ -3,14 +3,14 @@ import Vector from '../Vector'
 import PointObstacle from '../PointObstacle'
 
 export default class AvoidPointObstaclesBehavior extends MovingBehavior {
-    init({radius, predictionDistance}) {
+    init({ radius, predictionDistance }) {
         this.radius = radius
         this.predictionDistance = predictionDistance
 
         this.cache = null
     }
 
-    run({environment}) {
+    run({ environment }) {
         if (!this.cache) this.updateCache(environment)
 
         const predict = this.predictLocation()
