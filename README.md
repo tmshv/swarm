@@ -1,4 +1,4 @@
-# Swarm 
+# Swarm
 
 How to run:
 
