@@ -1,15 +1,12 @@
 import View from './View'
 import SelectedObstacleView from './SelectedObstacleView'
-import Obstacle from '../Obstacle'
-import Agent from '../Agent'
+import { Agent, Emitter, Attractor, Obstacle } from '@tmshv/swarm'
 import SelectedAgentView from './SelectedAgentView'
-import Emitter from '../Emitter'
 import SelectedEmitterView from './SelectedEmitterView'
-import Attractor from '../Attractor'
 import SelectedAttractorView from './SelectedAttractorView'
 
 export default class SelectedView extends View {
-    constructor({updateSignal, ...args}) {
+    constructor({ updateSignal, ...args }) {
         super({
             ...args,
             clear: true,

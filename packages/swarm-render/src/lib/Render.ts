@@ -1,7 +1,7 @@
 // @ts-nocheck
 
-import {Matrix} from 'transformation-matrix-js'
-import Vector from '~/src/swarm/Vector'
+import { Matrix } from 'transformation-matrix-js'
+import { Vector } from '@tmshv/swarm'
 import Cross from '~/src/swarm/render/Cross'
 import PathShape from '~/src/swarm/render/PathShape'
 
@@ -28,7 +28,7 @@ export default class Render {
         this.height = height
     }
 
-    clear(){
+    clear() {
         this.context.clearRect(0, 0, this.width * 2, this.height * 2)
     }
 
@@ -47,7 +47,7 @@ export default class Render {
     // }
 
     getValue(value) {
-        const {scale} = this.matrix.decompose()
+        const { scale } = this.matrix.decompose()
         return value * scale.x
     }
 
@@ -55,7 +55,7 @@ export default class Render {
      * this function map simulation coord to screen space
      * @param {*} param0
      */
-    getCoord({x, y}) {
+    getCoord({ x, y }) {
         return this.matrix.applyToPoint(x, y)
     }
 
@@ -64,7 +64,7 @@ export default class Render {
     }
 
     textWithOffset(coord, text, offsetX, offsetY) {
-        let {x, y} = this.getCoord(coord)
+        let { x, y } = this.getCoord(coord)
         x += offsetX
         y += offsetY
         this.context.font = '16px Arial'
@@ -73,7 +73,7 @@ export default class Render {
 
     circleCenterZoomed(coord, radius) {
         const r = this.getValue(radius)
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         this.context.beginPath()
         this.context.arc(x, y, r, 0, TWO_PI)
@@ -81,7 +81,7 @@ export default class Render {
     }
 
     circleCenterFill(coord, radius) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
         this.context.beginPath()
         this.context.arc(x, y, radius, 0, TWO_PI)
         this.context.fill()
@@ -92,20 +92,20 @@ export default class Render {
     }
 
     arcCenter(coord, radius, startAngle, endAngle) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
         this.context.beginPath()
         this.context.arc(x, y, radius, startAngle, endAngle)
         this.context.stroke()
     }
 
     rect(coord, w, h) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         this.context.fillRect(x, y, w, h)
     }
 
     rectCenterZoomed(coord, w, h) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         const wz = this.getValue(w)
         const hz = this.getValue(h)
@@ -117,7 +117,7 @@ export default class Render {
     }
 
     rectCenter(coord, w, h) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         const w2 = w / 2
         const h2 = h / 2
@@ -126,7 +126,7 @@ export default class Render {
     }
 
     targetArea(coord, w, h, s) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         const w2 = w / 2
         const h2 = h / 2
@@ -157,7 +157,7 @@ export default class Render {
     }
 
     plus(coord, s) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         this.context.beginPath()
         this.context.moveTo(x - s, y)
@@ -171,17 +171,17 @@ export default class Render {
     }
 
     cross(coord, s) {
-        const {x, y} = this.getCoord(coord)
+        const { x, y } = this.getCoord(coord)
 
         this.crossShape.init({
             size: s,
         })
         this.crossShape.render(this.context, {
-            translate: {x, y},
+            translate: { x, y },
         })
     }
 
-    path(coords, fill=false) {
+    path(coords, fill = false) {
         this.pathShape.init({
             fill,
             coords: coords.map(c => this.getCoord(c)),

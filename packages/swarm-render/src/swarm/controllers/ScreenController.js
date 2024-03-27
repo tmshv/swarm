@@ -1,6 +1,6 @@
-import {createEventToVectorMapper} from '../lib/browser'
+import { createEventToVectorMapper } from '../lib/browser'
 import ScreenControllerChannel from '../channels/ScreenControllerChannel'
-import Vector from '../Vector'
+import { Vector } from '@tmshv/swarm'
 
 export default class ScreenController {
     constructor(window) {

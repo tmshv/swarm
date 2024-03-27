@@ -1,9 +1,9 @@
-import Attractor from '../Attractor'
+import { Attractor } from '@tmshv/swarm'
 
 const tags = tagsMap => {
     const result = []
     for (const [k, v] of tagsMap.entries()) {
-        result.push({name: k, value: v})
+        result.push({ name: k, value: v })
     }
 
     return result
@@ -58,7 +58,7 @@ export default class SceneController {
                     power: e.power,
                 })
 
-                for (let {name, value} of e.tags) {
+                for (let { name, value } of e.tags) {
                     attractor.addTag(name, value)
                 }
 

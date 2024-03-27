@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "~*": [
+                "./*"
+            ]
+        },
+        "target": "es2020",
+        "lib": [
+            "dom",
+            "es2020"
+        ],
+        "declaration": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": false,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "strictNullChecks": false
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "src/"
+    ]
+}

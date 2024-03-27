@@ -1,7 +1,7 @@
 {
     "name": "@tmshv/swarm-app",
     "private": true,
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Swarm App",
     "type": "module",
     "scripts": {
@@ -9,8 +9,8 @@
         "build": "next build"
     },
     "dependencies": {
-        "@tmshv/swarm": "0.1.0",
-        "@tmshv/swarm-react": "0.1.0",
+        "@tmshv/swarm": "0.2.0",
+        "@tmshv/swarm-react": "0.2.0",
         "clsx": "^1.1.1",
         "core-decorators": "^0.20.0",
         "lodash": "^4.17.21",

@@ -1,16 +1,18 @@
-import SeekNearestAttractorBehavior from '../behaviors/SeekNearestAttractorBehavior'
-import InteractEnvironmentBehavior from '../behaviors/InteractEnvironmentBehavior'
-import InteractAgentsBehavior from '../behaviors/InteractAgentsBehavior'
-import AvoidObstaclesBehavior from '../behaviors/AvoidObstaclesBehavior'
-import InteractPheromonesBehavior from '../behaviors/InteractPheromonesBehavior'
-import ComposableBehavior from '../behaviors/ComposableBehavior'
-import SeparateAgentsBehavior from '../behaviors/SeparateAgentsBehavior'
+import {
+    ComposableBehavior,
+    SeekNearestAttractorBehavior,
+    AvoidObstaclesBehavior,
+    InteractPheromonesBehavior,
+    InteractAgentsBehavior,
+    InteractEnvironmentBehavior,
+    AvoidPointObstaclesBehavior,
+    SeparateAgentsBehavior,
+} from '@tmshv/swarm'
 import View from './View'
-import AvoidPointObstaclesBehavior from '../behaviors/AvoidPointObstaclesBehavior'
 import renderAvoidObstacleBehavior from './render/renderAvoidObstacleBehavior'
 
 export default class SelectedAgentView extends View {
-    constructor({item, ...args}) {
+    constructor({ item, ...args }) {
         super({
             ...args,
             clear: true,
@@ -19,7 +21,7 @@ export default class SelectedAgentView extends View {
         this.item = item
     }
 
-    shouldRender(){
+    shouldRender() {
         return this.item.isAlive
     }
 
@@ -86,7 +88,7 @@ export default class SelectedAgentView extends View {
             // })
         } else if (behavior instanceof SeekNearestAttractorBehavior) {
             // this.draw.circleCenter(a.location, behavior.radius)
-            
+
             // const a = behavior.targetAttractor
             // if (!a) return
             // ctx.strokeStyle = 'rgba(0, 0, 0, 0.15)'
@@ -115,7 +117,7 @@ export default class SelectedAgentView extends View {
             const obstacle = behavior.obstacle
             if (obstacle) {
                 if (obstacle.containCoord(agent.location)) {
-                    ctx.strokeStyle ='rgba(250, 0, 250, 1)'
+                    ctx.strokeStyle = 'rgba(250, 0, 250, 1)'
                     this.draw.cross(agent.location, 5)
                 }
 

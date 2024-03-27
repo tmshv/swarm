@@ -1,5 +1,5 @@
 {
-    "name": "@tmshv/swarm",
+    "name": "@tmshv/swarm-render",
     "version": "0.2.0",
     "description": "Swarm simulation library",
     "type": "module",
@@ -13,6 +13,7 @@
         "build": "parcel build --no-scope-hoist"
     },
     "dependencies": {
+        "@tmshv/swarm": "0.2.0",
         "chance": "^1.1.11",
         "lodash": "^4.17.21",
         "transformation-matrix-js": "^2.7.6"

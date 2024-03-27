@@ -1,9 +1,8 @@
 import Tool from './Tool'
-import UpdateChannel from '../channels/UpdateChannel'
-import Agent from '../Agent'
+import { Agent } from '@tmshv/swarm'
 
 export default class MoveTool extends Tool {
-    constructor({channel, simulation}) {
+    constructor({ channel, simulation }) {
         super()
         this._cursorChannel = channel
         this.simulation = simulation
@@ -11,7 +10,7 @@ export default class MoveTool extends Tool {
         this.onMove = this.onMove.bind(this)
     }
 
-    run({selectionController}) {
+    run({ selectionController }) {
         this.selectionController = selectionController
         this._cursorChannel.mouseMove.on(this.onMove)
 

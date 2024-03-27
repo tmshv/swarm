@@ -1,6 +1,6 @@
 {
     "name": "@tmshv/swarm-react",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Swarm react library",
     "type": "module",
     "source": "src/index.ts",
@@ -15,7 +15,8 @@
         "build:ts": "tspc"
     },
     "dependencies": {
-        "@tmshv/swarm": "0.1.0",
+        "@tmshv/swarm": "0.2.0",
+        "@tmshv/swarm-render": "0.2.0",
         "clsx": "^1.1.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"

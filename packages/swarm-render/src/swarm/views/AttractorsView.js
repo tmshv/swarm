@@ -1,8 +1,6 @@
-import {max} from 'lodash'
+import { max } from 'lodash'
 import EnvironmentView from './EnvironmentView'
-import Vector from '../Vector'
-import Tag from '../Tag'
-import AttractorType from '../AttractorType'
+import { Vector, Tag, AttractorType } from '@tmshv/swarm'
 
 const unknownTextOffset = new Vector(10, 5)
 const busStopOffset = new Vector(-5, 5)
@@ -109,7 +107,7 @@ export default class AttractorsView extends EnvironmentView {
         }
     }
 
-    renderEmitterAssociation(attractor){
+    renderEmitterAssociation(attractor) {
         const ctx = this.draw.context
 
         ctx.strokeStyle = `rgba(0, 0, 0, 0.1)`
