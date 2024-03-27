@@ -1,4 +1,4 @@
-import Vector from '../Vector'
+import { Vector } from '@tmshv/swarm'
 
 export function createEventToVectorMapper(callback) {
     const coord = new Vector(0, 0)

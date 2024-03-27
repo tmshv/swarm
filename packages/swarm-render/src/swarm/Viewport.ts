@@ -1,7 +1,6 @@
 // @ts-nocheck
 
-import Rect from './Rect'
-import Vector from './Vector'
+import { Vector, Rect } from '@tmshv/swarm'
 import { getWindowHeight, getWindowWidth } from './lib/browser'
 
 export default class Viewport {

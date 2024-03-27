@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import Vector from '../Vector'
+import { Vector } from '@tmshv/swarm'
 import { getWindowHeight, getWindowWidth } from '../lib/browser'
 
 export default class Camera {

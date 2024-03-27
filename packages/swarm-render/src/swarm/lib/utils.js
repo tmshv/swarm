@@ -1,4 +1,4 @@
-import Vector from '../Vector'
+import { Vector } from '@tmshv/swarm'
 
 export function findNearestInLocation(items, coord, radius) {
     let minDist = radius ** 2

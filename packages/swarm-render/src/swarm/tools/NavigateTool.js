@@ -1,4 +1,4 @@
-import Vector from '../Vector'
+import { Vector } from '@tmshv/swarm'
 import Tool from './Tool'
 import UpdateChannel from '../channels/UpdateChannel'
 
@@ -7,7 +7,7 @@ export default class NavigateTool extends Tool {
         return this._drag
     }
 
-    constructor({viewController, channel}) {
+    constructor({ viewController, channel }) {
         super()
         this.channels = new UpdateChannel(this)
 

@@ -1,6 +1,5 @@
 import SimulationView from './SimulationView'
-import Tag from '../Tag'
-import ObstacleType from '../ObstacleType'
+import { Tag, ObstacleType } from '@tmshv/swarm'
 
 export default class ObstacleView extends SimulationView {
     render() {

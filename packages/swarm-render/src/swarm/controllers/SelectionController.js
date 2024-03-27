@@ -1,5 +1,5 @@
 import UpdateChannel from '../channels/UpdateChannel'
-import Agent from '../Agent'
+import { Agent } from '@tmshv/swarm'
 
 export default class SelectionController {
     get selectedItem() {

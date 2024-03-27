@@ -1,16 +1,16 @@
 import Tool from './Tool'
 import UpdateChannel from '../channels/UpdateChannel'
-import Attractor from '../Attractor'
+import { Attractor } from '@tmshv/swarm'
 
 export default class DeleteTool extends Tool {
-    constructor({simulation}) {
+    constructor({ simulation }) {
         super()
         this.channels = new UpdateChannel(this)
 
         this._simulation = simulation
     }
 
-    run({selectionController}) {
+    run({ selectionController }) {
         const selected = selectionController.selectedItem
 
         if (selected instanceof Attractor) {

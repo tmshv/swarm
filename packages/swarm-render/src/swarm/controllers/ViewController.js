@@ -1,5 +1,5 @@
-import {Matrix} from 'transformation-matrix-js'
-import Vector from '../Vector'
+import { Matrix } from 'transformation-matrix-js'
+import { Vector } from '@tmshv/swarm'
 import MouseChannel from '../channels/MouseChannel'
 
 export default class ViewController {
@@ -170,7 +170,7 @@ export default class ViewController {
     }
 
     setScreenToWorld(coord) {
-        const {x, y} = this._matrix
+        const { x, y } = this._matrix
             .inverse()
             .applyToPoint(coord.x, coord.y)
 
@@ -214,7 +214,7 @@ export default class ViewController {
     }
 
     transformCoord(coord) {
-        const {x, y} = this._inverseMatrix.applyToPoint(coord.x, coord.y)
+        const { x, y } = this._inverseMatrix.applyToPoint(coord.x, coord.y)
 
         return new Vector(x, y)
     }

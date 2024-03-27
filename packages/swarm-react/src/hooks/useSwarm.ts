@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react'
-import { getLayers, createControls } from '~/src/app/init'
-import { initDebugTools } from '~/src/app'
-
 import {
     Agent,
     AgentPool,
@@ -26,9 +23,12 @@ import {
     LimitAccelerationBehavior,
     InteractPheromonesBehavior,
     AgentBehavior,
-
-    AppController,
 } from '@tmshv/swarm'
+import { AppController } from '@tmshv/swarm-render'
+
+export type CreateControlsFn = () => object[]
+export type GetLayersFn = () => object[]
+export type CameraTransform = [number, number, number, number, number, number]
 
 async function initSwarm(): Promise<Simulation> {
     try {
@@ -93,7 +93,7 @@ async function inject(src: string): Promise<HTMLScriptElement> {
     })
 }
 
-export function useSwarm(scriptUrl: string, camera: [number, number, number, number, number, number] | null) {
+export function useSwarm(scriptUrl: string, camera: CameraTransform | null, getLayers: GetLayersFn, createControls: CreateControlsFn) {
     const [controller, setController] = useState<SwarmController>(null)
 
     useEffect(() => {
@@ -136,7 +136,7 @@ export function useSwarm(scriptUrl: string, camera: [number, number, number, num
                 })
             }
 
-            initDebugTools(swarm)
+            // initDebugTools(swarm)
 
             const layers = swarm.createLayout(getLayers())
             const ui = {

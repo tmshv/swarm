@@ -1,4 +1,4 @@
-import React, { Component, forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 
 export type CanvasProps = React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement> & {
     width: number
