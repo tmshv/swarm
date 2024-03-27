@@ -1,5 +1,6 @@
 import { useSwarm } from '@tmshv/swarm-react'
 import { SwarmViewport } from '@tmshv/swarm-react'
+import { getLayers, createControls } from './init'
 
 const App = () => {
     const controller = useSwarm("/mega.js", [
@@ -9,7 +10,7 @@ const App = () => {
         -0.5303213506452932,
         -1877.674241015046,
         1700.8069588689884,
-    ])
+    ], getLayers, createControls)
 
     if (!controller) {
         return (
