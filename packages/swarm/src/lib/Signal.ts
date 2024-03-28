@@ -1,15 +1,14 @@
-export type SignalCallback<T> = (...args:T[]) => void
+export type SignalCallback<T> = (param: T) => void
+export type SignalCancel = () => void
 
 export default class Signal<T> {
-    private target: any
     private listeners: SignalCallback<T>[]
 
-    constructor(target) {
-        this.target = target
+    constructor() {
         this.listeners = []
     }
 
-    on(callback: SignalCallback<T>) {
+    on(callback: SignalCallback<T>): SignalCancel {
         this.listeners.push(callback)
 
         return () => {
@@ -32,9 +31,9 @@ export default class Signal<T> {
         return this
     }
 
-    trigger(...args: T[]) {
+    trigger(param: T) {
         this.listeners.forEach(x => {
-            x(...args)
+            x(param)
         })
         return this
     }

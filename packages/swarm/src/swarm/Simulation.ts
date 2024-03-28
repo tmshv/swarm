@@ -1,10 +1,10 @@
 // @ts-nocheck
 
-import UpdateChannel from './channels/UpdateChannel'
 import { Layer } from './Layer'
 import Environment from './Environment'
 import AgentPool from './AgentPool'
 import Emitter from './Emitter'
+import Signal from '~src/lib/signal'
 
 export default class Simulation {
     get frame() {
@@ -20,7 +20,7 @@ export default class Simulation {
     private env: Environment
     private agents: AgentPool
     private emitters: Emitter[]
-    private channels: UpdateChannel
+    public updateSignal: Signal<number>
     private _animationFrameRequestId: number
     private _layers: Map<string, Layer>
     private viewFactory: any
@@ -36,7 +36,7 @@ export default class Simulation {
         this.agents = null
         this.emitters = []
 
-        this.channels = new UpdateChannel(this)
+        this.updateSignal = new Signal()
         this._animationFrameRequestId = null
 
         this._layers = new Map()
@@ -110,7 +110,7 @@ export default class Simulation {
                 a.move()
             })
 
-            this.channels.update.trigger(this)
+            this.updateSignal.trigger(this._frame)
         } catch (e) {
             console.error(e)
             console.warn('Stopping simulation cause error')
