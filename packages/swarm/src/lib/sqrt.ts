@@ -24,7 +24,7 @@
 // https://en.wikipedia.org/wiki/Fast_inverse_square_root
 // Some original comments preserved for humor value
 // Designed to try to mimic the original as closely as possible
-export function fastInverseSqrt(number) {
+export function fastInverseSqrt(number: number): number {
     var i;
     var x2, y;
     const threehalfs = 1.5;
