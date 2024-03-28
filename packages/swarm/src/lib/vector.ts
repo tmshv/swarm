@@ -17,10 +17,10 @@ export default class Vector {
         )
     }
 
-    static fromAngle(angle: number) {
+    static fromAngle(radians: number) {
         return new Vector(
-            Math.cos(angle),
-            Math.sin(angle),
+            Math.cos(radians),
+            Math.sin(radians),
         )
     }
 
