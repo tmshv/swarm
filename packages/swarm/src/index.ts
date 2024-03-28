@@ -1,6 +1,5 @@
 import Signal from "~/src/lib/signal"
 import ComposedSignal from "~/src/lib/ComposedSignal"
-import Channel from "~/src/lib/Channel"
 
 import Agent from "~/src/swarm/Agent"
 import Simulation from '~/src/swarm/Simulation'
@@ -35,7 +34,6 @@ import AgentBehavior from '~/src/swarm/AgentBehavior'
 export {
     Signal,
     ComposedSignal,
-    Channel,
 
     Agent,
     Simulation,
