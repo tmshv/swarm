@@ -1,4 +1,3 @@
-import QuadTree from './QuadTree'
 import Vector from '~/src/lib/vector'
 import AgentEvent from './AgentEvent'
 import Agent from './Agent'
@@ -13,8 +12,6 @@ export default class AgentPool {
     private inactiveAgents: Agent[]
 
     constructor(limit = 1000) {
-        // this.store = new QuadTree()
-
         this._poolLimit = limit
         this.agents = []
         this.inactiveAgents = []
