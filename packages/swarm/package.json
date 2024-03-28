@@ -10,7 +10,8 @@
         "dist/"
     ],
     "scripts": {
-        "build": "parcel build --no-scope-hoist"
+        "build": "vite build",
+        "test": "vitest"
     },
     "dependencies": {
         "chance": "^1.1.11",
@@ -19,7 +20,10 @@
     },
     "devDependencies": {
         "@types/node": "^20.5.9",
-        "parcel": "^2.11.0",
-        "typescript": "^5.2.2"
+        "typescript": "^5.2.2",
+        "vite": "^5.2.6",
+        "vite-plugin-dts": "^3.8.1",
+        "vite-tsconfig-paths": "^4.3.2",
+        "vitest": "^1.4.0"
     }
 }
