@@ -2,11 +2,11 @@ import Behavior from './Behavior'
 import AgentBehavior from '../AgentBehavior'
 
 export default class WalkToNearestAttractorBehavior extends Behavior {
-    init({}) {
+    init({ }) {
         this.visitedAttractors = []
     }
 
-    run({environment}) {
+    run({ environment }) {
         const walk = this.agent.getBehavior(AgentBehavior.SEEK_LOCATION)
         const reached = walk.run()
 

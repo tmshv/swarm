@@ -2,7 +2,7 @@ import MovingBehavior from './MovingBehavior'
 import Vector from '../../lib/vector'
 
 export default class BoidBehavior extends MovingBehavior {
-    init({radius, predictionDistance}) {
+    init({ radius, predictionDistance }) {
         this.radius = radius
         this.predictionDistance = predictionDistance
         this.predictionDistanceSquared = predictionDistance ** 2
@@ -10,7 +10,7 @@ export default class BoidBehavior extends MovingBehavior {
         this.lines = null
     }
 
-    run({agentsPool}) {
+    run({ agentsPool }) {
         const as = agentsPool.getAgents()
 
         const sep = this.separate(as)

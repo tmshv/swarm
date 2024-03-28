@@ -7,7 +7,7 @@ export default class Emitter {
         return this._counter
     }
 
-    constructor({x, y, period, amount, factory}) {
+    constructor({ x, y, period, amount, factory }) {
         this._counter = 0
 
         this.location = new Vector(x, y)

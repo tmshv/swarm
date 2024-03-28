@@ -2,13 +2,13 @@ import MovingBehavior from './MovingBehavior'
 import Vector from '../lib/vector'
 
 export default class AlignAgentsBehavior extends MovingBehavior {
-    init({radius}) {
+    init({ radius }) {
         this.radius = radius
 
         this.average = new Vector(0, 0)
     }
 
-    run({agentsPool}) {
+    run({ agentsPool }) {
         const agents = agentsPool.getInRadius(this.agent.location, this.radius)
 
         this.average.set(0, 0)

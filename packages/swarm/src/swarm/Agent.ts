@@ -34,7 +34,7 @@ export default class Agent extends Vehicle {
     private _track: any[]
     private tags: Map<string, Tag>
 
-    constructor({behavior}) {
+    constructor({ behavior }) {
         super()
         behavior.setAgent(this)
 

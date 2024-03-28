@@ -12,15 +12,15 @@ export default class Environment {
         this._pheromones.forEach(x => x.run(context))
     }
 
-    addPheromones(name, pheromones){
+    addPheromones(name, pheromones) {
         this._pheromones.set(name, pheromones)
     }
 
-    getPheromones(name){
+    getPheromones(name) {
         return this._pheromones.get(name)
     }
 
-    getPheromonesNamesIter(){
+    getPheromonesNamesIter() {
         return this._pheromones.keys()
     }
 
@@ -38,7 +38,7 @@ export default class Environment {
         this.attractors.splice(i, 1)
         return this
     }
-    
+
     getRandomAttractor() {
         const i = Math.floor(Math.random() * this.attractors.length)
 
@@ -60,7 +60,7 @@ export default class Environment {
 
         return result
     }
-    
+
     getNearestAttractorWithOneOfType(coord, types, excluded = []) {
         let minDist = 10000000
         let result = null

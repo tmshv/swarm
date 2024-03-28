@@ -228,7 +228,7 @@ export default class Line {
             const a = line.b.y - line.a.y
             const b = line.a.x - line.b.x
             const c = a * line.a.x + b * line.a.y
-            return {a, b, c}
+            return { a, b, c }
         }
 
         const c1 = coef(this)

@@ -2,7 +2,7 @@ import Vector from '../lib/vector'
 import Obstacle from './Obstacle'
 
 export default class PointObstacle extends Obstacle {
-    constructor({radius}) {
+    constructor({ radius }) {
         super({})
         this.location = new Vector(0, 0)
         this.radius = radius

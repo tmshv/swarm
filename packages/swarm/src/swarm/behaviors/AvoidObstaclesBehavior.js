@@ -3,7 +3,7 @@ import Line from '../Line'
 import Vector from '../../lib/vector'
 
 export default class AvoidObstaclesBehavior extends MovingBehavior {
-    init({radius, predictionDistance}) {
+    init({ radius, predictionDistance }) {
         this.radius = radius
         this.predictionDistance = predictionDistance
         this.predictionDistanceSquared = predictionDistance ** 2
@@ -11,7 +11,7 @@ export default class AvoidObstaclesBehavior extends MovingBehavior {
         this.lines = null
     }
 
-    run({environment}) {
+    run({ environment }) {
         if (!this.lines) this.updateLines(environment)
 
         this.impactForce = null

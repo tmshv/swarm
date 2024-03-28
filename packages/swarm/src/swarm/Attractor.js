@@ -10,7 +10,7 @@ export default class Attractor {
         return this._power
     }
 
-    constructor({id, x, y, power}) {
+    constructor({ id, x, y, power }) {
         this._location = new Vector(x, y)
         this._power = power
         this.id = id

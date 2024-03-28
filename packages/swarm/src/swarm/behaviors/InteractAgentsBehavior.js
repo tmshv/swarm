@@ -1,12 +1,12 @@
 import Behavior from './Behavior'
 import Vector from '../../lib/vector'
 
-import {Chance} from 'chance'
+import { Chance } from 'chance'
 
 const chance = new Chance()
 
 export default class InteractAgentsBehavior extends Behavior {
-    init({radius, initialInterest}) {
+    init({ radius, initialInterest }) {
         this.initialInterest = initialInterest
         this.radius = radius
         this.radiusQuad = radius ** 2
@@ -14,7 +14,7 @@ export default class InteractAgentsBehavior extends Behavior {
         this.interest = new Map()
     }
 
-    run({agentsPool}) {
+    run({ agentsPool }) {
         if (this.needToUpdateAgents()) {
             this.updateAgents(agentsPool)
         }

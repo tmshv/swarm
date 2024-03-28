@@ -2,11 +2,11 @@ import Rect from '../Rect'
 import Vector from '../../lib/vector'
 
 export function getBoundingBox(coords) {
-    const tl = {x: 0, y: 0}
-    const br = {x: 0, y: 0}
+    const tl = { x: 0, y: 0 }
+    const br = { x: 0, y: 0 }
 
     const xs = coords.map(i => i.x).sort()
-    const ys = coords.map(i => i.x).sort()
+    const ys = coords.map(i => i.y).sort()
 
     tl.x = xs[0]
     tl.y = ys[0]

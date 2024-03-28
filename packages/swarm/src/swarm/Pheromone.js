@@ -13,7 +13,7 @@ export default class Pheromone {
         return this._velocity.lengthSquared
     }
 
-    constructor({damp}) {
+    constructor({ damp }) {
         this._location = new Vector(0, 0)
         this._velocity = new Vector(0, 0)
         this._damp = damp
