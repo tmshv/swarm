@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import Signal from './Signal'
+import Signal from './signal'
 
 test("Signal listener call", () => {
     let called = false

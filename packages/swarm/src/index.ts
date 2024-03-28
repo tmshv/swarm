@@ -1,4 +1,4 @@
-import Signal from "~/src/lib/Signal"
+import Signal from "~/src/lib/signal"
 import ComposedSignal from "~/src/lib/ComposedSignal"
 import Channel from "~/src/lib/Channel"
 

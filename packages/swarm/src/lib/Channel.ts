@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import Signal from './Signal'
+import Signal from './signal'
 
 export default class Channel {
     constructor(target) {

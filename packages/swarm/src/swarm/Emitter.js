@@ -1,5 +1,5 @@
 import Vector from './Vector'
-import Signal from '../lib/Signal'
+import Signal from '../lib/signal'
 import Tag from './Tag'
 
 export default class Emitter {
