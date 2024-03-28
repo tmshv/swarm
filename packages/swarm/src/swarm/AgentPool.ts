@@ -41,7 +41,7 @@ export default class AgentPool {
         return this.agents
     }
 
-    getNearest(coord: Vector, radius: number): Agent[] {
+    getNearest(coord: Vector, radius: number): Agent | null {
         let minDist = radius ** 2
         let agent = null
         this.agents.forEach(a => {
