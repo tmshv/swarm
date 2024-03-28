@@ -1,4 +1,4 @@
-import Vector from './Vector'
+import Vector from '../lib/vector'
 import Tag from './Tag'
 
 export default class Environment {

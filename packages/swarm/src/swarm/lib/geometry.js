@@ -1,5 +1,5 @@
 import Rect from '../Rect'
-import Vector from '../Vector'
+import Vector from '../../lib/vector'
 
 export function getBoundingBox(coords) {
     const tl = {x: 0, y: 0}

@@ -1,4 +1,4 @@
-import Vector from './Vector'
+import Vector from '../lib/vector'
 
 export default class Pheromone {
     get location() {

@@ -1,5 +1,5 @@
 import QuadTree from './QuadTree'
-import Vector from './Vector'
+import Vector from '~/src/lib/vector'
 import AgentEvent from './AgentEvent'
 import Agent from './Agent'
 

@@ -1,5 +1,5 @@
 import MovingBehavior from './MovingBehavior'
-import Vector from '../Vector'
+import Vector from '../../lib/vector'
 import PointObstacle from '../PointObstacle'
 
 export default class AvoidPointObstaclesBehavior extends MovingBehavior {

@@ -1,4 +1,4 @@
-import Vector from './Vector'
+import Vector from '../lib/vector'
 import Signal from '../lib/signal'
 import Tag from './Tag'
 

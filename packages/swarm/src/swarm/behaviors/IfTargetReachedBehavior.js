@@ -1,5 +1,5 @@
 import Behavior from './Behavior'
-import Vector from '../Vector'
+import Vector from '../../lib/vector'
 
 export default class IfTargetReachedBehavior extends Behavior {
     init({minDistance}) {

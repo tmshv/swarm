@@ -1,4 +1,4 @@
-import Vector from './Vector'
+import Vector from '../lib/vector'
 import Line from './Line'
 import Obstacle from './Obstacle'
 

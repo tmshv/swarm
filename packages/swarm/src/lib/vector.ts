@@ -1,5 +1,3 @@
-import { fastInverseSqrt } from './lib/math'
-
 export default class Vector {
     static zero() {
         return new Vector(0, 0)
@@ -78,7 +76,7 @@ export default class Vector {
         return this.setAngle(angle)
     }
 
-    setAngle(angle: number, length?:number) {
+    setAngle(angle: number, length?: number) {
         const s = length ? length : this.length
 
         return this.set(
@@ -132,7 +130,7 @@ export default class Vector {
 
     normalize() {
         const lengthSquared = this._x ** 2 + this._y ** 2
-        const inverseSqrt = fastInverseSqrt(lengthSquared)
+        const inverseSqrt = Math.sqrt(lengthSquared)
         this._x *= inverseSqrt
         this._y *= inverseSqrt
 

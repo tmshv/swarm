@@ -3,7 +3,7 @@
 import Channel from '~/src/lib/Channel'
 import AgentEvent from './AgentEvent'
 import Vehicle from './Vehicle'
-import Vector from './Vector'
+import Vector from '~/src/lib/vector'
 import Behavior from './behaviors/Behavior'
 import Tag from './Tag'
 

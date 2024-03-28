@@ -1,5 +1,5 @@
-import Vector from './Vector'
-import {interpolateLinear} from './lib/math'
+import Vector from '../lib/vector'
+import { lerp } from '../lib/math'
 
 function inRange(v, a, b) {
     return v >= a && v <= b
@@ -123,8 +123,8 @@ export default class Line {
     }
 
     interpolate(coef) {
-        const x = interpolateLinear(this._a.x, this._b.x, coef)
-        const y = interpolateLinear(this._a.y, this._b.y, coef)
+        const x = lerp(this._a.x, this._b.x, coef)
+        const y = lerp(this._a.y, this._b.y, coef)
         return new Vector(x, y)
     }
 

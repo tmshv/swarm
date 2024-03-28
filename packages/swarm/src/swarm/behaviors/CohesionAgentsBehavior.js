@@ -1,5 +1,5 @@
 import MovingBehavior from './MovingBehavior'
-import Vector from '../Vector'
+import Vector from '../../lib/vector'
 
 export default class CohesionAgentsBehavior extends MovingBehavior {
     init({radius}) {
