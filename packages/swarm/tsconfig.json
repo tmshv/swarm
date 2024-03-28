@@ -15,13 +15,13 @@
         "declaration": true,
         "allowJs": true,
         "skipLibCheck": true,
-        "strict": false,
+        "strict": true,
         "forceConsistentCasingInFileNames": true,
         "noEmit": false,
         "esModuleInterop": true,
         "module": "esnext",
         "moduleResolution": "node",
-        "strictNullChecks": false
+        "strictNullChecks": true
     },
     "exclude": [
         "node_modules"
