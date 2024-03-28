@@ -6,6 +6,7 @@ import Vehicle from './Vehicle'
 import Vector from '~/src/lib/vector'
 import Behavior from './behaviors/Behavior'
 import Tag from './Tag'
+import Signal from '~src/lib/signal'
 
 export default class Agent extends Vehicle {
     get isAlive() {
@@ -22,7 +23,9 @@ export default class Agent extends Vehicle {
 
     private _locked: boolean
     private _alive: boolean
-    public events: Channel
+    public events: {
+        die: Signal<Agent>
+    }
     private behavior: Behavior
     private namedBehaviors: Map<string, Behavior>
 
@@ -40,7 +43,9 @@ export default class Agent extends Vehicle {
 
         this._locked = false
         this._alive = true
-        this.events = new Channel()
+        this.events = {
+            die: new Signal(),
+        }
         this.behavior = behavior
         this.namedBehaviors = new Map()
 
@@ -93,7 +98,7 @@ export default class Agent extends Vehicle {
 
     die() {
         this._alive = false
-        this.events.get(AgentEvent.DIE).trigger(this)
+        this.events.die.trigger(this)
     }
 
     addBehavior(name, behavior) {

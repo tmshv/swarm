@@ -1,5 +1,4 @@
 import Vector from '~/src/lib/vector'
-import AgentEvent from './AgentEvent'
 import Agent from './Agent'
 
 export default class AgentPool {
@@ -26,7 +25,7 @@ export default class AgentPool {
 
         this.agents.push(agent)
 
-        agent.events.get(AgentEvent.DIE).on(() => {
+        agent.events.die.on(() => {
             this.inactiveAgents.push(agent)
             this.agents = this.agents.filter(x => agent !== x)
         })
