@@ -5,7 +5,7 @@
     "type": "module",
     "source": "src/index.ts",
     "types": "dist/index.d.ts",
-    "module": "dist/index.js",
+    "module": "dist/swarm.js",
     "files": [
         "dist/"
     ],
