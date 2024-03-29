@@ -1,5 +1,5 @@
 import Behavior from './Behavior'
-import Vector from '~/src/lib/vector'
+import Vector from '~/lib/vector'
 import { getRandomAngle } from '../random'
 
 export default class RandomWalkBehavior extends Behavior {

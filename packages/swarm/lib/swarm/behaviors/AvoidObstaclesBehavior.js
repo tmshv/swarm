@@ -1,6 +1,6 @@
 import MovingBehavior from './MovingBehavior'
 import Line from '../Line'
-import Vector from '../../lib/vector'
+import Vector from '~/lib/vector'
 
 export default class AvoidObstaclesBehavior extends MovingBehavior {
     init({ radius, predictionDistance }) {

@@ -1,5 +1,5 @@
 import Behavior from './Behavior'
-import Vector from '../../lib/vector'
+import Vector from '~/lib/vector'
 
 import { Chance } from 'chance'
 

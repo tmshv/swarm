@@ -14,8 +14,8 @@ export default defineConfig({
     build: {
         sourcemap: true,
         lib: {
-            entry: resolve(__dirname, 'src/index.ts'),
             name: 'Swarm',
+            entry: resolve(__dirname, 'lib/index.ts'),
             formats: ['es'],
             // the proper extensions will be added
             fileName: 'swarm',

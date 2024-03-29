@@ -1,12 +1,11 @@
 // @ts-nocheck
 
-import Channel from '~/src/lib/Channel'
 import AgentEvent from './AgentEvent'
 import Vehicle from './Vehicle'
-import Vector from '~/src/lib/vector'
+import Vector from '~/lib/vector'
 import Behavior from './behaviors/Behavior'
 import Tag from './Tag'
-import Signal from '~src/lib/signal'
+import Signal from '~/lib/signal'
 
 export default class Agent extends Vehicle {
     get isAlive() {

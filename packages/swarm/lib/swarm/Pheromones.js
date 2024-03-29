@@ -1,4 +1,4 @@
-import Vector from '../lib/vector'
+import Vector from '~/lib/vector'
 import Pheromone from './Pheromone'
 
 function round(n, v) {

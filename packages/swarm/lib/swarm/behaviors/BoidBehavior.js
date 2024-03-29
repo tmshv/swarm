@@ -1,5 +1,5 @@
 import MovingBehavior from './MovingBehavior'
-import Vector from '../../lib/vector'
+import Vector from '~/lib/vector'
 
 export default class BoidBehavior extends MovingBehavior {
     init({ radius, predictionDistance }) {

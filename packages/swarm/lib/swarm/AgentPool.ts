@@ -1,4 +1,4 @@
-import Vector from '~/src/lib/vector'
+import Vector from '~/lib/vector'
 import Agent from './Agent'
 
 export default class AgentPool {

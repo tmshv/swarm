@@ -1,5 +1,5 @@
 import MovingBehavior from './MovingBehavior'
-import Vector from '../../lib/vector'
+import Vector from '~/lib/vector'
 
 export default class InteractPheromonesBehavior extends MovingBehavior {
     init({ pheromonesName }) {

@@ -1,4 +1,4 @@
-import Vector from '~/src/lib/vector'
+import Vector from '~/lib/vector'
 
 export default class Vehicle {
     get accelerated() {

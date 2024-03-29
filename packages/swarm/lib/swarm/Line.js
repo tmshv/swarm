@@ -1,5 +1,5 @@
-import Vector from '../lib/vector'
-import { lerp } from '../lib/math'
+import Vector from '~/lib/vector'
+import { lerp } from '~/lib/math'
 
 function inRange(v, a, b) {
     return v >= a && v <= b

@@ -1,4 +1,4 @@
-import Vector from '../lib/vector'
+import Vector from '~/lib/vector'
 import Obstacle from './Obstacle'
 
 export default class PointObstacle extends Obstacle {

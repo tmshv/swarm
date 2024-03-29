@@ -1,5 +1,5 @@
-import Vector from '~/src/lib/vector'
-import Signal from '~/src/lib/signal'
+import Vector from '~/lib/vector'
+import Signal from '~/lib/signal'
 import Tag from './Tag'
 import Agent from './Agent'
 
