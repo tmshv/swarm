@@ -1,5 +1,5 @@
+import { getCentroid } from '~src/lib/math'
 import SwarmObject from './SwarmObject'
-import {getCentroid} from './lib/geometry'
 
 export default class Polygon extends SwarmObject {
     get coords() {
