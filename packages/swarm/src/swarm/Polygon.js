@@ -6,7 +6,7 @@ export default class Polygon extends SwarmObject {
         return this._coords
     }
 
-    constructor({coords}) {
+    constructor({ coords }) {
         super()
         this._coords = coords
     }
