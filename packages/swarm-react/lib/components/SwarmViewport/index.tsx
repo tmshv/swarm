@@ -3,8 +3,7 @@ import * as s from './viewport.module.css'
 import React, { useEffect, useState } from 'react'
 
 import cx from 'clsx'
-import { Simulation } from '~/src/components/Simulation'
-import { usePrevent } from '~/src/hooks/usePrevent'
+import { Simulation } from '~/lib/components/Simulation'
 
 function useWindowDimensions() {
     const devicePixelRatio = window.devicePixelRatio

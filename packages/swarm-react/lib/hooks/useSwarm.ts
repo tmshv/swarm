@@ -23,8 +23,9 @@ import {
     LimitAccelerationBehavior,
     InteractPheromonesBehavior,
     AgentBehavior,
+    RandomWalkBehavior,
 } from '@tmshv/swarm'
-import { AppController } from '@tmshv/swarm-render'
+import { AppController, RAFRunner } from '@tmshv/swarm-render'
 
 export type CreateControlsFn = () => object[]
 export type GetLayersFn = () => object[]
@@ -56,6 +57,7 @@ async function initSwarm(): Promise<Simulation> {
             AvoidObstaclesBehavior,
             LimitAccelerationBehavior,
             InteractPheromonesBehavior,
+            RandomWalkBehavior,
         })
     } catch (error) {
         console.log('failed to find swarm function', error)
@@ -66,6 +68,7 @@ async function initSwarm(): Promise<Simulation> {
 export type SwarmController = {
     // options: object
     // project: any
+    raf: RAFRunner
     ui: any
     layers: any[]
     swarm: AppController
@@ -94,7 +97,7 @@ async function inject(src: string): Promise<HTMLScriptElement> {
 }
 
 export function useSwarm(scriptUrl: string, camera: CameraTransform | null, getLayers: GetLayersFn, createControls: CreateControlsFn) {
-    const [controller, setController] = useState<SwarmController>(null)
+    const [controller, setController] = useState<SwarmController | null>(null)
 
     useEffect(() => {
         let se: HTMLScriptElement = null
@@ -138,21 +141,27 @@ export function useSwarm(scriptUrl: string, camera: CameraTransform | null, getL
 
             // initDebugTools(swarm)
 
+            const raf = new RAFRunner(simulation)
+
             const layers = swarm.createLayout(getLayers())
             const ui = {
                 onClick: () => {
-                    if (simulation.isRunning) {
-                        simulation.stop()
+                    if (raf.isRunning) {
+                        raf.stop()
                     } else {
-                        simulation.run()
+                        raf.start()
                     }
                 }
             }
-            simulation.run()
+            raf.start()
+
+            //Init render on simulation tick
+            swarm.viewController.subscribe(raf.updateSignal)
 
             setController({
                 // options: project.options,
                 // project,
+                raf,
                 ui,
                 layers,
                 swarm,

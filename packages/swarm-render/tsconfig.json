@@ -8,10 +8,10 @@
                 "./*"
             ]
         },
-        "target": "es2020",
+        "target": "es2022",
         "lib": [
             "dom",
-            "es2020"
+            "es2022"
         ],
         "declaration": true,
         "allowJs": true,

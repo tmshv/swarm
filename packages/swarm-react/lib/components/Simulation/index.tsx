@@ -1,5 +1,5 @@
 import React from 'react'
-import { Canvas } from '~/src/components/Canvas'
+import { Canvas } from '~/lib/components/Canvas'
 import { useRef, useEffect } from 'react'
 
 export type SimulationProps = {

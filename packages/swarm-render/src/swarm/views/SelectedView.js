@@ -14,29 +14,32 @@ export default class SelectedView extends View {
 
         this.updateSignal = updateSignal
         this.updateSignal.on(item => {
-            if (item) {
-                if (item instanceof Obstacle) {
-                    this.currentView = new SelectedObstacleView({
-                        item,
-                    })
-                } else if (item instanceof Agent) {
-                    this.currentView = new SelectedAgentView({
-                        item,
-                    })
-                } else if (item instanceof Emitter) {
-                    this.currentView = new SelectedEmitterView({
-                        item,
-                    })
-                } else if (item instanceof Attractor) {
-                    this.currentView = new SelectedAttractorView({
-                        item,
-                    })
-                }
+            if (!item) {
+                this.currentView = null
+                return
+            }
 
+            if (item instanceof Obstacle) {
+                this.currentView = new SelectedObstacleView({
+                    item,
+                })
+            } else if (item instanceof Agent) {
+                this.currentView = new SelectedAgentView({
+                    item,
+                })
+            } else if (item instanceof Emitter) {
+                this.currentView = new SelectedEmitterView({
+                    item,
+                })
+            } else if (item instanceof Attractor) {
+                this.currentView = new SelectedAttractorView({
+                    item,
+                })
+            }
+
+            if (this.currentView) {
                 this.currentView.init(this.initOptions)
                 this.applyMatrixToCurrentView()
-            } else {
-                this.currentView = null
             }
         })
 

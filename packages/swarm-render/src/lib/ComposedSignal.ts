@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import Signal from './Signal'
+import { Signal } from '@tmshv/swarm'
 
 export default class ComposedSignal extends Signal {
     constructor(target, signals) {

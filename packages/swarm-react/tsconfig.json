@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "rootDir": "src",
+        "rootDir": "lib",
         "outDir": "dist",
         "baseUrl": ".",
         "paths": {
@@ -40,6 +40,6 @@
         "node_modules"
     ],
     "include": [
-        "src/"
+        "lib/"
     ]
 }

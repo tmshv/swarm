@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Id, Tag, Attractor, AttractorType, Vector, Simulation } from '@tmshv/swarm'
 import NavigateTool from '../tools/NavigateTool'
 import ObstacleView from '../views/ObstacleView'
@@ -47,6 +49,8 @@ export default class AppController {
         return this.simulation
     }
 
+    public viewController: ViewController
+
     init({ simulation, cameraCoord, scaleX, scaleY }: { simulation: Simulation, [key: string]: any }) {
         this.__scaleX = scaleX
         this.__scaleY = scaleY
@@ -80,9 +84,6 @@ export default class AppController {
         ])
         this.selectionController = new SelectionController(selectUpdateSignal)
         this.tools.getToolUpdateSignal(ToolType.NAVIGATE).on(this.updateCamera.bind(this))
-
-        //Init render on simulation tick
-        this.viewController.subscribe(simulation.updateSignal)
 
         this.initShortcuts()
     }

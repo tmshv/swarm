@@ -1,6 +1,7 @@
 import Signal from "~/lib/signal"
 import ComposedSignal from "~/lib/ComposedSignal"
 import Vector from '~/lib/vector'
+import { getCentroid, lerp } from '~/lib/math'
 
 import Agent from "~/lib/swarm/Agent"
 import Simulation from '~/lib/swarm/Simulation'
@@ -35,6 +36,8 @@ import AgentBehavior from '~/lib/swarm/AgentBehavior'
 export {
     Signal,
     ComposedSignal,
+    lerp,
+    getCentroid,
 
     Agent,
     Simulation,

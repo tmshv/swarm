@@ -4,7 +4,7 @@ import MouseChannel from '../channels/MouseChannel'
 
 export default class ViewController {
     constructor(simulation, viewport) {
-        this.simulation = simulation
+        this.simulation = simulation // TODO: remove this is not in use in view controller directly
         this.viewport = viewport
 
         this.viewFactory = new Map()

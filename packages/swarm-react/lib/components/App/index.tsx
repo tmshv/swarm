@@ -5,9 +5,10 @@ const s: any = {}
 import React from 'react'
 
 import { useToggleSignal } from './useToggleSignal'
-import {AppController, Vector, Signal} from '@tmshv/swarm'
+import { Vector, Signal } from '@tmshv/swarm'
+import { AppController } from '@tmshv/swarm-render'
 import { useEffect } from 'react'
-import SidePanel from '@/components/SidePanel'
+import SidePanel from '~/lib/components/SidePanel'
 
 function useSetupCamera(swarm: AppController) {
     useEffect(() => {
