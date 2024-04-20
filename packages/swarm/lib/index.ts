@@ -29,6 +29,7 @@ import InteractPheromonesBehavior from '~/lib/swarm/behaviors/InteractPheromones
 import InteractEnvironmentBehavior from '~/lib/swarm/behaviors/InteractEnvironmentBehavior'
 import InteractAgentsBehavior from '~/lib/swarm/behaviors/InteractAgentsBehavior'
 import AvoidPointObstaclesBehavior from '~/lib/swarm/behaviors/AvoidPointObstaclesBehavior'
+import RandomWalkBehavior from '~/lib/swarm/behaviors/RandomWalkBehavior'
 import AgentBehavior from '~/lib/swarm/AgentBehavior'
 
 export {
@@ -63,5 +64,6 @@ export {
     InteractEnvironmentBehavior,
     InteractAgentsBehavior,
     AvoidPointObstaclesBehavior,
+    RandomWalkBehavior,
     AgentBehavior,
 }
